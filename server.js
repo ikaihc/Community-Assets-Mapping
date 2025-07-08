@@ -13,6 +13,7 @@ const Asset = require('./models/asset');
 const allRoutes = require('./routes/index')
 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(allRoutes)
 
 
