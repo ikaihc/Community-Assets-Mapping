@@ -12,8 +12,8 @@ const Asset = require('./models/asset');
 
 const allRoutes = require('./routes/index')
 
-// app.use(bodyParser.json())
-// app.use(allRoutes)
+app.use(bodyParser.json())
+app.use(allRoutes)
 
 
 Asset.belongsTo(User, { foreignKey: 'created_by' });

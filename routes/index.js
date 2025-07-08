@@ -9,3 +9,5 @@ const assetContactRoutes = require('../controllers/asset_contact');
 const userRoutes = require('../controllers/user');
 
 router.use('/address/get', addressRoutes.getAllAddresses);
+
+module.exports = router
