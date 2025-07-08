@@ -10,6 +10,11 @@ const Category = require('./models/category')
 const AssetContact = require('./models/asset_contact')
 const Asset = require('./models/asset');
 
+const allRoutes = require('./routes/index')
+
+app.use(bodyParser.json())
+app.use(allRoutes)
+
 
 Asset.belongsTo(User, { foreignKey: 'created_by' });
 Asset.belongsTo(User, { foreignKey: 'last_Update_By' });
