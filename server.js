@@ -31,7 +31,7 @@ AssetContact.hasMany(Asset, { foreignKey: 'contact_Info_Id' });
 Asset.belongsToMany(Category, { through: 'asset_categories', foreignKey: 'asset_id' });
 Category.belongsToMany(Asset, { through: 'asset_categories', foreignKey: 'category_id' });
 
-sequelize.sync({force:true})  // Use force:true to drop and recreate tables
+sequelize.sync({})  // Use force:true in the curly braces to drop and recreate tables
     .then(() => {
         app.listen(port)
         console.log("app is up and running on port"+ " "+ port);
