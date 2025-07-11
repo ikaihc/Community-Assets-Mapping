@@ -14,7 +14,9 @@ const sequelize = require('../utils/database')
         unique: true,
       },
       role: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM('user', 'navigator', 'admin'),
+        defaultValue: 'user',
+        allowNull: false,
       },
       first_name: {
         type: Sequelize.STRING,

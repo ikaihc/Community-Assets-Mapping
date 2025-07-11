@@ -16,7 +16,11 @@ const sequelize = require('../utils/database')
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
-      status: Sequelize.STRING,
+      status: {
+        type: Sequelize.ENUM('pending', 'approved', 'rejected', 'deleted'),
+        defaultValue: 'pending',
+        allowNull: false,
+      },
       created_by: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -34,6 +38,19 @@ const sequelize = require('../utils/database')
       },
       last_Update_By: {
         type: Sequelize.INTEGER,
+      },
+      approved_by: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      approved_at: {
+        type: Sequelize.DATE,
+      },
+      rejection_reason: {
+        type: Sequelize.TEXT,
       },
     },
     {

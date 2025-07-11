@@ -39,16 +39,36 @@ exports.requireAdmin = (req, res, next) => {
   }
 };
 
-// Middleware to check if user is navigator or admin
-exports.requireModerator = (req, res, next) => {
+// Middleware to check if user is navigator or admin (can approve assets)
+exports.requireNavigatorOrAdmin = (req, res, next) => {
   if (req.user && (req.user.role === 'admin' || req.user.role === 'navigator')) {
     next();
   } else {
     res.status(403).json({
       success: false,
-      message: 'navigator or admin access required'
+      message: 'Navigator or admin access required'
     });
   }
+};
+
+// Middleware to check if user owns the resource or is admin/navigator
+exports.requireOwnerOrAdmin = (resourceUserIdField = 'userId') => {
+  return (req, res, next) => {
+    const resourceUserId = req.params[resourceUserIdField] || req.body[resourceUserIdField];
+    
+    if (req.user && (
+      req.user.role === 'admin' || 
+      req.user.role === 'navigator' || 
+      req.user.userId == resourceUserId
+    )) {
+      next();
+    } else {
+      res.status(403).json({
+        success: false,
+        message: 'Access denied: You can only access your own resources'
+      });
+    }
+  };
 };
 
 
