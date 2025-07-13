@@ -28,7 +28,6 @@ export class NavbarComponent {
   }
 
   onAddAsset(): void {
-
     console.log('Add New Asset clicked');
     // to do - implement add asset functionality
   }
