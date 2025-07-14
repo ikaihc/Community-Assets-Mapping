@@ -1,0 +1,45 @@
+<div class="location-page">
+  <h2>New Community Asset Information</h2>
+
+  <div class="step-nav">
+    <a routerLink="/add-asset/start">Parent/Children Asset</a> ·
+    <a routerLink="/add-asset/basic">Basic Information</a> ·
+    <b>Location</b> ·
+    <a routerLink="/add-asset/contact">Contact</a> ·
+    <a routerLink="/add-asset/registration">Registration and Schedule</a>
+  </div>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Address - Street and Unit</label>
+      <input type="text" placeholder="e.g., 900 Merivale Road" />
+    </div>
+
+    <div class="form-group">
+      <label>Address - City</label>
+      <input type="text" placeholder="e.g., Ottawa" />
+    </div>
+
+    <div class="form-group">
+      <label>Address - Postcode</label>
+      <input type="text" placeholder="e.g., K1Z 5Z8" />
+    </div>
+
+    <div class="form-group">
+      <label>Transportation options</label>
+      <textarea placeholder="e.g., Bus 80/88/112; LRT to Algonquin station"></textarea>
+    </div>
+  </div>
+
+  <div class="map-section">
+    <p>Click or drag marker to the correct spot</p>
+    <img src="/assets/img/占位图.jpg" alt="Map placeholder" class="map-image" />
+  </div>
+
+  <div class="navigation-buttons">
+    <button routerLink="/add-asset/basic" class="btn btn-outline-primary">← Previous</button>
+<button routerLink="/add-asset/contact" class="btn btn-primary">Proceed →</button>
+  </div>
+</div>
+
+
