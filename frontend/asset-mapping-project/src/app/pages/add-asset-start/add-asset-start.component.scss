@@ -1,0 +1,82 @@
+:host {
+  display: block;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: #003366;
+  margin-bottom: 1.5rem;
+}
+
+nav {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+
+  span {
+    font-weight: 600;
+    color: #444;
+  }
+}
+
+p {
+  font-size: 1rem;
+  margin: 1.2rem 0 0.5rem;
+  color: #333;
+}
+
+button {
+  margin: 0.3rem 0.5rem 1rem 0;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  color: #333;
+}
+
+button:hover {
+  background-color: #eaeaea;
+}
+
+button.selected {
+  background-color: #0044cc;
+  color: white;
+  border-color: #0044cc;
+}
+
+button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.proceed-container {
+  margin-top: 2rem;
+
+  button {
+    background-color: #0044cc;
+    color: white;
+    font-weight: bold;
+    padding: 0.7rem 1.5rem;
+  }
+
+  button:hover {
+    background-color: #003399;
+  }
+}
