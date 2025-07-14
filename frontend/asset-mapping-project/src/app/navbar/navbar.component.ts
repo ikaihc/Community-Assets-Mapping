@@ -28,10 +28,7 @@ export class NavbarComponent {
   }
 
   onAddAsset(): void {
-    if (!this.isLoggedIn) {
-      this.onLogin();
-      return;
-    }
+
     console.log('Add New Asset clicked');
     // to do - implement add asset functionality
   }

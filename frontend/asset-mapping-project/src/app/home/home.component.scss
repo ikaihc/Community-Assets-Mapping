@@ -1,0 +1,138 @@
+/* Global Reset (optional but helps consistency) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  :host {
+    display: block;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Main Layout Container */
+  .main-container {
+    display: flex;
+    height: calc(100vh - 100px); // Account for header/footer
+  }
+  
+  /* Sidebar Styles */
+  .sidebar {
+    width: 30%;
+    min-width: 280px;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+  
+    label {
+      font-weight: 500;
+      display: block;
+      margin: 1rem 0 0.5rem;
+    }
+  
+    select,
+    input[type="text"] {
+      width: 100%;
+      padding: 0.6rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  
+    .search-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+  
+    input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+  
+    .asset-list {
+      margin-top: 1.5rem;
+  
+      .asset-card {
+        background: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.2s;
+  
+        &:hover {
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+  
+        strong {
+          font-size: 1.1rem;
+          color: #007bff;
+        }
+  
+        p {
+          margin-top: 0.25rem;
+          font-size: 0.95rem;
+          color: #666;
+        }
+      }
+    }
+  }
+  
+  /* Map Section Styles */
+  .map-view {
+    flex: 1;
+    background-color: #eee;
+    position: relative;
+  
+    .map-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+  
+  /* Footer */
+  .footer {
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    color: #666;
+    border-top: 1px solid #ddd;
+  
+    strong {
+      color: #007bff;
+    }
+  
+    em {
+      font-style: normal;
+      font-weight: 500;
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .main-container {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    .map-view {
+      height: 400px;
+    }
+  }
+  
