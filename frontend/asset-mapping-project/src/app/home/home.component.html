@@ -1,38 +1,47 @@
 <main class="main-container">
-    <section class="sidebar">
-      <label>Select category:</label>
-      <select>
-        <option value="">Select</option>
-        <option *ngFor="let category of categories">{{ category }}</option>
-      </select>
-  
-      <label>Search for asset:</label>
-      <input type="text" placeholder="Ottawa Food Bank" />
-      <button class="search-btn">
-        🔍
-      </button>
-      <label>
-        <input type="checkbox" />
-        Look for Volunteer Opportunities
-      </label>
-  
-      <div class="asset-list">
-        <div *ngFor="let asset of assets" class="asset-card">
-          <strong>{{ asset.name }}</strong>
-          <p>{{ asset.type }}</p>
-        </div>
+  <section class="sidebar">
+    <label>Select category:</label>
+    <select>
+      <option value="">Select</option>
+      <option *ngFor="let category of categories">{{ category }}</option>
+    </select>
+
+    <label>Search for asset:</label>
+    <input type="text" placeholder="Ottawa Food Bank" />
+    <button class="search-btn">
+      🔍
+    </button>
+
+    <label>
+      <input type="checkbox" />
+      Look for Volunteer Opportunities
+    </label>
+
+    <div class="asset-list">
+      <div *ngFor="let asset of assets" class="asset-card">
+        <strong>{{ asset.name }}</strong>
+        <p>{{ asset.type }}</p>
       </div>
-      
-    </section>
-  
-    <section class="map-view">
-      <img src="assets/images/ottawa-map.png" alt="Map" class="map-img" />
-    </section>
-  </main>
-  
-  <footer class="footer">
-    <p>
-      ©2025 <strong>Community Assets Mapping</strong> • Built by <em>Bingyao L., Ernest S., Janvier W., Sandrima S., Ziwei S., Zhuyu Y.</em> • Idea by <strong>CCHC</strong>
-    </p>
-  </footer>
-  
+    </div>
+  </section>
+
+  <section class="map-view">
+    <!-- Replacing static image with dynamic Leaflet map -->
+    <div id="map"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>
+    ©2025
+    <strong>
+      <a href="https://github.com/ikaihc/Community-Assets-Mapping" target="_blank" rel="noopener">
+        Community Assets Mapping
+      </a>
+    </strong>
+    • Built by <em>Bingyao L., Ernest S., Janvier W., Sandrima S., Ziwei S., Zhuyu Y.</em> • Idea by
+    <strong>
+      <a href="https://carlingtonchc.com/" target="_blank" rel="noopener">CCHC</a>
+    </strong>
+  </p>
+</footer>
