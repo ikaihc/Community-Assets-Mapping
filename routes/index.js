@@ -8,7 +8,7 @@ const assetRoutes = require('../controllers/asset');
 const assetContactRoutes = require('../controllers/asset_contact');
 const userRoutes = require('../controllers/user');
 const categoryRoutes = require('../controllers/category');
-const { authenticateToken, requireAdmin, requireNavigatorOrAdmin } = require('../middleware/isauth');
+const { authenticateToken, optionalAuthenticateToken, requireAdmin, requireNavigatorOrAdmin } = require('../middleware/isauth');
 
 // =====================
 // AUTH ROUTES
@@ -28,8 +28,8 @@ router.route('/change-password')
 // ASSET ROUTES
 // =====================
 router.route('/assets')
-  .get(authenticateToken, assetRoutes.getAllAssets)
-  .post(authenticateToken, assetRoutes.createAsset);
+  .get(optionalAuthenticateToken, assetRoutes.getAllAssets)
+  .post(optionalAuthenticateToken, assetRoutes.createAsset);
 
 router.route('/assets/my')
   .get(authenticateToken, assetRoutes.getMyAssets);
@@ -44,7 +44,7 @@ router.route('/assets/status/:status')
   .get(authenticateToken, requireNavigatorOrAdmin, assetRoutes.getAssetsByStatus);
 
 router.route('/assets/:id')
-  .get(authenticateToken, assetRoutes.getAssetById)
+  .get(optionalAuthenticateToken, assetRoutes.getAssetById)
   .put(authenticateToken, assetRoutes.updateAsset)
   .delete(authenticateToken, assetRoutes.deleteAsset);
 

@@ -27,6 +27,29 @@ exports.authenticateToken = (req, res, next) => {
   });
 };
 
+// Middleware for optional authentication (allows guest access)
+exports.optionalAuthenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+  if (!token) {
+    // No token provided, continue as guest
+    req.user = null;
+    return next();
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) {
+      // Invalid token, continue as guest
+      req.user = null;
+    } else {
+      // Valid token, attach user info
+      req.user = user;
+    }
+    next();
+  });
+};
+
 // Middleware to check if user is admin
 exports.requireAdmin = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {

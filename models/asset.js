@@ -11,6 +11,10 @@ const sequelize = require('../utils/database')
       },
       name: Sequelize.STRING,
       description: Sequelize.STRING,
+      website: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       volunteer_details: Sequelize.STRING,
       has_volunteer_opportunities: {
         type: Sequelize.BOOLEAN,
@@ -22,29 +26,26 @@ const sequelize = require('../utils/database')
         allowNull: false,
       },
       created_by: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING, // Changed to STRING to store email or "guest"
         allowNull: false,
+        defaultValue: 'guest',
       },
       address_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true, // Make optional
       },
       contact_Info_Id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true, // Make optional
       },
       service_hrs: {
         type: Sequelize.DATE,
       },
       last_Update_By: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       approved_by: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users',
-          key: 'id'
-        }
+        type: Sequelize.STRING,
       },
       approved_at: {
         type: Sequelize.DATE,
