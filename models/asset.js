@@ -26,9 +26,13 @@ const sequelize = require('../utils/database')
         allowNull: false,
       },
       created_by: {
-        type: Sequelize.STRING, // Changed to STRING to store email or "guest"
+        type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 'guest',
+        defaultValue: 1, // Default to guest user ID
+        references: {
+          model: 'users',
+          key: 'id'
+        }
       },
       address_id: {
         type: Sequelize.INTEGER,
@@ -42,10 +46,20 @@ const sequelize = require('../utils/database')
         type: Sequelize.DATE,
       },
       last_Update_By: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
       },
       approved_by: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
       },
       approved_at: {
         type: Sequelize.DATE,

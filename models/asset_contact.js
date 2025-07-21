@@ -19,12 +19,6 @@ const sequelize = require('../utils/database')
       phone_number: {
         type: Sequelize.STRING,
       },
-      website: {
-        type: Sequelize.STRING,
-        validate: {
-          isUrl: true,
-        },
-      },
       name: {
         type: Sequelize.STRING,
       },

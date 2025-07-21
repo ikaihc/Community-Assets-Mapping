@@ -16,15 +16,25 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(allRoutes)
 
-Asset.belongsTo(Address, { foreignKey: 'address_id' });
-Asset.belongsTo(AssetContact, { foreignKey: 'contact_Info_Id' });
+// Asset associations
+Asset.belongsTo(Address, { foreignKey: 'address_id', as: 'address' });
+Asset.belongsTo(AssetContact, { foreignKey: 'contact_Info_Id', as: 'contact' });
+Asset.belongsTo(User, { foreignKey: 'created_by', as: 'creator' });
+Asset.belongsTo(User, { foreignKey: 'last_Update_By', as: 'lastUpdater' });
+Asset.belongsTo(User, { foreignKey: 'approved_by', as: 'approver' });
 
+// Reverse associations
 Address.hasMany(Asset, { foreignKey: 'address_id' });
 AssetContact.hasMany(Asset, { foreignKey: 'contact_Info_Id' });
+User.hasMany(Asset, { foreignKey: 'created_by', as: 'createdAssets' });
+User.hasMany(Asset, { foreignKey: 'last_Update_By', as: 'updatedAssets' });
+User.hasMany(Asset, { foreignKey: 'approved_by', as: 'approvedAssets' });
+
+// Category associations
 Asset.belongsToMany(Category, { through: 'asset_categories', foreignKey: 'asset_id' });
 Category.belongsToMany(Asset, { through: 'asset_categories', foreignKey: 'category_id' });
 
-sequelize.sync({force:true })  // Use force:true in the curly braces to drop and recreate tables
+sequelize.sync({ force: false })  // Changed to false - don't drop tables on restart
     .then(() => {
         app.listen(port)
         console.log("app is up and running on port"+ " "+ port);

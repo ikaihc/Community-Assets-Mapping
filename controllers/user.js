@@ -258,10 +258,10 @@ exports.changeUserRole = (req, res) => {
     });
   }
 
-  if (!role || !['user', 'navigator', 'admin'].includes(role)) {
+  if (!role || !['navigator', 'admin'].includes(role)) {
     return res.status(400).json({
       success: false,
-      message: 'Invalid role. Must be user, navigator, or admin'
+      message: 'Invalid role. Must be navigator or admin'
     });
   }
 

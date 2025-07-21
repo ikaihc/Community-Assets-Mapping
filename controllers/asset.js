@@ -2,6 +2,7 @@ const Asset = require('../models/asset');
 const Address = require('../models/address');
 const AssetContact = require('../models/asset_contact');
 const User = require('../models/user');
+const { getGuestUserId } = require('../utils/guestUser');
 
 // Get all assets with pagination and filtering (only approved assets for regular users)
 exports.getAllAssets = (req, res) => {
@@ -18,9 +19,9 @@ exports.getAllAssets = (req, res) => {
   const whereClause = {};
   const addressWhere = {};
 
-  // Guest users and authenticated users can only see approved assets
-  // Navigators and admins can see all assets
-  if (!req.user || req.user.role === 'user') {
+  // Anonymous users (not authenticated) can only see approved assets
+  // Navigators and admins can see all assets based on their permissions
+  if (!req.user) {
     whereClause.status = 'approved';
   } else if (status) {
     whereClause.status = status;
@@ -59,6 +60,11 @@ exports.getAllAssets = (req, res) => {
       {
         model: AssetContact,
         as: 'contact'
+      },
+      {
+        model: User,
+        as: 'creator',
+        attributes: ['id', 'first_name', 'last_name', 'email']
       }
     ],
     limit: parseInt(limit),
@@ -91,8 +97,15 @@ exports.getAllAssets = (req, res) => {
 // Get single asset by ID
 exports.getAssetById = (req, res) => {
   const { id } = req.params;
+  const whereClause = { id };
 
-  Asset.findByPk(id, {
+  // Anonymous users can only see approved assets
+  if (!req.user) {
+    whereClause.status = 'approved';
+  }
+
+  Asset.findOne({
+    where: whereClause,
     include: [
       {
         model: Address,
@@ -101,6 +114,21 @@ exports.getAssetById = (req, res) => {
       {
         model: AssetContact,
         as: 'contact'
+      },
+      {
+        model: User,
+        as: 'creator',
+        attributes: ['id', 'first_name', 'last_name', 'email']
+      },
+      {
+        model: User,
+        as: 'lastUpdater',
+        attributes: ['id', 'first_name', 'last_name', 'email']
+      },
+      {
+        model: User,
+        as: 'approver',
+        attributes: ['id', 'first_name', 'last_name', 'email']
       }
     ]
   })
@@ -142,9 +170,6 @@ exports.createAsset = (req, res) => {
     contact
   } = req.body;
 
-  // Set created_by based on user authentication
-  const createdBy = req.user ? req.user.email : 'guest';
-
   // Validate required fields
   if (!name || !description) {
     return res.status(400).json({
@@ -153,13 +178,23 @@ exports.createAsset = (req, res) => {
     });
   }
 
+  // Get the appropriate user ID (authenticated user or system guest user)
+  const getUserIdPromise = req.user ? 
+    Promise.resolve(req.user.userId) : 
+    getGuestUserId();
+
   let addressRecord = null;
   let contactRecord = null;
+  let createdBy = null;
 
-  // Create address first (if provided)
-  const createAddressPromise = address ? Address.create(address) : Promise.resolve(null);
-  
-  createAddressPromise
+  // Get user ID first, then proceed with asset creation
+  getUserIdPromise
+  .then(userId => {
+    createdBy = userId;
+    
+    // Create address first (if provided)
+    return address ? Address.create(address) : Promise.resolve(null);
+  })
   .then(addressResult => {
     addressRecord = addressResult;
     // Create contact information (if provided)
@@ -176,7 +211,7 @@ exports.createAsset = (req, res) => {
     // Navigators and admins can auto-approve their own assets
     if (req.user && (req.user.role === 'navigator' || req.user.role === 'admin')) {
       initialStatus = 'approved';
-      approvedBy = createdBy;
+      approvedBy = req.user.userId; // Use actual user ID for approval
       approvedAt = new Date();
     }
 
@@ -200,8 +235,24 @@ exports.createAsset = (req, res) => {
     // Fetch the created asset with all relations
     return Asset.findByPk(asset.id, {
       include: [
-        { model: Address, as: 'address' },
-        { model: AssetContact, as: 'contact' }
+        { 
+          model: Address, 
+          as: 'address' 
+        },
+        { 
+          model: AssetContact, 
+          as: 'contact' 
+        },
+        {
+          model: User,
+          as: 'creator',
+          attributes: ['id', 'first_name', 'last_name', 'email']
+        },
+        {
+          model: User,
+          as: 'approver',
+          attributes: ['id', 'first_name', 'last_name', 'email']
+        }
       ]
     });
   })
@@ -251,7 +302,7 @@ exports.updateAsset = (req, res) => {
     }
 
     // Check if user owns the asset or is admin
-    if (asset.created_by !== req.user.email && req.user.role !== 'admin') {
+    if (asset.created_by !== req.user.userId && req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Access denied: You can only update your own assets'
@@ -278,7 +329,7 @@ exports.updateAsset = (req, res) => {
         has_volunteer_opportunities: has_volunteer_opportunities !== undefined ? has_volunteer_opportunities : asset.has_volunteer_opportunities,
         status: status || asset.status,
         service_hrs: service_hrs || asset.service_hrs,
-        last_Update_By: req.user.email
+        last_Update_By: req.user.userId
       });
     });
   })
@@ -286,8 +337,24 @@ exports.updateAsset = (req, res) => {
     // Fetch updated asset with relations
     return Asset.findByPk(id, {
       include: [
-        { model: Address, as: 'address' },
-        { model: AssetContact, as: 'contact' }
+        { 
+          model: Address, 
+          as: 'address' 
+        },
+        { 
+          model: AssetContact, 
+          as: 'contact' 
+        },
+        {
+          model: User,
+          as: 'creator',
+          attributes: ['id', 'first_name', 'last_name', 'email']
+        },
+        {
+          model: User,
+          as: 'lastUpdater',
+          attributes: ['id', 'first_name', 'last_name', 'email']
+        }
       ]
     });
   })
@@ -322,7 +389,7 @@ exports.deleteAsset = (req, res) => {
     }
 
     // Check if user owns the asset or is admin
-    if (asset.created_by !== req.user.email && req.user.role !== 'admin') {
+    if (asset.created_by !== req.user.userId && req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Access denied: You can only delete your own assets'
@@ -353,7 +420,7 @@ exports.getMyAssets = (req, res) => {
   const { page = 1, limit = 10, status } = req.query;
   const offset = (page - 1) * limit;
 
-  const whereClause = { created_by: req.user.email };
+  const whereClause = { created_by: req.user.userId };
   if (status) {
     whereClause.status = status;
   }
@@ -361,8 +428,19 @@ exports.getMyAssets = (req, res) => {
   Asset.findAndCountAll({
     where: whereClause,
     include: [
-      { model: Address, as: 'address' },
-      { model: AssetContact, as: 'contact' }
+      { 
+        model: Address, 
+        as: 'address' 
+      },
+      { 
+        model: AssetContact, 
+        as: 'contact' 
+      },
+      {
+        model: User,
+        as: 'creator',
+        attributes: ['id', 'first_name', 'last_name', 'email']
+      }
     ],
     limit: parseInt(limit),
     offset: parseInt(offset),
@@ -399,8 +477,19 @@ exports.getPendingAssets = (req, res) => {
   Asset.findAndCountAll({
     where: { status: 'pending' },
     include: [
-      { model: Address, as: 'address' },
-      { model: AssetContact, as: 'contact' }
+      { 
+        model: Address, 
+        as: 'address' 
+      },
+      { 
+        model: AssetContact, 
+        as: 'contact' 
+      },
+      {
+        model: User,
+        as: 'creator',
+        attributes: ['id', 'first_name', 'last_name', 'email']
+      }
     ],
     limit: parseInt(limit),
     offset: parseInt(offset),
@@ -451,15 +540,31 @@ exports.approveAsset = (req, res) => {
 
     return asset.update({
       status: 'approved',
-      approved_by: req.user.email,
+      approved_by: req.user.userId,
       approved_at: new Date()
     });
   })
   .then(() => {
     return Asset.findByPk(id, {
       include: [
-        { model: Address, as: 'address' },
-        { model: AssetContact, as: 'contact' }
+        { 
+          model: Address, 
+          as: 'address' 
+        },
+        { 
+          model: AssetContact, 
+          as: 'contact' 
+        },
+        {
+          model: User,
+          as: 'creator',
+          attributes: ['id', 'first_name', 'last_name', 'email']
+        },
+        {
+          model: User,
+          as: 'approver',
+          attributes: ['id', 'first_name', 'last_name', 'email']
+        }
       ]
     });
   })
@@ -510,7 +615,7 @@ exports.rejectAsset = (req, res) => {
 
     return asset.update({
       status: 'rejected',
-      approved_by: req.user.email,
+      approved_by: req.user.userId,
       approved_at: new Date(),
       rejection_reason
     });
@@ -518,8 +623,24 @@ exports.rejectAsset = (req, res) => {
   .then(() => {
     return Asset.findByPk(id, {
       include: [
-        { model: Address, as: 'address' },
-        { model: AssetContact, as: 'contact' }
+        { 
+          model: Address, 
+          as: 'address' 
+        },
+        { 
+          model: AssetContact, 
+          as: 'contact' 
+        },
+        {
+          model: User,
+          as: 'creator',
+          attributes: ['id', 'first_name', 'last_name', 'email']
+        },
+        {
+          model: User,
+          as: 'approver',
+          attributes: ['id', 'first_name', 'last_name', 'email']
+        }
       ]
     });
   })
@@ -557,8 +678,19 @@ exports.getAssetsByStatus = (req, res) => {
   Asset.findAndCountAll({
     where: { status },
     include: [
-      { model: Address, as: 'address' },
-      { model: AssetContact, as: 'contact' }
+      { 
+        model: Address, 
+        as: 'address' 
+      },
+      { 
+        model: AssetContact, 
+        as: 'contact' 
+      },
+      {
+        model: User,
+        as: 'creator',
+        attributes: ['id', 'first_name', 'last_name', 'email']
+      }
     ],
     limit: parseInt(limit),
     offset: parseInt(offset),
