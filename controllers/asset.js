@@ -48,25 +48,32 @@ exports.getAllAssets = (req, res) => {
     ];
   }
 
+  // Build include array conditionally based on authentication
+  const includeArray = [
+    {
+      model: Address,
+      as: 'address',
+      where: Object.keys(addressWhere).length > 0 ? addressWhere : undefined,
+      required: Object.keys(addressWhere).length > 0
+    },
+    {
+      model: User,
+      as: 'creator',
+      attributes: ['id', 'first_name', 'last_name', 'email']
+    }
+  ];
+
+  // Only include contact information for authenticated users
+  if (req.user) {
+    includeArray.push({
+      model: AssetContact,
+      as: 'contact'
+    });
+  }
+
   Asset.findAndCountAll({
     where: whereClause,
-    include: [
-      {
-        model: Address,
-        as: 'address',
-        where: Object.keys(addressWhere).length > 0 ? addressWhere : undefined,
-        required: Object.keys(addressWhere).length > 0
-      },
-      {
-        model: AssetContact,
-        as: 'contact'
-      },
-      {
-        model: User,
-        as: 'creator',
-        attributes: ['id', 'first_name', 'last_name', 'email']
-      }
-    ],
+    include: includeArray,
     limit: parseInt(limit),
     offset: parseInt(offset),
     order: [['createdAt', 'DESC']]
@@ -104,21 +111,25 @@ exports.getAssetById = (req, res) => {
     whereClause.status = 'approved';
   }
 
-  Asset.findOne({
-    where: whereClause,
-    include: [
-      {
-        model: Address,
-        as: 'address'
-      },
+  // Build include array conditionally based on authentication
+  const includeArray = [
+    {
+      model: Address,
+      as: 'address'
+    },
+    {
+      model: User,
+      as: 'creator',
+      attributes: ['id', 'first_name', 'last_name', 'email']
+    }
+  ];
+
+  // Only include contact information and user details for authenticated users
+  if (req.user) {
+    includeArray.push(
       {
         model: AssetContact,
         as: 'contact'
-      },
-      {
-        model: User,
-        as: 'creator',
-        attributes: ['id', 'first_name', 'last_name', 'email']
       },
       {
         model: User,
@@ -130,7 +141,12 @@ exports.getAssetById = (req, res) => {
         as: 'approver',
         attributes: ['id', 'first_name', 'last_name', 'email']
       }
-    ]
+    );
+  }
+
+  Asset.findOne({
+    where: whereClause,
+    include: includeArray
   })
   .then(asset => {
     if (!asset) {
