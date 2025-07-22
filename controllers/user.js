@@ -56,17 +56,120 @@ exports.getAllUsers = (req, res) => {
   });
 };
 
-// Get user by ID
+// Create user (Admin only)
+exports.createUser = (req, res) => {
+  const { 
+    first_name, 
+    last_name, 
+    email, 
+    password, 
+    role = 'navigator', 
+    is_active = true 
+  } = req.body;
+
+  // Validate required fields
+  if (!first_name || !last_name || !email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'First name, last name, email, and password are required'
+    });
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Please provide a valid email address'
+    });
+  }
+
+  // Validate password length
+  if (password.length < 6) {
+    return res.status(400).json({
+      success: false,
+      message: 'Password must be at least 6 characters long'
+    });
+  }
+
+  // Validate role
+  const validRoles = ['navigator', 'admin'];
+  if (!validRoles.includes(role)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid role. Must be navigator or admin'
+    });
+  }
+
+  // Check if user already exists
+  User.findOne({ where: { email } })
+    .then(existingUser => {
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: 'User with this email already exists'
+        });
+      }
+
+      // Hash the password
+      return bcrypt.hash(password, 12);
+    })
+    .then(hashedPassword => {
+      // Create the user
+      return User.create({
+        first_name,
+        last_name,
+        email,
+        password: hashedPassword,
+        role,
+        is_active
+      });
+    })
+    .then(user => {
+      // Return user without password
+      const userResponse = {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        role: user.role,
+        is_active: user.is_active,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      };
+
+      res.status(201).json({
+        success: true,
+        message: 'User created successfully',
+        data: userResponse
+      });
+    })
+    .catch(error => {
+      console.error('Create user error:', error);
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        return res.status(400).json({
+          success: false,
+          message: 'User with this email already exists'
+        });
+      }
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+        error: error.message
+      });
+    });
+};
+
+// Get user by ID (Admin only)
 exports.getUserById = (req, res) => {
   const { id } = req.params;
-  const requestingUserId = req.user.userId;
   const requestingUserRole = req.user.role;
 
-  // Users can only view their own profile unless they're admin
-  if (parseInt(id) !== requestingUserId && requestingUserRole !== 'admin') {
+  // Only admins can view user profiles
+  if (requestingUserRole !== 'admin') {
     return res.status(403).json({
       success: false,
-      message: 'Access denied: You can only view your own profile'
+      message: 'Access denied: Admin privileges required'
     });
   }
 
@@ -96,7 +199,7 @@ exports.getUserById = (req, res) => {
   });
 };
 
-// Update user (Admin can update any user, users can update themselves)
+// Update user (Admin only)
 exports.updateUser = (req, res) => {
   const { id } = req.params;
   const {
@@ -107,15 +210,25 @@ exports.updateUser = (req, res) => {
     is_active
   } = req.body;
 
-  const requestingUserId = req.user.userId;
   const requestingUserRole = req.user.role;
 
-  // Users can only update their own profile unless they're admin
-  if (parseInt(id) !== requestingUserId && requestingUserRole !== 'admin') {
+  // Only admins can update users
+  if (requestingUserRole !== 'admin') {
     return res.status(403).json({
       success: false,
-      message: 'Access denied: You can only update your own profile'
+      message: 'Access denied: Admin privileges required'
     });
+  }
+
+  // Validate role if provided
+  if (role !== undefined) {
+    const validRoles = ['navigator', 'admin'];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid role. Must be navigator or admin'
+      });
+    }
   }
 
   User.findByPk(id)
@@ -127,17 +240,24 @@ exports.updateUser = (req, res) => {
       });
     }
 
-    // Only admins can change role and is_active status
+    // Prevent modification of the system guest user
+    if (user.email === 'guest@system.local' && user.role === 'guest') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify system guest user'
+      });
+    }
+
+    // Admin can update all fields
     const updateData = {
       first_name: first_name || user.first_name,
       last_name: last_name || user.last_name,
       job_title: job_title || user.job_title
     };
 
-    if (requestingUserRole === 'admin') {
-      if (role !== undefined) updateData.role = role;
-      if (is_active !== undefined) updateData.is_active = is_active;
-    }
+    // Update role and active status if provided
+    if (role !== undefined) updateData.role = role;
+    if (is_active !== undefined) updateData.is_active = is_active;
 
     return user.update(updateData);
   })
@@ -186,6 +306,14 @@ exports.deactivateUser = (req, res) => {
       });
     }
 
+    // Prevent modification of the system guest user
+    if (user.email === 'guest@system.local' && user.role === 'guest') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify system guest user'
+      });
+    }
+
     return user.update({ is_active: false });
   })
   .then(() => {
@@ -223,6 +351,14 @@ exports.activateUser = (req, res) => {
       return res.status(404).json({
         success: false,
         message: 'User not found'
+      });
+    }
+
+    // Prevent modification of the system guest user
+    if (user.email === 'guest@system.local' && user.role === 'guest') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify system guest user'
       });
     }
 
@@ -271,6 +407,14 @@ exports.changeUserRole = (req, res) => {
       return res.status(404).json({
         success: false,
         message: 'User not found'
+      });
+    }
+
+    // Prevent modification of the system guest user
+    if (user.email === 'guest@system.local' && user.role === 'guest') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify system guest user'
       });
     }
 
@@ -325,6 +469,14 @@ exports.resetUserPassword = (req, res) => {
       return res.status(404).json({
         success: false,
         message: 'User not found'
+      });
+    }
+
+    // Prevent modification of the system guest user
+    if (user.email === 'guest@system.local' && user.role === 'guest') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify system guest user'
       });
     }
 

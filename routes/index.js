@@ -13,7 +13,7 @@ const { authenticateToken, optionalAuthenticateToken, requireAdmin, requireNavig
 // =====================
 // AUTH ROUTES
 // =====================
-router.route('/register').post(authRoutes.register);
+// Note: Public registration disabled - users must be created by admins
 router.route('/login').post(authRoutes.login);
 
 // Protected routes - require authentication
@@ -85,7 +85,8 @@ router.route('/asset-contacts/:id')
 // USER ROUTES (Admin)
 // =====================
 router.route('/users')
-  .get(authenticateToken, requireAdmin, userRoutes.getAllUsers);
+  .get(authenticateToken, requireAdmin, userRoutes.getAllUsers)
+  .post(authenticateToken, requireAdmin, userRoutes.createUser); // Admin-only user creation
 
 router.route('/users/stats')
   .get(authenticateToken, requireAdmin, userRoutes.getUserStats);
