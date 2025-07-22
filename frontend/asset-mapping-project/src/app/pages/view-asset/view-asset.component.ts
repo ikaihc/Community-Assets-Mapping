@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './view-asset.component.html',
-  styleUrls: ['./view-asset.component.scss'],
+  styleUrls: ['./view-asset.component.scss']
 })
 export class ViewAssetComponent {
   asset = {
@@ -16,9 +16,10 @@ export class ViewAssetComponent {
     hasVolunteer: false,
     location: {
       address: '900 Merivale Road',
-      city: 'Ottawa',
-    },
+      city: 'Ottawa'
+    }
   };
 
-  userRole = 'guest'; // 后续可用于 admin/guest 判断
+  // 后续可用于 admin/guest 判断
+  userRole = 'guest';
 }

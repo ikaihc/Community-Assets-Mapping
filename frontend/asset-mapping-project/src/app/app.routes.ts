@@ -17,4 +17,8 @@ export const routes: Routes = [
   { path: 'add-asset/contact', component: AddAssetContactComponent },
   { path: 'add-asset/registration', component: AddAssetRegistrationComponent },
   { path: '**', redirectTo: 'view-asset' }
+
+export const routes: Routes = [
+  { path: 'view-asset', component: ViewAssetComponent },
+  { path: '', redirectTo: 'view-asset', pathMatch: 'full' }, // 默认跳转
 ];
