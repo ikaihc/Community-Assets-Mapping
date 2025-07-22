@@ -1,3 +1,4 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { ViewAssetComponent } from './pages/view-asset/view-asset.component';
 import { ViewAssetAdminComponent } from './pages/view-asset-admin/view-asset-admin.component';
@@ -7,18 +8,14 @@ import { AddAssetLocationComponent } from './pages/add-asset-location/add-asset-
 import { AddAssetContactComponent } from './pages/add-asset-contact/add-asset-contact.component';
 import { AddAssetRegistrationComponent } from './pages/add-asset-registration/add-asset-registration.component';
 
-
 export const routes: Routes = [
+  { path: '', redirectTo: 'view-asset', pathMatch: 'full' },
   { path: 'view-asset', component: ViewAssetComponent },
   { path: 'view-asset-admin', component: ViewAssetAdminComponent },
-  { path: 'add-asset/start', component: AddAssetStartComponent },  
-  { path: 'add-asset/location', component: AddAssetLocationComponent },
+  { path: 'add-asset/start', component: AddAssetStartComponent },
   { path: 'add-asset/basic', component: AddAssetBasicComponent },
+  { path: 'add-asset/location', component: AddAssetLocationComponent },
   { path: 'add-asset/contact', component: AddAssetContactComponent },
   { path: 'add-asset/registration', component: AddAssetRegistrationComponent },
   { path: '**', redirectTo: 'view-asset' }
-
-export const routes: Routes = [
-  { path: 'view-asset', component: ViewAssetComponent },
-  { path: '', redirectTo: 'view-asset', pathMatch: 'full' }, // 默认跳转
 ];
