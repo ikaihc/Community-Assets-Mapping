@@ -1,21 +1,23 @@
 <main class="main-container">
-  <section class="sidebar">
-    <label>Select category:</label>
-    <select>
-      <option value="">Select</option>
-      <option *ngFor="let category of categories">{{ category }}</option>
-    </select>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <label for="category-select">Please select one or more categories</label>
+      <select id="category-select" class="dropdown">
+        <option value="">Select</option>
+        <option *ngFor="let category of categories">{{ category }}</option>
+      </select>
 
-    <label>Search for asset:</label>
-    <input type="text" placeholder="Ottawa Food Bank" />
-    <button class="search-btn">
-      🔍
-    </button>
+      <label for="asset-search">Search for asset:</label>
+      <div class="search-group">
+        <input id="asset-search" type="text" placeholder="Ottawa Food Bank" />
+        <button class="search-btn">🔍</button>
+      </div>
 
-    <label>
-      <input type="checkbox" />
-      Look for Volunteer Opportunities
-    </label>
+      <label class="checkbox-label">
+        <input type="checkbox" />
+        Look for Volunteer Opportunities
+      </label>
+    </div>
 
     <div class="asset-list">
       <div *ngFor="let asset of assets" class="asset-card">
@@ -23,24 +25,17 @@
         <p>{{ asset.type }}</p>
       </div>
     </div>
-  </section>
+  </aside>
 
-  <section class="map-view">
+  <section class="map-container">
     <div id="map"></div>
   </section>
 </main>
 
 <footer class="footer">
   <p>
-    ©2025
-    <strong>
-      <a href="https://github.com/ikaihc/Community-Assets-Mapping" target="_blank" rel="noopener">
-        Community Assets Mapping
-      </a>
-    </strong>
+    ©2025 <strong><a href="https://github.com/ikaihc/Community-Assets-Mapping" target="_blank">Community Assets Mapping</a></strong>
     • Built by <em>Bingyao L., Ernest S., Janvier W., Sandrima S., Ziwei S., Zhuyu Y.</em> • Idea by
-    <strong>
-      <a href="https://carlingtonchc.com/" target="_blank" rel="noopener">CCHC</a>
-    </strong>
+    <strong><a href="https://carlingtonchc.com/" target="_blank">CCHC</a></strong>
   </p>
 </footer>
