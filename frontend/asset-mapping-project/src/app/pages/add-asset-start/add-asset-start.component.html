@@ -5,6 +5,8 @@
     <span><strong>Parent/Children Asset</strong> ・ Basic Information ・ Location ・ Contact ・ Registration and Schedule</span>
   </nav>
 
+  <p><strong>Before we start, please answer these two quick questions:</strong></p>
+
   <p><strong>Is this a group or organisation that offers MORE THAN ONE service or program?</strong></p>
   <div>
     <button [class.selected]="multiplePrograms === true" (click)="multiplePrograms = true">Yes, multiple</button>
@@ -18,6 +20,7 @@
   </div>
 
   <div class="proceed-container">
-    <button routerLink="/add-asset/basic" class="btn btn-outline-primary">Proceed</button>
+    <button (click)="proceed()" class="btn btn-primary">Proceed →</button>
+
   </div>
 </div>

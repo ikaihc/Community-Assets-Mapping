@@ -1,80 +1,117 @@
 .container {
-  background: white;
+  max-width: 800px;
+  margin: 2rem auto;
+  background: #fff;
   padding: 2rem;
   border-radius: 10px;
-  max-width: 700px;
-  margin: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-  h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #003366;
+}
+
+.breadcrumb {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+
+  .active {
+    font-weight: 700;
+    color: #003366;
   }
 
-  .breadcrumb {
-    color: #64748b;
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
+  .inactive {
+    color: #888;
+  }
+}
 
-    .active {
-      font-weight: bold;
-      color: #1e293b;
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #003366;
+  }
+
+  input.form-control,
+  select.form-control,
+  textarea.form-control {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
     }
   }
 
-  .form-group {
-    margin-bottom: 1.5rem;
+  select[multiple] {
+    height: 100px;
+  }
+}
 
-    label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: block;
-      margin-bottom: 0.5rem;
+.button-group {
+  display: flex;
+  gap: 1rem;
+
+  .btn-option {
+    padding: 0.5rem 1rem;
+    border: 1px solid #007bff;
+    background-color: #fff;
+    color: #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+
+    &:hover,
+    &.selected {
+      background-color: #007bff;
+      color: #fff;
     }
+  }
+}
 
-    .form-control {
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
 
-    .button-group {
-      display: flex;
-      gap: 1rem;
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 5px;
+    min-width: 120px;
+  }
 
-      .btn-option {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 6px;
-        background: #e2e8f0;
-        cursor: pointer;
+  .btn-primary {
+    background-color: #003366;
+    color: #fff;
+    border: none;
 
-        &:hover {
-          background: #cbd5e1;
-        }
-      }
+    &:hover {
+      background-color: #002244;
     }
   }
 
-  .buttons {
-    display: flex;
-    justify-content: space-between;
+  .btn-outline-primary {
+    background-color: transparent;
+    color: #003366;
+    border: 1px solid #003366;
 
-    .btn {
-      padding: 0.6rem 1.2rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: #2563eb;
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #e5e7eb;
+    &:hover {
+      background-color: #e6f0ff;
     }
   }
 }

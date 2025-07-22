@@ -15,8 +15,10 @@ export class AddAssetStartComponent {
   constructor(private router: Router) {}
 
   proceed() {
-    if (this.multiplePrograms !== null && this.hasPhysicalLocation !== null) {
-      this.router.navigate(['/add-asset/basic-info']);
+    if (this.hasPhysicalLocation === true) {
+      this.router.navigate(['/add-asset/basic']);
+    } else {
+      alert('You need a physical address.');
     }
   }
 }
