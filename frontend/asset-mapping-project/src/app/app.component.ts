@@ -5,10 +5,12 @@ import { NavbarComponent } from './navbar/navbar.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent], // ✅ Removed HomeComponent
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']       
+  styleUrl: './app.component.scss'
+
 })
 export class AppComponent {
   title = 'asset-mapping-project';
 }
+

@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
+body {
+  font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
 // Main Colors
 $primary:     #1F4F85;
 $secondary:   #348CEF;
@@ -26,4 +32,5 @@ $neutral-5:   #4D4D4D;
 $neutral-6:   #040404;
 
 // Alerts
-$alert-1:     #D6E8FB; // ⚠️ This looks mislabeled; probably should be red?
+$alert-1:     #E74C3C;
+$alert-2:     #D93120;
