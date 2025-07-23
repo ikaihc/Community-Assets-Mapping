@@ -1,0 +1,52 @@
+<div class="container">
+  <h2>New Community Asset Information</h2>
+  <nav class="step-nav">
+    <span>Parent/Children Asset</span> · 
+    <span>Basic Information</span> · 
+    <span>Location</span> · 
+    <span>Contact</span> · 
+    <b>Registration and Schedule</b>
+  </nav>
+
+  <form>
+    <label for="schedule">Schedule Information</label>
+    <select id="schedule">
+      <option>Select</option>
+    </select>
+
+    <label for="registration">Registration Information</label>
+    <textarea id="registration" placeholder="ex. To register, please contact by email or telephone us at 111223333"></textarea>
+
+    <label>Does this program have accessible features?</label>
+    <div class="button-group">
+      <button type="button" class="btn btn-option">Yes</button>
+      <button type="button" class="btn btn-option">No</button>
+    </div>
+
+    <label>What languages does this program offer?</label>
+    <div class="tag-button-group">
+      <button type="button" class="btn btn-tag">English</button>
+      <button type="button" class="btn btn-tag">French</button>
+      <button type="button" class="btn btn-tag">Arabic</button>
+      <button type="button" class="btn btn-tag">Sign</button>
+      <button type="button" class="btn btn-tag">Others</button>
+    </div>
+
+    <label>What activity format does this program offer?</label>
+    <div class="tag-button-group">
+      <button type="button" class="btn btn-tag">Online</button>
+      <button type="button" class="btn btn-tag">On-site</button>
+      <button type="button" class="btn btn-tag">Group</button>
+      <button type="button" class="btn btn-tag">Individual</button>
+      <button type="button" class="btn btn-tag">Drop-in</button>
+      <button type="button" class="btn btn-tag">Scheduled</button>
+      <button type="button" class="btn btn-tag">Self-paced</button>
+    </div>
+
+    <div class="navigation-buttons">
+  <button type="button" class="btn btn-outline-primary" (click)="goPrevious()">← Previous</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+    </div>
+
+  </form>
+</div>

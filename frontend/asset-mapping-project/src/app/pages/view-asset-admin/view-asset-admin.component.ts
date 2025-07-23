@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-view-asset',
+  selector: 'app-view-asset-admin',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './view-asset.component.html',
-  styleUrls: ['./view-asset.component.scss']
+  templateUrl: './view-asset-admin.component.html',
+  styleUrls: ['./view-asset-admin.component.scss']
 })
-export class ViewAssetComponent {
+export class ViewAssetAdminComponent {
   asset = {
     name: 'Food On the Move',
     categories: ['Food Bank'],
@@ -19,7 +19,4 @@ export class ViewAssetComponent {
       city: 'Ottawa'
     }
   };
-
-  // 后续可用于 admin/guest 判断
-  userRole = 'guest';
 }

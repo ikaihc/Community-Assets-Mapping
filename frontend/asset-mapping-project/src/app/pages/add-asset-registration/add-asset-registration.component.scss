@@ -1,0 +1,155 @@
+
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+}
+
+/* 标题 */
+h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #003366;
+  margin-bottom: 1rem;
+}
+
+/* 步骤导航 */
+.step-nav {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+
+  span {
+    margin-right: 0.3rem;
+  }
+
+  b {
+    color: #1e293b;
+    font-weight: 600;
+  }
+}
+
+/* 表单元素通用 */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #003366;
+  }
+
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+  }
+
+  select {
+    height: 2.5rem;
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+}
+
+/* 可访问功能按钮组 */
+.button-group {
+  display: flex;
+  gap: 1rem;
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    background: #fff;
+    color: #007bff;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &.btn-option.selected,
+    &:hover {
+      background: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+  }
+}
+
+/* 语言与活动形式标签组 */
+.tag-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  .btn-tag {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.selected,
+    &:hover {
+      background: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+  }
+}
+
+/* 底部导航按钮 */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+
+  .btn {
+    min-width: 120px;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-outline-primary {
+    background: transparent;
+    color: #003366;
+    border: 1px solid #003366;
+
+    &:hover {
+      background: #e6f0ff;
+    }
+  }
+
+  .btn-primary {
+    background: #003366;
+    color: #fff;
+    border: none;
+
+    &:hover {
+      background: #002244;
+    }
+  }
+}
