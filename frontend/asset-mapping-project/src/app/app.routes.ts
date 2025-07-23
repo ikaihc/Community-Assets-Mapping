@@ -1,5 +1,6 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 import { ViewAssetComponent } from './pages/view-asset/view-asset.component';
 import { ViewAssetAdminComponent } from './pages/view-asset-admin/view-asset-admin.component';
 import { AddAssetStartComponent } from './pages/add-asset-start/add-asset-start.component';
@@ -9,7 +10,7 @@ import { AddAssetContactComponent } from './pages/add-asset-contact/add-asset-co
 import { AddAssetRegistrationComponent } from './pages/add-asset-registration/add-asset-registration.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'view-asset', pathMatch: 'full' },
+  { path: '', component: HomeComponent },
   { path: 'view-asset', component: ViewAssetComponent },
   { path: 'view-asset-admin', component: ViewAssetAdminComponent },
   { path: 'add-asset/start', component: AddAssetStartComponent },
