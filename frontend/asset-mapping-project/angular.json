@@ -34,7 +34,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           },
@@ -95,7 +96,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           }
@@ -104,6 +106,6 @@
     }
   },
   "cli": {
-    "analytics": "690d611a-cf47-4075-aa41-2d5debbfe296"
+    "analytics": false
   }
 }

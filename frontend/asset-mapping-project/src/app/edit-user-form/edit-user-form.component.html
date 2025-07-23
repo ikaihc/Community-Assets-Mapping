@@ -1,0 +1,120 @@
+<div class="edit-user-container">
+  <h1 class="form-title">User Information</h1>
+
+  <div class="form-layout">
+    <div class="left-column">
+      <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" class="user-form">
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            [class.error]="editUserForm.get('email')?.invalid && editUserForm.get('email')?.touched"
+          />
+          <div class="error-message" *ngIf="editUserForm.get('email')?.invalid && editUserForm.get('email')?.touched">
+            <span *ngIf="editUserForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="editUserForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            formControlName="firstName"
+            [class.error]="editUserForm.get('firstName')?.invalid && editUserForm.get('firstName')?.touched"
+          />
+          <div class="error-message" *ngIf="editUserForm.get('firstName')?.invalid && editUserForm.get('firstName')?.touched">
+            <span *ngIf="editUserForm.get('firstName')?.errors?.['required']">First name is required</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            [class.error]="editUserForm.get('lastName')?.invalid && editUserForm.get('lastName')?.touched"
+          />
+          <div class="error-message" *ngIf="editUserForm.get('lastName')?.invalid && editUserForm.get('lastName')?.touched">
+            <span *ngIf="editUserForm.get('lastName')?.errors?.['required']">Last name is required</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="jobTitle">Job Title</label>
+          <input
+            type="text"
+            id="jobTitle"
+            formControlName="jobTitle"
+            [class.error]="editUserForm.get('jobTitle')?.invalid && editUserForm.get('jobTitle')?.touched"
+          />
+          <div class="error-message" *ngIf="editUserForm.get('jobTitle')?.invalid && editUserForm.get('jobTitle')?.touched">
+            <span *ngIf="editUserForm.get('jobTitle')?.errors?.['required']">Job title is required</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select
+            id="role"
+            formControlName="role"
+            [class.error]="editUserForm.get('role')?.invalid && editUserForm.get('role')?.touched"
+          >
+            <option value="">Select</option>
+            <option value="admin">Admin</option>
+            <option value="navigator">Navigator</option>
+          </select>
+          <div class="error-message" *ngIf="editUserForm.get('role')?.invalid && editUserForm.get('role')?.touched">
+            <span *ngIf="editUserForm.get('role')?.errors?.['required']">Role is required</span>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="right-column">
+      
+      <div class="info-group">
+        <label>Date Created</label>
+        <div class="readonly-field">{{ user?.dateCreated }}</div>
+      </div>
+
+      <div class="info-group">
+        <label>Created By</label>
+        <div class="readonly-field">{{ getCreatedByInfo() }}</div>
+      </div>
+
+      <div class="info-group">
+        <label>Last Modified</label>
+        <div class="readonly-field">{{ user?.lastModified }}</div>
+      </div>
+
+      <div class="info-group">
+        <label>Last Modified By</label>
+        <div class="readonly-field">{{ getLastModifiedByInfo() }}</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="back-btn" (click)="onBack()">
+      ← Back
+    </button>
+    <button
+      type="button"
+      class="save-btn"
+      [disabled]="editUserForm.invalid || isLoading"
+      (click)="onSubmit()"
+    >
+      <span *ngIf="isLoading" class="loading-spinner"></span>
+      {{ isLoading ? 'Saving...' : 'Save Changes' }}
+    </button>
+  </div>
+
+</div>

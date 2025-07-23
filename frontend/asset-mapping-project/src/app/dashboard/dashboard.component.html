@@ -1,0 +1,190 @@
+<div class="dashboard-container">
+  <div class="sidebar">
+    <div class="user-profile">
+      <div class="user-avatar">{{ currentUser.initials }}</div>
+      <div class="user-email">{{ currentUser.email }}</div>
+      
+      <div class="user-details">
+        <div class="detail-item">
+          <h3>First Name</h3>
+          <p>{{ currentUser.firstName }}</p>
+        </div>
+        
+        <div class="detail-item">
+          <h3>Last Name</h3>
+          <p>{{ currentUser.lastName }}</p>
+        </div>
+        
+        <div class="detail-item">
+          <h3>Role</h3>
+          <p>{{ currentUser.role }}</p>
+        </div>
+        
+        <div class="detail-item">
+          <h3>Job Title</h3>
+          <p>{{ currentUser.jobTitle }}</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a 
+        class="nav-item" 
+        [class.active]="activeView === 'users'"
+        (click)="setActiveView('users')">
+        User Management
+      </a>
+      <a 
+        class="nav-item" 
+        [class.active]="activeView === 'assets'"
+        (click)="setActiveView('assets')">
+        Asset Management
+      </a>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    
+    <div *ngIf="activeView === 'users'" class="content-section">
+      <div class="section-header">
+        <h1>User Management</h1>
+        <button class="add-btn" (click)="onAddNewUser()">Add New User</button>
+      </div>
+
+      <div class="filters">
+        <select [(ngModel)]="userSearchType" class="filter-select">
+          <option value="name">Name</option>
+          <option value="email">Email</option>
+          <option value="role">Role</option>
+        </select>
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="userSearchTerm"
+            placeholder="Search by {{ userSearchType }}"
+            class="search-input">
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Job Title</th>
+              <th>Date Created ↑</th>
+              <th>Last Modified ↑</th>
+              <th>Action</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of getFilteredUsers()">
+              <td>{{ user.id }}</td>
+              <td class="email-cell">{{ user.email }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.role }}</td>
+              <td>{{ user.jobTitle }}</td>
+              <td>{{ user.dateCreated }}</td>
+              <td>{{ user.lastModified }}</td>
+              <td>
+                <button 
+                  [class]="user.isActive ? 'deactivate-btn' : 'activate-btn'" 
+                  (click)="onToggleUserStatus(user.id)">
+                  {{ user.isActive ? 'Deactivate' : 'Activate' }}
+                </button>
+              </td>
+              <td>
+                <button class="edit-btn" (click)="onEditUser(user.id)">
+                  <i class="fas fa-pen"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="activeView === 'assets'" class="content-section">
+      <div class="section-header">
+        <h1>Asset Management</h1>
+        <button class="add-btn" (click)="onAddNewAsset()">Add New Asset</button>
+      </div>
+
+      <div class="filters">
+        <select [(ngModel)]="assetSearchType" class="filter-select">
+          <option value="name">Name</option>
+          <option value="status">Status</option>
+        </select>
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="assetSearchTerm"
+            placeholder="Search by {{ assetSearchType }}..."
+            class="search-input">
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Date Created ↑</th>
+              <th>Last Modified ↑</th>
+              <th>Action</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let asset of getFilteredAssets()">
+              <td>{{ asset.id }}</td>
+              <td>{{ asset.name }}</td>
+              <td>
+                <span class="status-badge" [class]="'status-' + asset.status.toLowerCase()">
+                  {{ asset.status }}
+                </span>
+              </td>
+              <td>{{ asset.dateCreated }}</td>
+              <td>{{ asset.lastModified }}</td>
+              <td>
+                <button 
+                  [class]="asset.isActive ? 'deactivate-btn' : 'activate-btn'" 
+                  (click)="onToggleAssetStatus(asset.id)">
+                  {{ asset.isActive ? 'Deactivate' : 'Activate' }}
+                </button>
+              </td>
+              <td>
+                <button class="edit-btn" (click)="onEditAsset(asset.id)">
+                  <i class="fas fa-pencil-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="activeView === 'add-user'" class="content-section">
+      <app-add-user-form 
+        (backToUsers)="onBackToUsers()"
+        (userAdded)="onUserAdded($event)">
+      </app-add-user-form>
+    </div>
+
+    <div *ngIf="activeView === 'edit-user'" class="content-section">
+      <app-edit-user-form 
+        [user]="selectedUser"
+        (backToUsers)="onBackToUsers()"
+        (userUpdated)="onUserUpdated($event)">
+      </app-edit-user-form>
+    </div>
+    
+  </div>
+
+</div>

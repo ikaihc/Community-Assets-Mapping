@@ -1,0 +1,94 @@
+<div class="add-user-container">
+  <h1 class="form-title">User Information</h1>
+
+  <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" class="user-form">
+    
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="johndoe@email.com"
+        [class.error]="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched"
+      />
+      <div class="error-message" *ngIf="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched">
+        <span *ngIf="addUserForm.get('email')?.errors?.['required']">Email is required</span>
+        <span *ngIf="addUserForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        formControlName="firstName"
+        placeholder="John"
+        [class.error]="addUserForm.get('firstName')?.invalid && addUserForm.get('firstName')?.touched"
+      />
+      <div class="error-message" *ngIf="addUserForm.get('firstName')?.invalid && addUserForm.get('firstName')?.touched">
+        <span *ngIf="addUserForm.get('firstName')?.errors?.['required']">First name is required</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        formControlName="lastName"
+        placeholder="Doe"
+        [class.error]="addUserForm.get('lastName')?.invalid && addUserForm.get('lastName')?.touched"
+      />
+      <div class="error-message" *ngIf="addUserForm.get('lastName')?.invalid && addUserForm.get('lastName')?.touched">
+        <span *ngIf="addUserForm.get('lastName')?.errors?.['required']">Last name is required</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="jobTitle">Job Title</label>
+      <input
+        type="text"
+        id="jobTitle"
+        formControlName="jobTitle"
+        placeholder="social worker"
+        [class.error]="addUserForm.get('jobTitle')?.invalid && addUserForm.get('jobTitle')?.touched"
+      />
+      <div class="error-message" *ngIf="addUserForm.get('jobTitle')?.invalid && addUserForm.get('jobTitle')?.touched">
+        <span *ngIf="addUserForm.get('jobTitle')?.errors?.['required']">Job title is required</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role</label>
+      <select
+        id="role"
+        formControlName="role"
+        [class.error]="addUserForm.get('role')?.invalid && addUserForm.get('role')?.touched"
+      >
+        <option value="">Select</option>
+        <option value="admin">Admin</option>
+        <option value="navigator">Navigator</option>
+      </select>
+      <div class="error-message" *ngIf="addUserForm.get('role')?.invalid && addUserForm.get('role')?.touched">
+        <span *ngIf="addUserForm.get('role')?.errors?.['required']">Role is required</span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="back-btn" (click)="onBack()">
+        ← Back
+      </button>
+      <button
+        type="submit"
+        class="create-btn"
+        [disabled]="addUserForm.invalid || isLoading"
+      >
+        <span *ngIf="isLoading" class="loading-spinner"></span>
+        {{ isLoading ? 'Creating...' : 'Create New User' }}
+      </button>
+    </div>
+
+  </form>
+</div>
