@@ -77,7 +77,8 @@ export class HomeComponent implements OnInit {
             map: this.map,
             position: coords,
             icon: {
-              url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+              url: 'assets/icons/blue-pin.svg',
+              scaledSize: new google.maps.Size(36, 36)
             },
             title: 'You are here'
           });
@@ -110,7 +111,11 @@ export class HomeComponent implements OnInit {
       const marker = new google.maps.Marker({
         position: { lat: asset.lat, lng: asset.lng },
         map: this.map,
-        title: asset.name
+        title: asset.name,
+        icon: {
+          url: 'assets/icons/red-pin.svg',
+          scaledSize: new google.maps.Size(36, 36)
+        }
       });
 
       const infoWindow = new google.maps.InfoWindow({
