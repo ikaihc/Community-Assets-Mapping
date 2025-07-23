@@ -1,5 +1,6 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ViewAssetComponent } from './pages/view-asset/view-asset.component';
 import { ViewAssetAdminComponent } from './pages/view-asset-admin/view-asset-admin.component';
@@ -10,7 +11,9 @@ import { AddAssetContactComponent } from './pages/add-asset-contact/add-asset-co
 import { AddAssetRegistrationComponent } from './pages/add-asset-registration/add-asset-registration.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'view-asset', component: ViewAssetComponent },
   { path: 'view-asset-admin', component: ViewAssetAdminComponent },
   { path: 'add-asset/start', component: AddAssetStartComponent },
@@ -18,5 +21,5 @@ export const routes: Routes = [
   { path: 'add-asset/location', component: AddAssetLocationComponent },
   { path: 'add-asset/contact', component: AddAssetContactComponent },
   { path: 'add-asset/registration', component: AddAssetRegistrationComponent },
-  { path: '**', redirectTo: 'view-asset' }
+  { path: '**', redirectTo: '/home' }
 ];
