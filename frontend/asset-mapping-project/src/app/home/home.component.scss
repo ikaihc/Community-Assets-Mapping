@@ -101,7 +101,9 @@ main.main-container {
 }
 
 .footer {
+  font-family: 'Work Sans', 'Roboto', Arial, sans-serif;
   height: 60px;
+  color: #7D7D7D; // neutral-4
   background-color: #f0f0f0;
   border-top: 1px solid #ccc;
   display: flex;
@@ -109,4 +111,14 @@ main.main-container {
   justify-content: center;
   font-size: 0.85rem;
   padding: 0 1rem;
+}
+
+.footer a {
+  color: #1F4F85; // primary-2
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #032D5C; // primary-3
+  cursor: pointer;
 }
