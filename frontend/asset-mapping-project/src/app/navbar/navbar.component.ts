@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
