@@ -1,4 +1,34 @@
 
+
+:host {
+  display: block;
+}
+
+
+.container,
+.card {
+  position: relative;
+}
+
+
+.back-home-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: #1F4F85;   
+  border: 1px solid #1F4F85;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.back-home-btn:hover {
+  background: rgba(31, 79, 133, 0.1);
+}
+
 .container {
   max-width: 900px;
   margin: 2rem auto;
@@ -33,7 +63,7 @@ h2 {
   }
 }
 
-/* 表单元素通用 */
+
 form {
   display: flex;
   flex-direction: column;
@@ -70,7 +100,7 @@ form {
   }
 }
 
-/* 可访问功能按钮组 */
+
 .button-group {
   display: flex;
   gap: 1rem;
@@ -93,7 +123,7 @@ form {
   }
 }
 
-/* 语言与活动形式标签组 */
+
 .tag-button-group {
   display: flex;
   flex-wrap: wrap;
@@ -118,7 +148,7 @@ form {
   }
 }
 
-/* 底部导航按钮 */
+
 .navigation-buttons {
   display: flex;
   justify-content: space-between;

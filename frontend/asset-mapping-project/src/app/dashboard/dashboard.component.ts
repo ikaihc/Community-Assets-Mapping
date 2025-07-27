@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
 import { EditUserFormComponent } from '../edit-user-form/edit-user-form.component';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent],
+  imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
