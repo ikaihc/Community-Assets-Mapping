@@ -6,10 +6,12 @@ import { FooterComponent } from './components/footer/footer.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent], // ✅ Removed HomeComponent
+  imports: [RouterOutlet, NavbarComponent, FooterComponent], 
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']       
+  styleUrl: './app.component.scss'
+
 })
 export class AppComponent {
   title = 'asset-mapping-project';
 }
+

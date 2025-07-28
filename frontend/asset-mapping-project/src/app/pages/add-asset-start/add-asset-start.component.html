@@ -1,0 +1,26 @@
+<div class="card">
+  <h1>New Community Asset Information</h1>
+
+  <nav>
+    <span><strong>Parent/Children Asset</strong> ・ Basic Information ・ Location ・ Contact ・ Registration and Schedule</span>
+  </nav>
+
+  <p><strong>Before we start, please answer these two quick questions:</strong></p>
+
+  <p><strong>Is this a group or organisation that offers MORE THAN ONE service or program?</strong></p>
+  <div>
+    <button [class.selected]="multiplePrograms === true" (click)="multiplePrograms = true">Yes, multiple</button>
+    <button [class.selected]="multiplePrograms === false" (click)="multiplePrograms = false">No, only one</button>
+  </div>
+
+  <p><strong>Does this group or organisation have a Building or Office where people can go?</strong></p>
+  <div>
+    <button [class.selected]="hasPhysicalLocation === true" (click)="hasPhysicalLocation = true">Yes, a physical location</button>
+    <button [class.selected]="hasPhysicalLocation === false" (click)="hasPhysicalLocation = false">No, it’s online</button>
+  </div>
+
+  <div class="proceed-container">
+    <button (click)="proceed()" class="btn btn-primary">Proceed →</button>
+
+  </div>
+</div>
