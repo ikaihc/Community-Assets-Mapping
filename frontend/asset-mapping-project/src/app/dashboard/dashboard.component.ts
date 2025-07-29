@@ -18,9 +18,10 @@ import { MatOptionModule } from '@angular/material/core';
   selector: 'app-dashboard',
   standalone: true,
 
-  imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent, MatSelectModule, MatFormFieldModule],
+  imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent, MatSelectModule, RouterModule,MatFormFieldModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
+  
 })
 export class DashboardComponent implements OnInit {
 

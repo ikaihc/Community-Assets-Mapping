@@ -44,11 +44,14 @@
     </div>
 
     <div class="navigation-buttons">
-  <button routerLink="/add-asset/start" class="btn btn-outline-primary">← Previous</button>
-
-  <button routerLink="/add-asset/location" class="btn btn-primary">Proceed →</button>
-
+  <button type="button"
+          class="btn btn-outline-primary"
+          (click)="goPrevious()">← Previous</button>
+  <button type="button"
+          class="btn btn-primary"
+          (click)="goNext()">Proceed →</button>
 </div>
+
 
 
   </form>
