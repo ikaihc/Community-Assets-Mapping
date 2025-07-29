@@ -192,10 +192,11 @@ main.main-container {
 .checkbox-label {
   display: flex;
   align-items: center;
-  font-size: 14px;
   gap: 0.5rem;
+  font-size: 14px;
   color: $neutral-dark;
 }
+
 
 // Asset list
 .asset-list {
