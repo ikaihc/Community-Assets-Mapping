@@ -1,15 +1,6 @@
-
-
 :host {
   display: block;
 }
-
-
-.container,
-.card {
-  position: relative;
-}
-
 
 .back-home-btn {
   position: absolute;
@@ -18,18 +9,21 @@
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
   background: transparent;
-  color: #1F4F85;   
+  color: #1F4F85;
   border: 1px solid #1F4F85;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: rgba(31, 79, 133, 0.1);
+  }
 }
 
-.back-home-btn:hover {
-  background: rgba(31, 79, 133, 0.1);
-}
 
-.container {
+.container,
+.card {
+  position: relative;
   max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
@@ -39,15 +33,15 @@
   font-family: Arial, sans-serif;
 }
 
-/* 标题 */
+
 h2 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #003366;
+  color: #003366; 
   margin-bottom: 1rem;
 }
 
-/* 步骤导航 */
+
 .step-nav {
   font-size: 0.9rem;
   color: #64748b;
@@ -64,6 +58,18 @@ h2 {
 }
 
 
+.full-width {
+  width: 100%;
+}
+
+
+mat-form-field {
+  &.full-width {
+    width: 100%;
+  }
+}
+
+
 form {
   display: flex;
   flex-direction: column;
@@ -72,31 +78,71 @@ form {
   label {
     font-weight: 600;
     font-size: 0.9rem;
-    color: #003366;
+    color: #0263D1; 
   }
 
-  select,
   textarea {
     width: 100%;
+    min-height: 120px;
     padding: 0.6rem;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
+    resize: vertical;
     transition: border-color 0.2s ease;
 
     &:focus {
       outline: none;
-      border-color: #007bff;
+      border-color: #0263D1;
     }
   }
+}
 
-  select {
-    height: 2.5rem;
+
+.mat-datepicker-content {
+
+  z-index: 10 !important;
+}
+
+
+.weekly-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;  
+}
+
+.day-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #0263D1;
+  border-radius: 6px;
+  background: #fff;
+  color: #0263D1;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  &.selected,
+  &:hover {
+    background: #0263D1;
+    color: #fff;
   }
+}
 
-  textarea {
-    min-height: 120px;
-    resize: vertical;
+
+.add-date-btn {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;   
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #0263D1;
+  border-radius: 6px;
+  background: transparent;
+  color: #0263D1;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(2, 99, 209, 0.1);
   }
 }
 
@@ -105,20 +151,19 @@ form {
   display: flex;
   gap: 1rem;
 
-  .btn {
+  .btn-option {
     padding: 0.5rem 1rem;
-    border: 1px solid #007bff;
+    border: 1px solid #0263D1;
     border-radius: 6px;
     background: #fff;
-    color: #007bff;
+    color: #0263D1;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background 0.2s, color 0.2s;
 
-    &.btn-option.selected,
+    &.selected,
     &:hover {
-      background: #007bff;
+      background: #0263D1;
       color: #fff;
-      border-color: #007bff;
     }
   }
 }
@@ -141,9 +186,9 @@ form {
 
     &.selected,
     &:hover {
-      background: #007bff;
+      background: #0263D1;
       color: #fff;
-      border-color: #007bff;
+      border-color: #0263D1;
     }
   }
 }
@@ -154,29 +199,28 @@ form {
   justify-content: space-between;
   margin-top: 2rem;
 
-  .btn {
+  button {
     min-width: 120px;
     padding: 0.6rem 1rem;
     font-size: 0.95rem;
     border-radius: 6px;
-    transition: background 0.2s ease;
     cursor: pointer;
+    transition: background 0.2s ease;
   }
 
-  .btn-outline-primary {
+  .mat-stroked-button {
     background: transparent;
-    color: #003366;
     border: 1px solid #003366;
+    color: #003366;
 
     &:hover {
       background: #e6f0ff;
     }
   }
 
-  .btn-primary {
+  .mat-flat-button {
     background: #003366;
     color: #fff;
-    border: none;
 
     &:hover {
       background: #002244;
