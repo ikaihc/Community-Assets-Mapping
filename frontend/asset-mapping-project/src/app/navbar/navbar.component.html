@@ -8,7 +8,8 @@
       <a href="#" class="nav-link active" (click)="onNavigate('home'); $event.preventDefault()">Home</a>
       
       <ng-container *ngIf="!isLoggedIn">
-        <a href="#" class="nav-link" (click)="onAddAsset(); $event.preventDefault()">Add New Asset</a>
+        <a href="/add-asset/start" class="nav-link">Add New Asset</a>
+
         <a href="#" class="nav-link" (click)="onLogin(); $event.preventDefault()">Log In</a>
       </ng-container>
       

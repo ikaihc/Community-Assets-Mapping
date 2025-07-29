@@ -1,43 +1,4 @@
 
-body {
-  font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-// Main Colors
-$primary:     #1F4F85;
-$secondary:   #348CEF;
-$board:       #F8F8F8;
-$black:       #040404;
-
-// Extended Primary
-$primary-1:   #83A2C5;
-$primary-2:   #1F4F85;
-$primary-3:   #032D5C;
-
-// Extended Secondary
-$secondary-1: #D6E8FB;
-$secondary-2: #348CEF;
-$secondary-3: #0263DE;
-
-// Neutrals
-$white:       #FFFFFF;
-$neutral-1:   #F8F8F8;
-$neutral-2:   #E6E6E6;
-$neutral-3:   #B3B3B3;
-$neutral-4:   #7D7D7D;
-$neutral-5:   #4D4D4D;
-$neutral-6:   #040404;
-
-// Alerts
-$alert-1:     #E74C3C;
-$alert-2:     #D93120;
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
 /* You can add global styles to this file, and also import other style files */
 
 body {
@@ -46,32 +7,68 @@ body {
   line-height: 1.5;
 }
 
-// Main Colors
-$primary:     #1F4F85;
-$secondary:   #348CEF;
-$board:       #F8F8F8;
-$black:       #040404;
+.info-column {
+  flex: 1;
+  padding-right: 2rem;
+}
 
-// Extended Primary
-$primary-1:   #83A2C5;
-$primary-2:   #1F4F85;
-$primary-3:   #032D5C;
+.map-column {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-// Extended Secondary
-$secondary-1: #D6E8FB;
-$secondary-2: #348CEF;
-$secondary-3: #0263DE;
+.map-column img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
 
-// Neutrals
-$white:       #FFFFFF;
-$neutral-1:   #F8F8F8;
-$neutral-2:   #E6E6E6;
-$neutral-3:   #B3B3B3;
-$neutral-4:   #7D7D7D;
-$neutral-5:   #4D4D4D;
-$neutral-6:   #040404;
+h1 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
 
-// Alerts
-$alert-1:     #E74C3C;
-$alert-2:     #D93120;
+h2 {
+  font-size: 1.25rem;
+  color: #003366;
+  margin-top: 2rem;
+}
 
+label {
+  font-weight: 600;
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.select-box {
+  background: #ddd;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+button {
+  background-color: gray;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  border: none;
+  margin-top: 0.5rem;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #777;
+}

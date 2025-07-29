@@ -133,7 +133,8 @@
     <div *ngIf="activeView === 'assets'" class="content-section">
       <div class="section-header">
         <h1>Asset Management</h1>
-        <button class="add-btn" (click)="onAddNewAsset()">Add New Asset</button>
+        <button class="add-btn" routerLink="/add-asset/start">Add New Asset</button>
+        
       </div>
 
       <div class="filters">
@@ -205,7 +206,7 @@
                 </button>
               </td>
               <td>
-                <button class="edit-btn" (click)="onEditAsset(asset.id)">
+                <button class="edit-btn" [routerLink]="['/view-asset-admin', asset.id]">
                   <i class="fas fa-pencil-alt"></i>
                 </button>
               </td>
