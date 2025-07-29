@@ -1,0 +1,117 @@
+<!-- src/app/pages/add-asset-registration/add-asset-registration.component.html -->
+<div class="container">
+  <!-- Back to Home -->
+  <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+
+  <!-- Title -->
+  <h2>New Community Asset Information</h2>
+
+  <!-- Step Navigation -->
+  <nav class="step-nav">
+    <span>Before We Start</span> ・
+    <span>Basic Information</span> ・
+    <span>Location</span> ・
+    <span>Contact</span> ・
+    <b>Registration and Schedule</b>
+  </nav>
+
+  <!-- Use Reactive Forms for the date range -->
+  <form [formGroup]="range">
+    <!-- Schedule Selection -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Schedule Information</mat-label>
+      <mat-select (selectionChange)="onScheduleChange($event.value)">
+        <mat-option value="">Select</mat-option>
+        <mat-option value="one-time">One-time Schedule</mat-option>
+        <mat-option value="recurring">Recurring Schedule</mat-option>
+        <mat-option value="manual">Manual Schedule</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- One-time Schedule -->
+    <div *ngIf="scheduleType === 'one-time'">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date Range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="Start date">
+          <input matEndDate   formControlName="end"   placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+
+    <!-- Recurring Schedule -->
+    <div *ngIf="scheduleType === 'recurring'">
+      <label class="sub-label">Select Days</label>
+      <div class="weekly-buttons">
+        <button mat-button class="day-btn">MON</button>
+        <button mat-button class="day-btn">TUE</button>
+        <button mat-button class="day-btn">WED</button>
+        <button mat-button class="day-btn">THU</button>
+        <button mat-button class="day-btn">FRI</button>
+        <button mat-button class="day-btn">SAT</button>
+        <button mat-button class="day-btn">SUN</button>
+      </div>
+    </div>
+
+    <!-- Manual Schedule -->
+    <div *ngIf="scheduleType === 'manual'">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Manual Schedule</mat-label>
+        <mat-date-range-input [rangePicker]="picker2">
+          <input matStartDate formControlName="start" placeholder="Start date">
+          <input matEndDate   formControlName="end"   placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker2></mat-date-range-picker>
+      </mat-form-field>
+      <button mat-stroked-button color="primary" class="add-date-btn">
+        + Another Date
+      </button>
+    </div>
+  </form>
+
+  <!-- Registration Information -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Registration Information</mat-label>
+    <textarea matInput
+              placeholder="ex. To register, please contact by email or telephone us at 111223333">
+    </textarea>
+  </mat-form-field>
+
+  <!-- Accessible Features -->
+  <label>Does this program have accessible features?</label>
+  <div class="button-group">
+    <button mat-button class="btn btn-option">Yes</button>
+    <button mat-button class="btn btn-option">No</button>
+  </div>
+
+  <!-- Languages Offered -->
+  <label>What languages does this program offer?</label>
+  <div class="tag-button-group">
+    <button mat-button class="btn btn-tag">English</button>
+    <button mat-button class="btn btn-tag">French</button>
+    <button mat-button class="btn btn-tag">Arabic</button>
+    <button mat-button class="btn btn-tag">Sign</button>
+    <button mat-button class="btn btn-tag">Others</button>
+  </div>
+
+  <!-- Activity Formats -->
+  <label>What activity format does this program offer?</label>
+  <div class="tag-button-group">
+    <button mat-button class="btn btn-tag">Online</button>
+    <button mat-button class="btn btn-tag">On-site</button>
+    <button mat-button class="btn btn-tag">Group</button>
+    <button mat-button class="btn btn-tag">Individual</button>
+    <button mat-button class="btn btn-tag">Drop-in</button>
+    <button mat-button class="btn btn-tag">Scheduled</button>
+    <button mat-button class="btn btn-tag">Self-paced</button>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="navigation-buttons">
+    <button mat-stroked-button (click)="goPrevious()">← Previous</button>
+    <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+  </div>
+</div>

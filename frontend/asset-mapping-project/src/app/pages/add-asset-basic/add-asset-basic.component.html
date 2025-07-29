@@ -1,0 +1,55 @@
+<div class="container">
+  <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+  <h2>New Community Asset Information</h2>
+  <p class="breadcrumb">
+    <span class="inactive">Parent/Children Asset</span> • 
+    <span class="active">Basic Information</span> • 
+    <span class="inactive">Location</span> • 
+    <span class="inactive">Contact</span> • 
+    <span class="inactive">Registration and Schedule</span>
+  </p>
+
+  <form>
+    <div class="form-group">
+      <label>Asset Name</label>
+      <input type="text" class="form-control" placeholder="Type here" />
+    </div>
+
+    <div class="form-group">
+      <label>Please Select One Or More Categories</label>
+      <select multiple class="form-control">
+        <option>Transportation</option>
+        <option>Food Bank</option>
+        <option>Employment</option>
+        <option>Libraries</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" rows="3" placeholder="ex. Our mission is to make fruits and vegetables more accessible and affordable for Ottawa community members facing barriers to accessing fresh food."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Program/Organization Website</label>
+      <input type="text" class="form-control" placeholder="ex. foodonthemove.org" />
+    </div>
+
+    <div class="form-group">
+      <label>Does this program have volunteering opportunities?</label>
+      <div class="button-group">
+        <button type="button" class="btn btn-option">Yes</button>
+        <button type="button" class="btn btn-option">No</button>
+      </div>
+    </div>
+
+    <div class="navigation-buttons">
+  <button routerLink="/add-asset/start" class="btn btn-outline-primary">← Previous</button>
+
+  <button routerLink="/add-asset/location" class="btn btn-primary">Proceed →</button>
+
+</div>
+
+
+  </form>
+</div>

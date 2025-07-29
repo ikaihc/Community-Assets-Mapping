@@ -1,0 +1,117 @@
+:host {
+  display: block;
+}
+
+.container,
+.card {
+  position: relative;
+}
+
+
+.back-home-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: #1F4F85;          
+  border: 1px solid #1F4F85;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.back-home-btn:hover {
+  background: rgba(31, 79, 133, 0.1);
+}
+
+.card {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+
+
+.card h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1F4F85;  
+  margin: 0 0 1rem;
+}
+
+
+.card nav {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+
+  span {
+    &:not(:first-child) {
+      margin-left: 0.3rem;
+    }
+  }
+
+  strong {
+    color: #1F4F85;
+    font-weight: 700;
+  }
+}
+
+
+.card p {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #0263D1;  
+  margin-bottom: 1rem;
+
+  & + p {
+    margin-top: 0.5rem;
+  }
+}
+
+
+.card > div > button {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  border: 1px solid #0263D1;
+  border-radius: 6px;
+  background: #fff;
+  color: #0263D1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &.selected,
+  &:hover {
+    background: #0263D1;
+    color: #fff;
+  }
+}
+
+/* Proceed 按钮 */
+.proceed-container {
+  text-align: right;
+  margin-top: 2rem;
+
+  .btn-primary {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    background-color: #1F4F85;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background-color: #163E6C;
+    }
+  }
+}

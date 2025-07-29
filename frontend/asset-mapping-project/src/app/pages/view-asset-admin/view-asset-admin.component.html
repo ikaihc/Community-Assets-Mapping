@@ -1,0 +1,42 @@
+<div class="view-asset-page">
+  <div class="card">
+    <div class="info-column">
+      <h1>{{ asset.name }} Information</h1>
+
+      <section>
+        <h2>Basic Info</h2>
+        <label>Asset Name</label>
+        <input [value]="asset.name" disabled />
+
+        <label>Categories</label>
+        <div class="select-box">
+          <span *ngFor="let cat of asset.categories">{{ cat }}</span>
+        </div>
+
+        <label>Description</label>
+        <textarea disabled>{{ asset.description }}</textarea>
+
+        <label>Volunteering Opportunities?</label>
+        <div>
+          <button disabled>{{ asset.hasVolunteer ? 'Yes' : 'No' }}</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Location</h2>
+        <label>Street Address</label>
+        <input [value]="asset.location.address" disabled />
+        <label>City</label>
+        <input [value]="asset.location.city" disabled />
+      </section>
+    </div>
+
+    <div class="map-column">
+      <img src="https://via.placeholder.com/600x400?text=Map" />
+    </div>
+  </div>
+
+  <footer class="footer">
+    ©2025 <strong>Community Assets Mapping</strong> · Built By Zhuyu and Team · Idea by CCHC
+  </footer>
+</div>

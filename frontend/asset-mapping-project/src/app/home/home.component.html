@@ -1,0 +1,34 @@
+<main class="main-container">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <label for="category-select">Please select one or more categories</label>
+      <select id="category-select" class="dropdown">
+        <option value="">Select</option>
+        <option *ngFor="let category of categories">{{ category }}</option>
+      </select>
+
+      <label for="asset-search">Search for asset:</label>
+      <div class="search-wrapper">
+        <input type="text" placeholder="Ottawa Food Bank" />
+        <span class="search-icon">🔍</span>
+      </div>
+      
+
+      <label class="checkbox-label">
+        <input type="checkbox" />
+        Look for Volunteer Opportunities
+      </label>
+    </div>
+
+    <div class="asset-list">
+      <div *ngFor="let asset of assets" class="asset-card">
+        <strong>{{ asset.name }}</strong>
+        <p>{{ asset.type }}</p>
+      </div>
+    </div>
+  </aside>
+
+  <section class="map-container">
+    <div id="map"></div>
+  </section>
+</main>

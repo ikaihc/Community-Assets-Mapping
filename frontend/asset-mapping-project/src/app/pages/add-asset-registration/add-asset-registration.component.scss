@@ -1,0 +1,229 @@
+:host {
+  display: block;
+}
+
+.back-home-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: #1F4F85;
+  border: 1px solid #1F4F85;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: rgba(31, 79, 133, 0.1);
+  }
+}
+
+
+.container,
+.card {
+  position: relative;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+}
+
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #003366; 
+  margin-bottom: 1rem;
+}
+
+
+.step-nav {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+
+  span {
+    margin-right: 0.3rem;
+  }
+
+  b {
+    color: #1e293b;
+    font-weight: 600;
+  }
+}
+
+
+.full-width {
+  width: 100%;
+}
+
+
+mat-form-field {
+  &.full-width {
+    width: 100%;
+  }
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #0263D1; 
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #0263D1;
+    }
+  }
+}
+
+
+.mat-datepicker-content {
+
+  z-index: 10 !important;
+}
+
+
+.weekly-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;  
+}
+
+.day-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #0263D1;
+  border-radius: 6px;
+  background: #fff;
+  color: #0263D1;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  &.selected,
+  &:hover {
+    background: #0263D1;
+    color: #fff;
+  }
+}
+
+
+.add-date-btn {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;   
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #0263D1;
+  border-radius: 6px;
+  background: transparent;
+  color: #0263D1;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(2, 99, 209, 0.1);
+  }
+}
+
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+
+  .btn-option {
+    padding: 0.5rem 1rem;
+    border: 1px solid #0263D1;
+    border-radius: 6px;
+    background: #fff;
+    color: #0263D1;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+
+    &.selected,
+    &:hover {
+      background: #0263D1;
+      color: #fff;
+    }
+  }
+}
+
+
+.tag-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  .btn-tag {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.selected,
+    &:hover {
+      background: #0263D1;
+      color: #fff;
+      border-color: #0263D1;
+    }
+  }
+}
+
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+
+  button {
+    min-width: 120px;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .mat-stroked-button {
+    background: transparent;
+    border: 1px solid #003366;
+    color: #003366;
+
+    &:hover {
+      background: #e6f0ff;
+    }
+  }
+
+  .mat-flat-button {
+    background: #003366;
+    color: #fff;
+
+    &:hover {
+      background: #002244;
+    }
+  }
+}

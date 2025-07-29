@@ -1,0 +1,156 @@
+
+:host {
+  display: block;
+}
+
+.container,
+.card {
+  position: relative;
+}
+
+.back-home-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: #1F4F85;  
+  border: 1px solid #1F4F85;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.back-home-btn:hover {
+  background: rgba(31, 79, 133, 0.1);
+}
+
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+}
+
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1F4F85;
+  margin: 0 0 1rem;
+}
+
+
+.breadcrumb {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+
+  .active {
+    color: #1F4F85;
+    font-weight: 700;
+  }
+
+  .inactive {
+    color: #64748b;
+  }
+}
+
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #0263D1;
+    margin-bottom: 0.5rem;
+  }
+
+  input.form-control,
+  select.form-control,
+  textarea.form-control {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #0263D1;
+    }
+  }
+
+  select[multiple] {
+    min-height: 100px;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+}
+
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+
+  .btn-option {
+    padding: 0.5rem 1rem;
+    border: 1px solid #0263D1;
+    border-radius: 6px;
+    background: #fff;
+    color: #0263D1;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover,
+    &.selected {
+      background: #0263D1;
+      color: #fff;
+    }
+  }
+}
+
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+
+  .btn {
+    min-width: 120px;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-outline-primary {
+    background: transparent;
+    color: #1F4F85;
+    border: 1px solid #1F4F85;
+
+    &:hover {
+      background: rgba(31, 79, 133, 0.1);
+    }
+  }
+
+  .btn-primary {
+    background-color: #1F4F85;
+    color: #fff;
+    border: none;
+
+    &:hover {
+      background-color: #163E6C;
+    }
+  }
+}

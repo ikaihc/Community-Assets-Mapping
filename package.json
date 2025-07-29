@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿{
   "name": "community-assets-mapping",
   "version": "1.0.0",
@@ -13,4 +14,10 @@
   },
   "author": "",
   "license": "ISC"
+=======
+{
+  "devDependencies": {
+    "@types/google.maps": "^3.58.1"
+  }
+>>>>>>> 76f451c011e775519d7471e7277c70b86ec66c02
 }

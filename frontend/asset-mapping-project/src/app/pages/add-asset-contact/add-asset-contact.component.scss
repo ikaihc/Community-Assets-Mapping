@@ -1,0 +1,138 @@
+
+:host {
+  display: block;
+}
+
+
+.container,
+.card {
+  position: relative;
+}
+
+
+.back-home-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: #1F4F85;    
+  border: 1px solid #1F4F85;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.back-home-btn:hover {
+  background: rgba(31, 79, 133, 0.1);
+}
+
+
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+}
+
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 1rem;
+}
+
+
+.steps {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+
+  a {
+    text-decoration: none;
+    color: #64748b;
+    margin-right: 0.3rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  strong {
+    color: #1e293b;
+    font-weight: 600;
+  }
+}
+
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #003366;
+    margin-bottom: 0.3rem;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+}
+
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+
+  .btn {
+    min-width: 120px;
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &.btn-outline-primary {
+      background: transparent;
+      color: #003366;
+      border: 1px solid #003366;
+
+      &:hover {
+        background: #e6f0ff;
+      }
+    }
+
+    &.btn-primary {
+      background: #003366;
+      color: #fff;
+      border: none;
+
+      &:hover {
+        background: #002244;
+      }
+    }
+  }
+}
