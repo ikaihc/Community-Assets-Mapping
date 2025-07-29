@@ -1,82 +1,117 @@
 :host {
   display: block;
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
+}
+
+.container,
+.card {
+  position: relative;
+}
+
+
+.back-home-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: #1F4F85;          
+  border: 1px solid #1F4F85;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.back-home-btn:hover {
+  background: rgba(31, 79, 133, 0.1);
 }
 
 .card {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
   max-width: 900px;
   margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+  position: relative;
 }
 
-h1 {
+
+.card h1 {
   font-size: 1.8rem;
-  color: #003366;
-  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: #1F4F85;  
+  margin: 0 0 1rem;
 }
 
-nav {
+
+.card nav {
   font-size: 0.9rem;
-  color: #666;
+  color: #64748b;
   margin-bottom: 1.5rem;
 
   span {
-    font-weight: 600;
-    color: #444;
+    &:not(:first-child) {
+      margin-left: 0.3rem;
+    }
+  }
+
+  strong {
+    color: #1F4F85;
+    font-weight: 700;
   }
 }
 
-p {
-  font-size: 1rem;
-  margin: 1.2rem 0 0.5rem;
-  color: #333;
+
+.card p {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #0263D1;  
+  margin-bottom: 1rem;
+
+  & + p {
+    margin-top: 0.5rem;
+  }
 }
 
-button {
-  margin: 0.3rem 0.5rem 1rem 0;
+
+.card > div > button {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
   padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  border: 1px solid #0263D1;
   border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #fff;
+  background: #fff;
+  color: #0263D1;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-weight: 500;
-  color: #333;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &.selected,
+  &:hover {
+    background: #0263D1;
+    color: #fff;
+  }
 }
 
-button:hover {
-  background-color: #eaeaea;
-}
-
-button.selected {
-  background-color: #0044cc;
-  color: white;
-  border-color: #0044cc;
-}
-
-button:disabled {
-  background-color: #ccc;
-  border-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
-}
-
+/* Proceed 按钮 */
 .proceed-container {
+  text-align: right;
   margin-top: 2rem;
 
-  button {
-    background-color: #0044cc;
-    color: white;
-    font-weight: bold;
-    padding: 0.7rem 1.5rem;
-  }
+  .btn-primary {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    background-color: #1F4F85;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
 
-  button:hover {
-    background-color: #003399;
+    &:hover {
+      background-color: #163E6C;
+    }
   }
 }
