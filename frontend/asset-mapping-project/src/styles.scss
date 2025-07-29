@@ -1,9 +1,12 @@
 
 body {
-  font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
+font-family: 'Work Sans', 'Roboto', "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  margin: 0;
 }
+
+html, body { height: 100%; }
 
 // Main Colors
 $primary:     #1F4F85;
@@ -45,6 +48,7 @@ body {
   line-height: 1.5;
 }
 
+
 // Main Colors
 $primary:     #1F4F85;
 $secondary:   #348CEF;
@@ -73,4 +77,5 @@ $neutral-6:   #040404;
 // Alerts
 $alert-1:     #E74C3C;
 $alert-2:     #D93120;
+
 

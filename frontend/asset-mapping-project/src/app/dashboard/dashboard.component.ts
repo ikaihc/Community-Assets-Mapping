@@ -12,13 +12,17 @@ import { Router } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
+import { RouterModule } from '@angular/router';
+
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
 
-  imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent, MatSelectModule, RouterModule,MatFormFieldModule],
+
+  imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent, MatSelectModule, MatFormFieldModule, RouterModule],
+
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
   
