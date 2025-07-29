@@ -3,6 +3,8 @@
     <div class="user-profile">
       <div class="user-avatar">{{ currentUser.initials }}</div>
       <div class="user-email">{{ currentUser.email }}</div>
+
+      <div class="divider" style="border-bottom: 1px solid #b3b3b3; margin: 10px 0;"></div>
       
       <div class="user-details">
         <div class="detail-item">
@@ -25,6 +27,7 @@
           <p>{{ currentUser.jobTitle }}</p>
         </div>
       </div>
+      <div class="divider" style="border-bottom: 1px solid #b3b3b3; margin: 10px 0;"></div>
     </div>
 
     <nav class="sidebar-nav">
@@ -52,11 +55,14 @@
       </div>
 
       <div class="filters">
-        <select [(ngModel)]="userSearchType" class="filter-select">
-          <option value="name">Name</option>
-          <option value="email">Email</option>
-          <option value="role">Role</option>
-        </select>
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-select [(ngModel)]="userSearchType" disableOptionCentering="true" placeholder="Search by ">
+            <mat-option value="name">Name</mat-option>
+            <mat-option value="email">Email</mat-option>
+            <mat-option value="role">Role</mat-option>
+            <mat-option value="action">Action</mat-option>
+          </mat-select>
+        </mat-form-field>
         <div class="search-box">
           <input 
             type="text" 
@@ -75,8 +81,24 @@
               <th>Name</th>
               <th>Role</th>
               <th>Job Title</th>
-              <th>Date Created ↑</th>
-              <th>Last Modified ↑</th>
+              <th class="sortable-header" (click)="sortUsers('dateCreated')">
+                <div class="sortable-content">
+                    Date Created 
+                  <span class="sort-arrows">
+                    <i class="fas fa-caret-up top-arrow" [class.active]="userSortField === 'dateCreated' && userSortDirection === 'asc'"></i>
+                    <i class="fas fa-caret-down" [class.active]="userSortField === 'dateCreated' && userSortDirection === 'desc'"></i>
+                  </span>
+                </div>
+              </th>
+              <th class="sortable-header" (click)="sortUsers('lastModified')">
+                <div class="sortable-content">
+                  Last Modified 
+                  <span class="sort-arrows">
+                    <i class="fas fa-caret-up top-arrow" [class.active]="userSortField === 'lastModified' && userSortDirection === 'asc'"></i>
+                    <i class="fas fa-caret-down" [class.active]="userSortField === 'lastModified' && userSortDirection === 'desc'"></i>
+                  </span>
+                </div>
+              </th>
               <th>Action</th>
               <th>Edit</th>
             </tr>
@@ -116,10 +138,13 @@
       </div>
 
       <div class="filters">
-        <select [(ngModel)]="assetSearchType" class="filter-select">
-          <option value="name">Name</option>
-          <option value="status">Status</option>
-        </select>
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-select [(ngModel)]="assetSearchType" placeholder="Search by">
+            <mat-option value="name">Name</mat-option>
+            <mat-option value="status">Status</mat-option>
+            <mat-option value="action">Action</mat-option>
+          </mat-select>
+        </mat-form-field>
         <div class="search-box">
           <input 
             type="text" 
@@ -136,8 +161,26 @@
               <th>ID</th>
               <th>Name</th>
               <th>Status</th>
-              <th>Date Created ↑</th>
-              <th>Last Modified ↑</th>
+              <th class="sortable-header" (click)="sortAssets('dateCreated')">
+                <div class="sortable-content">
+                  Date Created 
+                  <span class="sort-arrows">
+                    <i class="fas fa-caret-up top-arrow" [class.active]="assetSortField === 'dateCreated' && assetSortDirection === 'asc'"></i>
+                    <i class="fas fa-caret-down" [class.active]="assetSortField === 'dateCreated' && assetSortDirection === 'desc'"></i>
+                  </span>
+                </div>
+              </th>
+              <th>Created By</th>
+              <th class="sortable-header" (click)="sortAssets('lastModified')">
+                <div class="sortable-content">
+                  Last Modified 
+                  <span class="sort-arrows">
+                    <i class="fas fa-caret-up top-arrow" [class.active]="assetSortField === 'lastModified' && assetSortDirection === 'asc'"></i>
+                    <i class="fas fa-caret-down" [class.active]="assetSortField === 'lastModified' && assetSortDirection === 'desc'"></i>
+                  </span>
+                </div>
+              </th>
+              <th>Modified By</th>
               <th>Action</th>
               <th>Edit</th>
             </tr>
@@ -152,7 +195,9 @@
                 </span>
               </td>
               <td>{{ asset.dateCreated }}</td>
+              <td>{{ asset.createdBy }}</td>
               <td>{{ asset.lastModified }}</td>
+              <td>{{ asset.modifiedBy }}</td>
               <td>
                 <button 
                   [class]="asset.isActive ? 'deactivate-btn' : 'activate-btn'" 
