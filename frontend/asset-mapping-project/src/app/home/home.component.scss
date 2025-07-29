@@ -13,7 +13,7 @@ $neutral-dark: #040404;
 $white: #FFFFFF;
 
 // Fonts
-$font-main: 'Work Sans', 'Roboto', Arial, sans-serif;
+$font-main: 'Work Sans', 'Roboto', "Helvetica Neue", Arial, sans-serif;
 
 // Base
 body, html {
@@ -53,7 +53,7 @@ main.main-container {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  font-family: 'Semibold';
+  font-family: $font-main;
   color: #7d7d7d;
 }
 
