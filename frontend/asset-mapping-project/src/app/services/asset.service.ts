@@ -13,6 +13,7 @@ export interface Asset {
 
 @Injectable({
   providedIn: 'root'
+  
 })
 export class AssetService {
   private apiUrl = 'https://your-api-url.com/api/assets'; // Replace with your backend URL
