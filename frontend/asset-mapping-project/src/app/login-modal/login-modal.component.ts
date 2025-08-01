@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-login-modal',
@@ -17,8 +20,12 @@ export class LoginModalComponent implements OnInit {
   loginForm: FormGroup;
   isLoading = false;
   errorMessage = '';
+  private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -31,22 +38,38 @@ export class LoginModalComponent implements OnInit {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
-      
-      setTimeout(() => {
-        const { email, password } = this.loginForm.value;
-        
-        // todo need to replace this with actual authentication logic
-        if (email === 'admin@carlington.com' && password === 'password123') {
-          this.loginSuccess.emit({ email, token: 'fake-jwt-token' });
-          this.closeModal.emit();
-          this.resetForm();
-        } else {
-          this.errorMessage = 'Invalid email or password';
-        }
-        
-        this.isLoading = false;
-      }, 1000);
+
+      const credentials = this.loginForm.value;
+
+      this.authService.login(credentials)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            console.log('Login response:', response);
+            if (response.success) {
+              this.loginSuccess.emit({
+                user: response.user,
+                token: response.token
+              });
+              this.closeModal.emit();
+              this.resetForm();
+            } else {
+              this.errorMessage = response.message || 'Login failed';
+            }
+            this.isLoading = false;
+          },
+          error: (error) => {
+            console.error('Login error:', error);
+            this.errorMessage = error.error?.message || 'Login failed. Please try again.';
+            this.isLoading = false;
+          }
+        });
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onClose() {

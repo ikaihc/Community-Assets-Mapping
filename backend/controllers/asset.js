@@ -12,7 +12,9 @@ exports.getAllAssets = (req, res) => {
     status,
     has_volunteer_opportunities,
     city,
-    search
+    search,
+    sortBy = 'createdAt',
+    sortOrder = 'DESC'
   } = req.query;
 
   const offset = (page - 1) * limit;
@@ -48,6 +50,13 @@ exports.getAllAssets = (req, res) => {
     ];
   }
 
+  // Validate sort parameters
+  const validSortFields = ['id', 'name', 'createdAt', 'updatedAt', 'status'];
+  const validSortOrders = ['ASC', 'DESC', 'asc', 'desc'];
+  
+  const finalSortBy = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
+  const finalSortOrder = validSortOrders.includes(sortOrder) ? sortOrder.toUpperCase() : 'DESC';
+
   // Build include array conditionally based on authentication
   const includeArray = [
     {
@@ -76,13 +85,16 @@ exports.getAllAssets = (req, res) => {
     include: includeArray,
     limit: parseInt(limit),
     offset: parseInt(offset),
-    order: [['createdAt', 'DESC']]
+    order: [[finalSortBy, finalSortOrder]]
   })
   .then(result => {
     const { count, rows: assets } = result;
     res.status(200).json({
       success: true,
-      data: assets,
+      assets: assets,  // Changed from 'data' to 'assets' for getAllAssets
+      total: count,
+      page: parseInt(page),
+      limit: parseInt(limit),
       pagination: {
         currentPage: parseInt(page),
         totalPages: Math.ceil(count / limit),

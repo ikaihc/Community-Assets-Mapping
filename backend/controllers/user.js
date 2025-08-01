@@ -37,7 +37,10 @@ exports.getAllUsers = (req, res) => {
     const { count, rows: users } = result;
     res.status(200).json({
       success: true,
-      data: users,
+      users: users,  // Changed from 'data' to 'users'
+      total: count,
+      page: parseInt(page),
+      limit: parseInt(limit),
       pagination: {
         currentPage: parseInt(page),
         totalPages: Math.ceil(count / limit),

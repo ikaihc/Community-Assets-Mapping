@@ -2,7 +2,7 @@
   <h1 class="form-title">User Information</h1>
 
   <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" class="user-form">
-    
+
     <div class="form-group">
       <label for="email">Email</label>
       <input
@@ -52,11 +52,23 @@
         type="text"
         id="jobTitle"
         formControlName="jobTitle"
-        placeholder="social worker"
+        placeholder="Social Worker"
         [class.error]="addUserForm.get('jobTitle')?.invalid && addUserForm.get('jobTitle')?.touched"
       />
-      <div class="error-message" *ngIf="addUserForm.get('jobTitle')?.invalid && addUserForm.get('jobTitle')?.touched">
-        <span *ngIf="addUserForm.get('jobTitle')?.errors?.['required']">Job title is required</span>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        placeholder="Enter password (minimum 8 characters)"
+        [class.error]="addUserForm.get('password')?.invalid && addUserForm.get('password')?.touched"
+      />
+      <div class="error-message" *ngIf="addUserForm.get('password')?.invalid && addUserForm.get('password')?.touched">
+        <span *ngIf="addUserForm.get('password')?.errors?.['required']">Password is required</span>
+        <span *ngIf="addUserForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters</span>
       </div>
     </div>
 
@@ -67,9 +79,9 @@
         formControlName="role"
         [class.error]="addUserForm.get('role')?.invalid && addUserForm.get('role')?.touched"
       >
-        <option value="">Select</option>
-        <option value="admin">Admin</option>
+        <option value="guest">Guest</option>
         <option value="navigator">Navigator</option>
+        <option value="admin">Admin</option>
       </select>
       <div class="error-message" *ngIf="addUserForm.get('role')?.invalid && addUserForm.get('role')?.touched">
         <span *ngIf="addUserForm.get('role')?.errors?.['required']">Role is required</span>

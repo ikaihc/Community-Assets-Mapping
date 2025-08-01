@@ -1,416 +1,448 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
 import { EditUserFormComponent } from '../edit-user-form/edit-user-form.component';
-import { Router } from '@angular/router';
+import { AddAssetFormComponent } from '../add-asset-form/add-asset-form.component';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 // Material imports
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
-import { RouterModule } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
 
+// Import our services
+import { AuthService, User as AuthUser } from '../services/auth.service';
+import { AssetService, Asset } from '../services/asset.service';
+import { UserService, User as UserInterface } from '../services/user.service';
+import { LoadingService } from '../services/loading.service';
+import { NotificationService } from '../services/notification.service';
+import { DashboardService } from '../services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent, MatSelectModule, MatFormFieldModule, RouterModule],
+  imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent, AddAssetFormComponent, MatSelectModule, MatFormFieldModule, MatOptionModule, MatInputModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  activeView: 'users' | 'assets' | 'add-user' | 'edit-user' | 'add-asset' = 'assets';
+  selectedUser: UserInterface | null = null;
 
-  activeView: 'users' | 'assets' | 'add-user' | 'edit-user' = 'users';
-  selectedUser: any = null;
-  userSortField: string = '';
+  currentUser: AuthUser | null = null;
+  users: UserInterface[] = [];
+  assets: Asset[] = [];
+
+  isLoadingUsers = false;
+  isLoadingAssets = false;
+
+  userSearchType: string = 'name';
+  userSearchTerm: string = '';
+  assetSearchType: string = 'name';
+  assetSearchTerm: string = '';
+
+  setUserSearchType(value: string) {
+    this.userSearchType = value;
+    this.filteredUsersCache = null;
+  }
+
+  setUserSearchTerm(value: string) {
+    this.userSearchTerm = value;
+    this.filteredUsersCache = null;
+  }
+
+  setAssetSearchType(value: string) {
+    this.assetSearchType = value;
+    this.filteredAssetsCache = null;
+  }
+
+  setAssetSearchTerm(value: string) {
+    this.assetSearchTerm = value;
+    this.filteredAssetsCache = null;
+  }
+
+  private filteredUsersCache: UserInterface[] | null = null;
+  private filteredAssetsCache: Asset[] | null = null;
+
+  userSortField: 'id' | 'first_name' | 'last_name' | 'email' | 'role' | 'created_at' | 'updated_at' = 'id';
   userSortDirection: 'asc' | 'desc' = 'asc';
-  assetSortField: string = '';
+  assetSortField: 'id' | 'name' | 'status' | 'created_at' | 'updated_at' = 'id';
   assetSortDirection: 'asc' | 'desc' = 'asc';
-  //dummy data used
-  currentUser = {
-    initials: 'JD',
-    email: 'janedoe@email.com',
-    firstName: 'Jane',
-    lastName: 'Doe',
-    role: 'admin',
-    jobTitle: 'website administrator'
-  };
-  users = [
-  {
-    id: 1,
-    email: 'user1@example.com',
-    name: 'Jane Doe',
-    role: 'Admin',
-    jobTitle: 'System Administrator',
-    dateCreated: '15-01-2022',
-    lastModified: '20-01-2022',
-    isActive: true
-  },
-  {
-    id: 2,
-    email: 'user2@example.com',
-    name: 'Jane Doe',
-    role: 'User',
-    jobTitle: 'Developer',
-    dateCreated: '22-03-2022',
-    lastModified: '25-03-2022',
-    isActive: false
-  },
-  {
-    id: 3,
-    email: 'user3@example.com',
-    name: 'Jane Doe',
-    role: 'Manager',
-    jobTitle: 'Project Manager',
-    dateCreated: '10-02-2022',
-    lastModified: '15-02-2022',
-    isActive: true
-  },
-  {
-    id: 4,
-    email: 'user4@example.com',
-    name: 'Jane Doe',
-    role: 'User',
-    jobTitle: 'Designer',
-    dateCreated: '05-04-2022',
-    lastModified: '08-04-2022',
-    isActive: true
-  },
-  {
-    id: 5,
-    email: 'user5@example.com',
-    name: 'Jane Doe',
-    role: 'Admin',
-    jobTitle: 'Database Admin',
-    dateCreated: '30-12-2021',
-    lastModified: '02-01-2022',
-    isActive: false
-  },
-  {
-    id: 6,
-    email: 'user6@example.com',
-    name: 'Jane Doe',
-    role: 'User',
-    jobTitle: 'Marketing Specialist',
-    dateCreated: '18-05-2022',
-    lastModified: '22-05-2022',
-    isActive: true
-  },
-  {
-    id: 7,
-    email: 'user7@example.com',
-    name: 'Jane Doe',
-    role: 'Manager',
-    jobTitle: 'Engineering Manager',
-    dateCreated: '12-06-2022',
-    lastModified: '16-06-2022',
-    isActive: true
-  },
-  {
-    id: 8,
-    email: 'user8@example.com',
-    name: 'Jane Doe',
-    role: 'User',
-    jobTitle: 'Content Writer',
-    dateCreated: '28-02-2022',
-    lastModified: '03-03-2022',
-    isActive: false
-  },
-  {
-    id: 9,
-    email: 'user9@example.com',
-    name: 'Jane Doe',
-    role: 'Admin',
-    jobTitle: 'Security Administrator',
-    dateCreated: '07-07-2022',
-    lastModified: '11-07-2022',
-    isActive: true
-  },
-  {
-    id: 10,
-    email: 'user10@example.com',
-    name: 'Jane Doe',
-    role: 'User',
-    jobTitle: 'QA Tester',
-    dateCreated: '14-08-2022',
-    lastModified: '18-08-2022',
-    isActive: false
-  }
-];
 
-  assets = [
-  {
-    id: 1,
-    name: 'Good Food on the Move',
-    status: 'Approved',
-    dateCreated: '15-01-2022',
-    createdBy: 'Jane Doe',
-    lastModified: '20-01-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  },
-  {
-    id: 2,
-    name: 'Bike Repair Station',
-    status: 'Pending',
-    dateCreated: '22-03-2022',
-    createdBy: 'Jane Doe',
-    lastModified: '25-03-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  },
-  {
-    id: 3,
-    name: 'Good Food on the Move',
-    status: 'Rejected',
-    dateCreated: '10-02-2022',
-    createdBy: 'Jane Doe',
-    lastModified: '15-02-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  },
-  {
-    id: 4,
-    name: 'Bike Repair Station',
-    status: 'Pending',
-    dateCreated: '05-04-2022',
-    createdBy: 'Jane Doe',
-    lastModified: '08-04-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  },
-  {
-    id: 5,
-    name: 'Good Food on the Move',
-    status: 'Approved',
-    dateCreated: '30-12-2021',
-    createdBy: 'Jane Doe',
-    lastModified: '02-01-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  },
-  {
-    id: 6,
-    name: 'Bike Repair Station',
-    status: 'Pending',
-    dateCreated: '18-05-2022',
-    createdBy: 'Jane Doe',
-    lastModified: '22-05-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  },
-  {
-    id: 7,
-    name: 'Good Food on the Move',
-    status: 'Approved',
-    dateCreated: '12-06-2022',
-    createdBy: 'Jane Doe',
-    lastModified: '16-06-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  },
-  {
-    id: 8,
-    name: 'Bike Repair Station',
-    status: 'Pending',
-    dateCreated: '28-02-2022',
-    createdBy: 'Jane Doe',
-    lastModified: '03-03-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  },
-  {
-    id: 9,
-    name: 'Good Food on the Move',
-    status: 'Approved',
-    dateCreated: '07-07-2022',
-    createdBy: 'Jane Doe',
-    lastModified: '11-07-2022',
-    modifiedBy: 'Jane Doe',
-    isActive: false
-  }
-];
+  userPage = 1;
+  userLimit = 10;
+  userTotal = 0;
+  assetPage = 1;
+  assetLimit = 10;
+  assetTotal = 0;
 
-  userSearchType = 'name';
-  userSearchTerm = '';
-  assetSearchType = 'name';
-  assetSearchTerm = '';
+  private destroy$ = new Subject<void>();
 
-  constructor(private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private assetService: AssetService,
+    private loadingService: LoadingService,
+    private notificationService: NotificationService,
+    private dashboardService: DashboardService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    console.log('DashboardComponent: Initializing');
+
+    this.currentUser = this.authService.getCurrentUser();
+    console.log('DashboardComponent: Current user:', this.currentUser);
+    this.route.queryParams.subscribe(params => {
+      if (params['view'] === 'add-asset') {
+        console.log('DashboardComponent: Setting view to add-asset from query params');
+        this.setActiveView('add-asset');
+        this.router.navigate([], { relativeTo: this.route, queryParams: {} });
+      } else if (!this.currentUser) {
+        console.log('DashboardComponent: No current user - allowing guest access for asset creation');
+        this.setActiveView('assets');
+      } else {
+        if (this.currentUser.role === 'navigator') {
+          console.log('DashboardComponent: Navigator user - defaulting to assets view');
+          this.setActiveView('assets');
+        } else if (this.currentUser.role === 'admin') {
+          console.log('DashboardComponent: Admin user - defaulting to users view');
+          this.setActiveView('users');
+        } else {
+          console.log('DashboardComponent: Guest user - defaulting to assets view');
+          this.setActiveView('assets');
+        }
+      }
+    });
+
+    this.loadUsers();
+    this.loadAssets();
   }
 
-
- onAddNewAsset(): void {
-  console.log('Add new asset clicked');
-  this.router.navigate(['/add-asset/start']);
-}
-
-  onActivateUser(userId: number): void {
-    console.log('Activate user:', userId);
-    // TODO: Implement user activation
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  onToggleUserStatus(userId: number): void {
-    const user = this.users.find(u => u.id === userId);
-    if (user) {
-      user.isActive = !user.isActive;
-      console.log(`User ${userId} is now ${user.isActive ? 'active' : 'inactive'}`);
-      // TODO: Implement API call to update user status on server
+  loadUsers(): void {
+    if (!this.authService.isAdmin()) {
+      console.log('DashboardComponent: User is not admin, cannot load users');
+      return;
     }
+
+    console.log('DashboardComponent: Loading users...');
+    this.isLoadingUsers = true;
+
+    this.userService.getUsers(this.userPage, this.userLimit)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          console.log('DashboardComponent: Users loaded successfully:', response);
+          if (response.success && response.users) {
+            this.users = response.users;
+            this.userTotal = response.total || 0;
+            this.filteredUsersCache = null;
+            this.sortUsersArray();
+          }
+          this.isLoadingUsers = false;
+        },
+        error: (error) => {
+          console.error('DashboardComponent: Error loading users:', error);
+          this.notificationService.error('Failed to load users', 'Error');
+          this.isLoadingUsers = false;
+        }
+      });
   }
 
-  onEditUser(userId: number): void {
-    console.log('Edit user:', userId);
-    this.selectedUser = this.users.find(user => user.id === userId);
-    if (this.selectedUser) {
-      this.setActiveView('edit-user');
-    }
-}
+  loadAssets(): void {
+    console.log('DashboardComponent: Loading assets...');
+    this.isLoadingAssets = true;
 
-  onActivateAsset(assetId: number): void {
-    console.log('Activate asset:', assetId);
-    // TODO: Implement asset activation
+    this.assetService.getAssets(this.assetPage, this.assetLimit, undefined, this.assetSortField, this.assetSortDirection)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          console.log('DashboardComponent: Assets loaded successfully:', response);
+          if (response.success && response.assets) {
+            this.assets = response.assets;
+            this.assetTotal = response.total || 0;
+            this.filteredAssetsCache = null;
+            this.sortAssetsArray();
+          }
+          this.isLoadingAssets = false;
+        },
+        error: (error) => {
+          console.error('DashboardComponent: Error loading assets:', error);
+          this.notificationService.error('Failed to load assets', 'Error');
+          this.isLoadingAssets = false;
+        }
+      });
   }
 
-  onEditAsset(assetId: number): void {
-    console.log('Edit asset:', assetId);
-    // TODO: Implement asset editing
-  }
-
-
-  setActiveView(view: 'users' | 'assets' | 'add-user' | 'edit-user'): void {
+  setActiveView(view: 'users' | 'assets' | 'add-user' | 'edit-user' | 'add-asset'): void {
     this.activeView = view;
+    if (view === 'users') {
+      this.loadUsers();
+    } else if (view === 'assets') {
+      this.loadAssets();
+    }
   }
 
   onAddNewUser(): void {
-    console.log('Add new user clicked');
+    if (!this.authService.isAdmin()) {
+      this.notificationService.error('You do not have permission to add users', 'Access Denied');
+      return;
+    }
+    this.selectedUser = null;
     this.setActiveView('add-user');
   }
 
-  onBackToUsers(): void {
+  onEditUser(user: UserInterface): void {
+    this.selectedUser = user;
+    this.setActiveView('edit-user');
+  }
+
+  onUserAdded(user: UserInterface): void {
+    console.log('DashboardComponent: User added:', user);
+    this.notificationService.success('User added successfully', 'Success');
+    this.setActiveView('users');
+    this.filteredUsersCache = null;
+    this.loadUsers();
+  }
+
+  onUserUpdated(user: UserInterface): void {
+    console.log('DashboardComponent: User updated:', user);
+    this.notificationService.success('User updated successfully', 'Success');
+    this.setActiveView('users');
+    this.loadUsers();
+  }
+
+  onCancelUserForm(): void {
+    this.selectedUser = null;
     this.setActiveView('users');
   }
 
-  onUserAdded(newUser: any): void {
-    this.users.push(newUser);
-    console.log('New user added:', newUser);
-    this.setActiveView('users');
+  toggleUserActivation(user: UserInterface): void {
+    if (!this.authService.isAdmin()) {
+      this.notificationService.error('You do not have permission to perform this action', 'Access Denied');
+      return;
+    }
+
+    const action = user.is_active ? 'deactivate' : 'activate';
+    const method = user.is_active ?
+      this.userService.deactivateUser(user.id) :
+      this.userService.activateUser(user.id);
+
+    method.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.notificationService.success(`User ${action}d successfully`, 'Success');
+            this.loadUsers();
+          }
+        },
+        error: (error) => {
+          console.error(`DashboardComponent: Error ${action}ing user:`, error);
+          this.notificationService.error(`Failed to ${action} user`, 'Error');
+        }
+      });
   }
 
-  sortUsers(field: 'dateCreated' | 'lastModified'): void {
+  deleteUser(user: UserInterface): void {
+    if (!this.authService.isAdmin()) {
+      this.notificationService.error('You do not have permission to perform this action', 'Access Denied');
+      return;
+    }
+
+    if (confirm(`Are you sure you want to delete user ${user.first_name} ${user.last_name}?`)) {
+      this.userService.deleteUser(user.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.notificationService.success('User deleted successfully', 'Success');
+              this.loadUsers();
+            }
+          },
+          error: (error) => {
+            console.error('DashboardComponent: Error deleting user:', error);
+            this.notificationService.error('Failed to delete user', 'Error');
+          }
+        });
+    }
+  }
+
+  onAddNewAsset(): void {
+    this.setActiveView('add-asset');
+  }
+
+  onAssetAdded(asset: Asset): void {
+    console.log('DashboardComponent: Asset added:', asset);
+
+    if (this.currentUser) {
+      this.notificationService.success('Asset added successfully', 'Success');
+      this.setActiveView('assets');
+    } else {
+      this.notificationService.success('Asset submitted successfully and is pending approval', 'Submitted');
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 2000);
+      return;
+    }
+
+    this.filteredAssetsCache = null;
+    this.loadAssets();
+  }
+
+  onCancelAssetForm(): void {
+    if (this.currentUser) {
+      this.setActiveView('assets');
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
+
+  toggleAssetStatus(asset: Asset): void {
+    if (!this.authService.isAdmin()) {
+      this.notificationService.error('You do not have permission to perform this action', 'Access Denied');
+      return;
+    }
+
+    const newStatus = asset.status === 'approved' ? 'pending' : 'approved';
+    this.notificationService.info(`Asset status would be changed to ${newStatus}`, 'Status Change');
+  }
+
+  sortUsers(field: 'id' | 'first_name' | 'last_name' | 'email' | 'role' | 'created_at' | 'updated_at'): void {
     if (this.userSortField === field) {
       this.userSortDirection = this.userSortDirection === 'asc' ? 'desc' : 'asc';
     } else {
       this.userSortField = field;
       this.userSortDirection = 'asc';
     }
+    this.sortUsersArray();
   }
 
-  onUserUpdated(updatedUser: any): void {
-    const index = this.users.findIndex(user => user.id === updatedUser.id);
-    if (index !== -1) {
-      this.users[index] = updatedUser;
-      console.log('User updated:', updatedUser);
-      this.setActiveView('users');
+  sortAssets(field: 'id' | 'name' | 'status' | 'created_at' | 'updated_at'): void {
+    if (this.assetSortField === field) {
+      this.assetSortDirection = this.assetSortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.assetSortField = field;
+      this.assetSortDirection = 'asc';
     }
+    // Reload assets with new sort configuration
+    this.loadAssets();
   }
 
+  private sortUsersArray(): void {
+    this.users.sort((a, b) => {
+      let aValue: any = a[this.userSortField];
+      let bValue: any = b[this.userSortField];
 
-  getFilteredUsers() {
-  let filteredUsers = this.users.filter(user => {
-    if (!this.userSearchTerm) return true;
-    
-    const searchTerm = this.userSearchTerm.toLowerCase();
-    switch(this.userSearchType) {
-      case 'name':
-        return user.name.toLowerCase().includes(searchTerm);
-      case 'email':
-        return user.email.toLowerCase().includes(searchTerm);
-      case 'role':
-        return user.role.toLowerCase().includes(searchTerm);
-      case 'action':
-        return user.isActive ? 'active' : 'inactive' === searchTerm;
-      default:
-        return true;
-    }
-  });
-
-  if (this.userSortField) {
-    filteredUsers.sort((a, b) => {
-      const field = this.userSortField as 'dateCreated' | 'lastModified';
-      const parseDate = (dateStr: string) => {
-        const [day, month, year] = dateStr.split('-').map(Number);
-        return new Date(year, month - 1, day);
-      };
-      
-      const aValue = parseDate(a[field]);
-      const bValue = parseDate(b[field]);
-      
-      if (this.userSortDirection === 'asc') {
-        return aValue.getTime() - bValue.getTime();
-      } else {
-        return bValue.getTime() - aValue.getTime();
+      if (typeof aValue === 'string') {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
       }
+
+      const comparison = aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      return this.userSortDirection === 'asc' ? comparison : -comparison;
     });
   }
-  return filteredUsers;
-}
 
-  getFilteredAssets() {
-    let filteredAssets = this.assets.filter(asset => {
-      if (!this.assetSearchTerm) return true;
-      
-      const searchTerm = this.assetSearchTerm.toLowerCase();
-      switch(this.assetSearchType) {
+  private sortAssetsArray(): void {
+    this.assets.sort((a, b) => {
+      let aValue: any = a[this.assetSortField];
+      let bValue: any = b[this.assetSortField];
+
+      if (typeof aValue === 'string') {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+
+      const comparison = aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      return this.assetSortDirection === 'asc' ? comparison : -comparison;
+    });
+  }
+
+  getCurrentUserInitials(): string {
+    if (!this.currentUser) return 'U';
+    const firstInitial = this.currentUser.first_name?.charAt(0) || '';
+    const lastInitial = this.currentUser.last_name?.charAt(0) || '';
+    return (firstInitial + lastInitial).toUpperCase() || 'U';
+  }
+
+  getUserDisplayName(user: UserInterface): string {
+    return `${user.first_name} ${user.last_name}`.trim() || user.email;
+  }
+
+  formatDate(dateString: string | undefined): string {
+    if (!dateString) return 'N/A';
+    try {
+      return new Date(dateString).toLocaleDateString();
+    } catch {
+      return dateString;
+    }
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  get filteredUsers(): UserInterface[] {
+    if (this.filteredUsersCache !== null) {
+      return this.filteredUsersCache;
+    }
+
+    if (!this.userSearchTerm) {
+      this.filteredUsersCache = this.users;
+      return this.filteredUsersCache;
+    }
+
+    const searchTerm = this.userSearchTerm.toLowerCase();
+    const filtered = this.users.filter(user => {
+      switch (this.userSearchType) {
         case 'name':
-          return asset.name.toLowerCase().includes(searchTerm);
-        case 'status':
-          return asset.status.toLowerCase().includes(searchTerm);
-        case 'action':
-          return asset.isActive ? 'active' : 'inactive' === searchTerm;
+          const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
+          return fullName.includes(searchTerm);
+        case 'email':
+          return user.email.toLowerCase().includes(searchTerm);
+        case 'role':
+          return user.role.toLowerCase().includes(searchTerm);
         default:
           return true;
       }
     });
-    if (this.assetSortField) {
-      filteredAssets.sort((a, b) => {
-        const field = this.assetSortField as 'dateCreated' | 'lastModified';
 
-        const parseDate = (dateStr: string) => {
-          const [day, month, year] = dateStr.split('-').map(Number);
-          return new Date(year, month - 1, day); 
-        };
-        
-        const aValue = parseDate(a[field]);
-        const bValue = parseDate(b[field]);
-        
-        if (this.assetSortDirection === 'asc') {
-          return aValue.getTime() - bValue.getTime();
-        } else {
-          return bValue.getTime() - aValue.getTime();
-        }
-      });
+    this.filteredUsersCache = filtered;
+    return this.filteredUsersCache;
+  }
+
+  get filteredAssets(): Asset[] {
+    if (this.filteredAssetsCache !== null) {
+      return this.filteredAssetsCache;
     }
 
-    return filteredAssets;
-  }
+    if (!this.assetSearchTerm) {
+      this.filteredAssetsCache = this.assets;
+      return this.filteredAssetsCache;
+    }
 
-  sortAssets(field: 'dateCreated' | 'lastModified'): void {
-  if (this.assetSortField === field) {
-    this.assetSortDirection = this.assetSortDirection === 'asc' ? 'desc' : 'asc';
-  } else {
-    this.assetSortField = field;
-    this.assetSortDirection = 'asc';
-  }
-}
+    const searchTerm = this.assetSearchTerm.toLowerCase();
+    const filtered = this.assets.filter(asset => {
+      switch (this.assetSearchType) {
+        case 'name':
+          return asset.name.toLowerCase().includes(searchTerm);
+        case 'status':
+          return asset.status.toLowerCase().includes(searchTerm);
+        default:
+          return true;
+      }
+    });
 
-  onToggleAssetStatus(assetId: number): void {
-  const asset = this.assets.find(a => a.id === assetId);
-  if (asset) {
-    asset.isActive = !asset.isActive;
-    console.log(`Asset ${assetId} is now ${asset.isActive ? 'active' : 'inactive'}`);
-  }
+    this.filteredAssetsCache = filtered;
+    return this.filteredAssetsCache;
   }
 }

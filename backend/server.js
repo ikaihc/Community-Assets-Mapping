@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser')
 const sequelize = require('./utils/database')
 const port = process.env.PORT || 3000
@@ -11,6 +12,14 @@ const AssetContact = require('./models/asset_contact')
 const Asset = require('./models/asset');
 
 const allRoutes = require('./routes/index')
+
+// CORS middleware
+app.use(cors({
+  origin: ['http://localhost:4200', 'http://127.0.0.1:4200'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}));

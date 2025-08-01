@@ -1,8 +1,11 @@
 
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { AuthService, User } from '../services/auth.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -12,13 +15,36 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   isLoginModalOpen = false;
   isLoggedIn = false;
-  currentUser: any = null;
+  currentUser: User | null = null;
+  private destroy$ = new Subject<void>();
 
-  constructor(private router: Router, private cdr: ChangeDetectorRef) { }
+  constructor(
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit() {
+    this.currentUser = this.authService.getCurrentUser();
+    this.isLoggedIn = !!this.currentUser;
+
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+        this.currentUser = user;
+        this.isLoggedIn = !!user;
+        this.cdr.detectChanges();
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   onNavigate(route: string): void {
     console.log('Navigating to:', route);
@@ -27,28 +53,19 @@ export class NavbarComponent {
       this.onLogin();
       return;
     }
-    
+
     this.router.navigate([route]);
   }
 
   onLogin(): void {
     console.log('Login clicked');
     this.isLoginModalOpen = true;
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
   }
 
   onAddAsset(): void {
     console.log('Add New Asset clicked');
-    // to do - implement add asset functionality
-  }
-
-  onLogout(): void {
-    this.isLoggedIn = false;
-    this.currentUser = null;
-    localStorage.removeItem('authToken');
-    console.log('User logged out');
-    this.router.navigate(['/home']);
-    this.cdr.detectChanges(); 
+    this.router.navigate(['/dashboard'], { queryParams: { view: 'add-asset' } });
   }
 
   onCloseLoginModal(): void {
@@ -57,11 +74,14 @@ export class NavbarComponent {
   }
 
   onLoginSuccess(userData: any): void {
-    this.isLoggedIn = true;
-    this.currentUser = userData;
-    localStorage.setItem('authToken', userData.token);
-    console.log('Login successful:', userData);
+    console.log('Login successful from navbar:', userData);
     this.router.navigate(['/dashboard']);
+    this.cdr.detectChanges();
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/home']);
     this.cdr.detectChanges();
   }
 }
