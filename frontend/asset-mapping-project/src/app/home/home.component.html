@@ -3,8 +3,10 @@
     <div class="sidebar-header">
       <label for="category-select">Please select one or more categories</label>
 
-      <div class="custom-dropdown">
-        <div class="dropdown-trigger" (click)="toggleDropdown()">
+      <div class="custom-dropdown"
+           (mouseenter)="dropdownOpen = true"
+           (mouseleave)="dropdownOpen = false">
+        <div class="dropdown-trigger">
           <div class="chips" *ngIf="selectedCategories.length > 0">
             <span *ngFor="let category of selectedCategories" class="chip">
               {{ category }}
@@ -53,6 +55,10 @@
         <input type="checkbox" [(ngModel)]="volunteerOnly" (change)="applyFilters()" />
         Look for Volunteer Opportunities
       </label>
+
+      <!-- 🔽 Divider added here -->
+      <hr class="divider" />
+
     </div>
 
     <div class="asset-list">
