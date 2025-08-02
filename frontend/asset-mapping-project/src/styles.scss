@@ -1,29 +1,15 @@
+/* Global Styles */
 
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap');
 
-body {
-  font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
+body, html {
+  font-family: 'Work Sans', 'Roboto', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  margin: 0;
+  padding: 0;
 }
 
-.info-column {
-  flex: 1;
-  padding-right: 2rem;
-}
-
-.map-column {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.map-column img {
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
 
 h1 {
   font-size: 1.75rem;
@@ -37,26 +23,6 @@ h2 {
   margin-top: 2rem;
 }
 
-label {
-  font-weight: 600;
-  display: block;
-  margin-top: 1rem;
-  margin-bottom: 0.25rem;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.select-box {
-  background: #ddd;
-  padding: 0.5rem;
-  border-radius: 4px;
-}
-
 button {
   background-color: gray;
   color: white;
@@ -64,11 +30,4 @@ button {
   border-radius: 4px;
   border: none;
   margin-top: 0.5rem;
-}
-
-.footer {
-  text-align: center;
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #777;
 }

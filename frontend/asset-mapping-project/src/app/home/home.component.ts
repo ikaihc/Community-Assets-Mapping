@@ -160,8 +160,8 @@ export class HomeComponent implements OnInit {
   }
   
   closeDropdown(): void {
-    this.dropdownOpen = false;
-    
+    this.dropdownOpen = true;
+
   }
 
   toggleCategory(category: string): void {
