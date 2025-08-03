@@ -161,7 +161,7 @@ h2 {
 .categories-dropdown {
   position: relative;
   font-family: inherit;
-  max-width: 400px;
+  max-width: 100%;
 
   /* 输入框样式 */
   .dropdown-header {
@@ -242,4 +242,11 @@ h2 {
       }
     }
   }
+}
+
+.container form {
+  /* 这里设置表单最大宽度为 450px（大约占 900px 容器的一半） */
+  max-width: 450px;
+  /* 上右下左，右侧 auto 会把它往左推 */
+  margin: 0  auto 2rem 0;
 }
