@@ -78,3 +78,18 @@ button {
   font-size: 0.9rem;
   color: #777;
 }
+
+
+.map-column {
+  flex: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+
+  /* 新增：leaflet-map 容器一定要给个高度 */
+  .leaflet-map {
+    width: 100%;
+    height: 400px;      /* 你想要的高度 */
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}
