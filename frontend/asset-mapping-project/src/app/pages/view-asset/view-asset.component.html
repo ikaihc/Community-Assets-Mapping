@@ -1,10 +1,14 @@
+<!-- src/app/pages/view-asset/view-asset.component.html -->
 <div class="view-asset-page">
   <div class="card">
+    <!-- 左侧信息 -->
     <div class="info-column">
       <h1>{{ asset.name }} Information</h1>
 
+      <!-- Basic Info -->
       <section>
         <h2>Basic Info</h2>
+
         <label>Asset Name</label>
         <input [value]="asset.name" disabled />
 
@@ -18,25 +22,96 @@
 
         <label>Volunteering Opportunities?</label>
         <div>
-          <button disabled>{{ asset.hasVolunteer ? 'Yes' : 'No' }}</button>
+          <button disabled [class.selected]="asset.hasVolunteer">Yes</button>
+          <button disabled [class.selected]="!asset.hasVolunteer">No</button>
         </div>
       </section>
 
+      <!-- Location -->
       <section>
         <h2>Location</h2>
-        <label>Street Address</label>
+
+        <label>Address – Street and Unit</label>
         <input [value]="asset.location.address" disabled />
-        <label>City</label>
+
+        <label>Address – City</label>
         <input [value]="asset.location.city" disabled />
+
+        <label>Address – Postcode</label>
+        <input [value]="asset.location.postcode" disabled />
+
+        <label>Transportation Options</label>
+        <textarea disabled>{{ asset.location.transportation }}</textarea>
       </section>
+
+      <!-- Registration & Schedule -->
+      <section>
+        <h2>Registration and Schedule</h2>
+
+        <label>Schedule Information</label>
+        <input [value]="asset.schedule.info" disabled class="form-control" />
+
+        <label *ngIf="asset.schedule.details?.length">Details</label>
+        <textarea
+          *ngFor="let d of asset.schedule.details"
+          [value]="d"
+          disabled
+          class="form-control"
+        ></textarea>
+
+        <label>Registration Information</label>
+        <textarea [value]="asset.registration" disabled class="form-control"></textarea>
+
+         <section>
+      <label>Does this program have volunteering opportunities?</label>
+      <div>
+        <button disabled [class.selected]="asset.hasVolunteer">Yes</button>
+        <button disabled [class.selected]="!asset.hasVolunteer">No</button>
+      </div>
+    </section>
+
+    <!-- 语言选择 -->
+    <section>
+      <label>What languages does this program offer?</label>
+      <div class="tag-button-group">
+        <button
+          *ngFor="let lang of allLanguages"
+          class="btn-tag"
+          [class.selected]="asset.languages.includes(lang)"
+          (click)="toggleLanguage(lang)"
+          type="button"
+        >
+          {{ lang }}
+        </button>
+      </div>
+    </section>
+
+    <!-- 活动形式 -->
+      <section>
+      <label>What activity format does this program offer?</label>
+      <div class="tag-button-group">
+        <button
+          *ngFor="let fmt of allFormats"
+          class="btn-tag"
+          [class.selected]="asset.formats.includes(fmt)"
+          (click)="toggleFormat(fmt)"
+          type="button"
+        >
+          {{ fmt }}
+        </button>
+      </div>
+      </section>
+    
+    </section>
     </div>
 
+    <!-- 右侧地图 -->
     <div class="map-column">
-      <div id="map" class="leaflet-map"></div>
+      <div id="view-map" class="map-container"></div>
     </div>
   </div>
+  
 
-  <footer class="footer">
-    ©2025 <strong>Community Assets Mapping</strong> · Built By Zhuyu and Team · Idea by CCHC
-  </footer>
+  
+
 </div>

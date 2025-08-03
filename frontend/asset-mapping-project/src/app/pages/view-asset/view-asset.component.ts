@@ -1,43 +1,89 @@
-import { Component, AfterViewInit } from '@angular/core';
-import * as L from 'leaflet';
+// src/app/pages/view-asset/view-asset.component.ts
+import { Component, AfterViewInit, NgZone } from '@angular/core';
+import { CommonModule, NgFor } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+declare const google: any;
+
+// 把 initMap 挂到 window 上
+declare global {
+  interface Window { initMap: () => void; }
+}
 
 @Component({
   selector: 'app-view-asset',
   standalone: true,
+  imports: [CommonModule, NgFor, RouterModule],
   templateUrl: './view-asset.component.html',
   styleUrls: ['./view-asset.component.scss']
 })
 export class ViewAssetComponent implements AfterViewInit {
+  map!: google.maps.Map;
+
   asset = {
     name: 'Food On the Move',
-    categories: ['Food Bank'],
+    lat: 45.385,
+    lng: -75.690,
+    categories: ['Food Bank', 'Basic Needs'],
     description: 'Our mission is to make fruits and vegetables more accessible and affordable...',
     hasVolunteer: false,
     location: {
       address: '900 Merivale Road',
       city: 'Ottawa',
-      // **务必替换成实际的经纬度，否则地图中心会跑到 0,0**
-      lat: 45.3920,
-      lng: -75.7088
-    }
+      postcode: 'K1Z 5Z8',
+      transportation: 'bus 80/88/112 Algonquin/Baseline station; u-train Algonquin station'
+    },
+    schedule: {
+      info: 'Manual Schedule',
+      details: [
+        '01/JUL/2025 – 11/JUL/2025 (daily) 10:00AM – 05:00PM;',
+        '06/AUG/2025 – 11/AUG/2025 (daily) 10:00AM – 05:00PM;'
+      ]
+    },
+    registration: 'To register, please contact by email',
+    accessibleFeatures: false,
+    languages: ['English','French'],
+    formats: ['On-site','Individual']
   };
 
+  allLanguages = ['English','French','Arabic','Sign','Others'];
+  allFormats   = ['Online','On-site','Group','Individual','Drop-in','Scheduled','Self-paced'];
+
+  constructor(private zone: NgZone) {}
+
   ngAfterViewInit(): void {
-    // 初始化地图
-    const map = L.map('map', {
-      center: [this.asset.location.lat, this.asset.location.lng],
-      zoom: 13
-    });
+    // 1) 在全局注册 initMap 回调
+    window.initMap = () => {
+      // 确保回到 Angular zone 里运行
+      this.zone.run(() => {
+        const mapEl = document.getElementById('view-map') as HTMLElement;
+        this.map = new google.maps.Map(mapEl, {
+          center: { lat: this.asset.lat, lng: this.asset.lng },
+          zoom: 13
+        });
+        new google.maps.Marker({
+          position: { lat: this.asset.lat, lng: this.asset.lng },
+          map: this.map,
+          title: this.asset.name
+        });
+      });
+    };
 
-    // OpenStreetMap 瓦片层
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+    // 2) 如果脚本已经加载完（URL 加了 callback，但可能在组件 afterViewInit 之前就加载了），手动调用一次
+    if (window.google && google.maps) {
+      window.initMap();
+    }
+  }
 
-    // 在资产位置放一个标记
-    L.marker([this.asset.location.lat, this.asset.location.lng])
-      .addTo(map)
-      .bindPopup(`<strong>${this.asset.name}</strong><br>${this.asset.location.address}`)
-      .openPopup();
+  toggleLanguage(lang: string) {
+    const idx = this.asset.languages.indexOf(lang);
+    if (idx >= 0) this.asset.languages.splice(idx, 1);
+    else this.asset.languages.push(lang);
+  }
+
+  toggleFormat(fmt: string) {
+    const idx = this.asset.formats.indexOf(fmt);
+    if (idx >= 0) this.asset.formats.splice(idx, 1);
+    else this.asset.formats.push(fmt);
   }
 }

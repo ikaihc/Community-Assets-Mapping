@@ -1,95 +1,178 @@
+// src/app/pages/view-asset/view-asset.component.scss
+
+// Variables
+$primary-2:   #1F4F85;
+$neutral-1:   #F8F8F8;
+$white:       #FFFFFF;
+$black:       #040404;
+
 .view-asset-page {
-  max-width: 1024px;
-  margin: 2rem auto;
-  padding: 1rem;
-  font-family: Arial, sans-serif;
-}
+  padding: 2rem 0;
+  background: $neutral-1;  // 整体页面背景
 
-.card {
-  display: flex;
-  background: #f9f9f9;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
+  .card {
+    max-width: 1200px;
+    height: 600px;              // 固定高度
+    margin: 0 auto;             // 居中
+    padding: 2rem;
+    display: flex;
+    background: $white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow: hidden;           // 隐藏水平溢出
+  }
 
-.info-column {
-  flex: 1;
-  padding-right: 2rem;
-}
+  // 左侧滚动区
+  .info-column {
+    width: 50%;
+    padding-right: 1rem;
+    overflow-y: auto;           // 垂直滚动
+    overflow-x: hidden;
 
-.map-column {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    /* 滚动条样式 */
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: $neutral-1;
+      border-radius: 3px;
+    }
 
-.map-column img {
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
+    h1 {
+      font-size: 2.25rem;        // Heading Bold 36 相近
+      font-weight: 700;
+      color: $primary-2;
+      margin-bottom: 1rem;
+    }
 
-h1 {
-  font-size: 1.75rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
+    section {
+      margin-bottom: 1.5rem;
 
-h2 {
-  font-size: 1.25rem;
-  color: #003366;
-  margin-top: 2rem;
-}
+      h2 {
+        font-size: 1.25rem;      // SubHeading SemiBold 16 相近
+        font-weight: 600;
+        color: $primary-2;
+        margin-bottom: 0.75rem;
+      }
 
-label {
-  font-weight: 600;
-  display: block;
-  margin-top: 1rem;
-  margin-bottom: 0.25rem;
-}
+      label {
+        display: block;
+        font-size: 1rem;         // Input Label 14~16
+        font-weight: 400;
+        color: $primary-2;
+        margin-top: 0.75rem;
+        margin-bottom: 0.25rem;
+      }
 
-input, textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.6rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;         // Input text Regular 16
+        background: $neutral-1;
+        resize: vertical;
+      }
 
-.select-box {
-  background: #ddd;
-  padding: 0.5rem;
-  border-radius: 4px;
-}
+      .select-box {
+        background: $neutral-1;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 0.6rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
 
-button {
-  background-color: gray;
-  color: white;
-  padding: 0.4rem 1rem;
-  border-radius: 4px;
-  border: none;
-  margin-top: 0.5rem;
-}
+        span {
+          background: #ccc;
+          color: $black;
+          padding: 0.2rem 0.6rem;
+          border-radius: 4px;
+          font-size: 0.875rem;
+        }
+      }
 
-.footer {
-  text-align: center;
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #777;
-}
+      button {
+        margin-top: 0.5rem;
+        padding: 0.4rem 1rem;
+        font-size: 1rem;         // Button Regular 16
+        border: none;
+        border-radius: 6px;
+        background: #ccc;
+        color: $white;
+        cursor: default;
 
+        &.selected {
+          background: $primary-2;
+        }
+      }
 
-.map-column {
-  flex: 1;
-  padding: 2rem;
-  box-sizing: border-box;
+      // 语言 / 活动形式 标签组
+      .tag-button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      .btn-tag {
+        padding: 0.4rem 0.8rem;
+        font-size: 1rem;         // 标签文字 Regular 14~16
+        border: 1px solid #B3B3B3;
+        border-radius: 6px;
+        background: $white;
+        color: $black;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
 
-  /* 新增：leaflet-map 容器一定要给个高度 */
-  .leaflet-map {
+        &:hover {
+          background: #E6E6E6;
+        }
+        &.selected {
+          background: #7D7D7D;
+          border-color: #7D7D7D;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  // 右侧地图区
+  .map-column {
+    width: 50%;
+    display: flex;
+    align-items: center;        // 垂直居中
+    justify-content: center;    // 水平居中
+    padding-left: 1rem;
+
+    .map-container,
+    #view-map {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #eee;         // 加载前占位
+    }
+  }
+
+  // “Back To Home” 按钮
+  .navigation-buttons {
     width: 100%;
-    height: 400px;      /* 你想要的高度 */
-    border-radius: 8px;
-    overflow: hidden;
+    text-align: left;
+    margin-top: 1rem;
+
+    a.btn-outline-primary {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      color: $white;
+      background: $primary-2;
+      text-decoration: none;
+      border-radius: 6px;
+
+      &:hover {
+        background: darken($primary-2, 10%);
+      }
+    }
   }
 }
