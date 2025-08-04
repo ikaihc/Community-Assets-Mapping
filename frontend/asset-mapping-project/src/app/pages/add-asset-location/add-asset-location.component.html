@@ -1,3 +1,4 @@
+<!-- src/app/pages/add-asset-location/add-asset-location.component.html -->
 <div class="location-page">
   <div class="card">
     <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
@@ -14,26 +15,27 @@
     <div class="content">
       <div class="form-grid">
         <div class="form-group">
-          <label>Address – Street and Unit</label>
-          <input type="text" placeholder="ex. 900 Merivale Road" />
+          <label>Address – Street and Unit</label>
+          <input type="text" placeholder="ex. 900 Merivale Road" />
         </div>
         <div class="form-group">
-          <label>Address – City</label>
+          <label>Address – City</label>
           <input type="text" placeholder="ex. Ottawa" />
         </div>
         <div class="form-group">
-          <label>Address – Postcode</label>
-          <input type="text" placeholder="ex. K1Z 5Z8" />
+          <label>Address – Postcode</label>
+          <input type="text" placeholder="ex. K1Z 5Z8" />
         </div>
         <div class="form-group">
           <label>Transportation options</label>
-          <textarea placeholder="ex. bus 80/88/112; LRT to Algonquin station"></textarea>
+          <textarea placeholder="ex. bus 80/88/112; LRT to Algonquin station"></textarea>
         </div>
       </div>
 
+      <!-- 地图容器，替换掉原来的 <img> -->
       <div class="map-section">
         <label>Click or drag marker to the correct spot</label>
-        <img src="assets/task.jpg" alt="Map placeholder" class="map-image" />
+        <div id="location-map" class="map-image"></div>
       </div>
     </div>
 
