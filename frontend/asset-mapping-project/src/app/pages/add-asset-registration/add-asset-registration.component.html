@@ -15,7 +15,7 @@
     <b>Registration and Schedule</b>
   </nav>
 
-  <!-- Use Reactive Forms for the date range -->
+  <!-- Reactive Form for date-range -->
   <form [formGroup]="range">
     <!-- Schedule Selection -->
     <mat-form-field appearance="outline" class="full-width">
@@ -30,6 +30,7 @@
 
     <!-- One-time Schedule -->
     <div *ngIf="scheduleType === 'one-time'">
+      <!-- 日期范围 -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Date Range</mat-label>
         <mat-date-range-input [rangePicker]="picker">
@@ -39,19 +40,54 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
+
+      <!-- 时间选择 -->
+      <div class="time-range">
+        <!-- Start time -->
+        <div class="time-group">
+          <label>Start:</label>
+          <select class="time-select">
+            <option *ngFor="let h of [1,2,3,4,5,6,7,8,9,10,11,12]" [value]="h">{{ h }}</option>
+          </select>
+          <span>:</span>
+          <select class="time-select">
+            <option *ngFor="let m of ['00','15','30','45']" [value]="m">{{ m }}</option>
+          </select>
+          <select class="ampm-select">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+
+        <!-- End time -->
+        <div class="time-group">
+          <label>End:</label>
+          <select class="time-select">
+            <option *ngFor="let h of [1,2,3,4,5,6,7,8,9,10,11,12]" [value]="h">{{ h }}</option>
+          </select>
+          <span>:</span>
+          <select class="time-select">
+            <option *ngFor="let m of ['00','15','30','45']" [value]="m">{{ m }}</option>
+          </select>
+          <select class="ampm-select">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <!-- Recurring Schedule -->
     <div *ngIf="scheduleType === 'recurring'">
       <label class="sub-label">Select Days</label>
       <div class="weekly-buttons">
-        <button mat-button class="day-btn">MON</button>
-        <button mat-button class="day-btn">TUE</button>
-        <button mat-button class="day-btn">WED</button>
-        <button mat-button class="day-btn">THU</button>
-        <button mat-button class="day-btn">FRI</button>
-        <button mat-button class="day-btn">SAT</button>
-        <button mat-button class="day-btn">SUN</button>
+        <button type="button" class="day-btn">MON</button>
+        <button type="button" class="day-btn">TUE</button>
+        <button type="button" class="day-btn">WED</button>
+        <button type="button" class="day-btn">THU</button>
+        <button type="button" class="day-btn">FRI</button>
+        <button type="button" class="day-btn">SAT</button>
+        <button type="button" class="day-btn">SUN</button>
       </div>
     </div>
 

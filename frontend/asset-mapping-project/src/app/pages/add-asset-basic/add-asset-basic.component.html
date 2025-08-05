@@ -1,6 +1,11 @@
 <div class="container">
+  <!-- 返回首页 -->
   <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+
+  <!-- 标题 -->
   <h2>New Community Asset Information</h2>
+
+  <!-- 面包屑 -->
   <p class="breadcrumb">
     <span class="inactive">Parent/Children Asset</span> • 
     <span class="active">Basic Information</span> • 
@@ -9,32 +14,65 @@
     <span class="inactive">Registration and Schedule</span>
   </p>
 
+  <!-- 表单 -->
   <form>
+    <!-- Asset Name -->
     <div class="form-group">
       <label>Asset Name</label>
       <input type="text" class="form-control" placeholder="Type here" />
     </div>
 
+    <!-- Categories -->
     <div class="form-group">
-      <label>Please Select One Or More Categories</label>
-      <select multiple class="form-control">
-        <option>Transportation</option>
-        <option>Food Bank</option>
-        <option>Employment</option>
-        <option>Libraries</option>
-      </select>
+  <label>Please Select One Or More Categories</label>
+
+  <!-- 自定义多选下拉 -->
+  <div class="categories-dropdown">
+    <!-- 显示已选标签和箭头 -->
+    <div class="dropdown-header" (click)="toggleDropdown()">
+      <div class="tags">
+        <span class="tag" *ngFor="let cat of selectedCategories">
+          {{ cat }}
+          <i class="remove" (click)="removeCategory(cat, $event)">×</i>
+        </span>
+      </div>
+      <i class="arrow" [class.open]="dropdownOpen">▾</i>
     </div>
 
+    <!-- 下拉选项列表 -->
+    <ul class="options" *ngIf="dropdownOpen">
+      <li 
+        *ngFor="let cat of availableCategories"
+        (click)="selectCategory(cat)"
+        [class.disabled]="selectedCategories.includes(cat)"
+      >
+        {{ cat }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+    <!-- Description -->
     <div class="form-group">
       <label>Description</label>
-      <textarea class="form-control" rows="3" placeholder="ex. Our mission is to make fruits and vegetables more accessible and affordable for Ottawa community members facing barriers to accessing fresh food."></textarea>
+      <textarea
+        class="form-control"
+        rows="3"
+        placeholder="ex. Our mission is to make fruits and vegetables more accessible and affordable for Ottawa community members facing barriers to accessing fresh food."
+      ></textarea>
     </div>
 
+    <!-- Website -->
     <div class="form-group">
       <label>Program/Organization Website</label>
-      <input type="text" class="form-control" placeholder="ex. foodonthemove.org" />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="ex. foodonthemove.org"
+      />
     </div>
 
+    <!-- Volunteering -->
     <div class="form-group">
       <label>Does this program have volunteering opportunities?</label>
       <div class="button-group">
@@ -43,13 +81,22 @@
       </div>
     </div>
 
+    <!-- 底部导航 -->
     <div class="navigation-buttons">
-  <button routerLink="/add-asset/start" class="btn btn-outline-primary">← Previous</button>
-
-  <button routerLink="/add-asset/location" class="btn btn-primary">Proceed →</button>
-
-</div>
-
-
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="goPrevious()"
+      >
+        ← Previous
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="goNext()"
+      >
+        Proceed →
+      </button>
+    </div>
   </form>
 </div>

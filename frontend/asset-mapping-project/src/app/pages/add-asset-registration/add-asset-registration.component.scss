@@ -2,7 +2,9 @@
   display: block;
 }
 
+/* “Back To Home” 按钮 */
 .back-home-btn {
+  text-decoration: none;
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -20,7 +22,7 @@
   }
 }
 
-
+/* 外层白卡片 */
 .container,
 .card {
   position: relative;
@@ -33,84 +35,110 @@
   font-family: Arial, sans-serif;
 }
 
+/* 表单本身只占左半边 */
+.container form {
+  max-width: 450px;        /* 900px 容器的一半 */
+  margin: 0  auto 2rem 0;  /* 上 0 右 auto 下 2rem 左 0 */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
 
+/* 标题 */
 h2 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #003366; 
+  color: #1F4F85;
   margin-bottom: 1rem;
 }
 
+/* 面包屑 */
+.breadcrumb {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
 
+  .active {
+    color: #1F4F85;
+    font-weight: 700;
+  }
+  .inactive {
+    color: #64748b;
+  }
+}
+
+/* Material 表单域撑满可用宽度 */
+.full-width {
+  width: 100%;
+}
+mat-form-field.full-width {
+  width: 100%;
+}
+
+/* 步骤导航 */
 .step-nav {
   font-size: 0.9rem;
   color: #64748b;
   margin-bottom: 1.5rem;
 
-  span {
-    margin-right: 0.3rem;
-  }
-
+  span { margin-right: 0.3rem; }
   b {
     color: #1e293b;
     font-weight: 600;
   }
 }
 
-
-.full-width {
-  width: 100%;
+/* 单次日程：日期区 */
+.mat-datepicker-content {
+  z-index: 10 !important;
 }
 
-
-mat-form-field {
-  &.full-width {
-    width: 100%;
-  }
-}
-
-
-form {
+/* Start/End 垂直排布 */
+.time-range {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-direction: column;   /* 垂直方向 */
+  gap: 1rem;                /* 各组之间留空 */
+  margin-bottom: 1.5rem;    /* 与下面注册信息框保持距离 */
+}
+
+/* 每个时间组 */
+.time-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
   label {
     font-weight: 600;
-    font-size: 0.9rem;
-    color: #0263D1; 
+    color: #0263D1;
+    white-space: nowrap;
   }
-
-  textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 0.6rem;
+  .time-select,
+  .ampm-select {
+    padding: 0.4rem 0.6rem;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
-    resize: vertical;
-    transition: border-color 0.2s ease;
+    width: 4rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
 
     &:focus {
       outline: none;
       border-color: #0263D1;
     }
   }
+  span {
+    font-size: 1.2rem;
+    color: #333;
+  }
 }
 
-
-.mat-datepicker-content {
-
-  z-index: 10 !important;
-}
-
-
+/* 重复日程按钮组 */
 .weekly-buttons {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;  
+  margin-bottom: 1.5rem;
 }
-
 .day-btn {
   padding: 0.4rem 0.8rem;
   border: 1px solid #0263D1;
@@ -128,10 +156,10 @@ form {
   }
 }
 
-
+/* 手动日程 “+ Another Date” 按钮 */
 .add-date-btn {
   margin-top: 0.5rem;
-  margin-bottom: 1.5rem;   
+  margin-bottom: 1.5rem;
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
   border: 1px solid #0263D1;
@@ -146,7 +174,7 @@ form {
   }
 }
 
-
+/* 可访问功能按钮 */
 .button-group {
   display: flex;
   gap: 1rem;
@@ -160,15 +188,15 @@ form {
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
 
-    &.selected,
-    &:hover {
+    &:hover,
+    &.selected {
       background: #0263D1;
       color: #fff;
     }
   }
 }
 
-
+/* 语言 / 活动形式 标签 */
 .tag-button-group {
   display: flex;
   flex-wrap: wrap;
@@ -184,8 +212,8 @@ form {
     cursor: pointer;
     transition: all 0.2s ease;
 
-    &.selected,
-    &:hover {
+    &:hover,
+    &.selected {
       background: #0263D1;
       color: #fff;
       border-color: #0263D1;
@@ -193,7 +221,24 @@ form {
   }
 }
 
+/* 注册信息文本框 */
+mat-form-field[appearance="outline"] textarea,
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.2s;
+  font-size: 1rem;
 
+  &:focus {
+    outline: none;
+    border-color: #0263D1;
+  }
+}
+
+/* 底部导航按钮 */
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
@@ -207,21 +252,17 @@ form {
     cursor: pointer;
     transition: background 0.2s ease;
   }
-
   .mat-stroked-button {
     background: transparent;
     border: 1px solid #003366;
     color: #003366;
-
     &:hover {
       background: #e6f0ff;
     }
   }
-
   .mat-flat-button {
     background: #003366;
     color: #fff;
-
     &:hover {
       background: #002244;
     }
