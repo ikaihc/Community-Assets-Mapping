@@ -10,7 +10,8 @@
         <h2>Basic Info</h2>
 
         <label>Asset Name</label>
-        <input [value]="asset.name" disabled />
+        <!-- 改成 ngModel 双向绑定 -->
+        <input type="text" [(ngModel)]="asset.name" />
 
         <label>Categories</label>
         <div class="select-box">
@@ -18,12 +19,20 @@
         </div>
 
         <label>Description</label>
-        <textarea disabled>{{ asset.description }}</textarea>
+        <textarea rows="3" [(ngModel)]="asset.description"></textarea>
 
         <label>Volunteering Opportunities?</label>
         <div>
-          <button disabled [class.selected]="asset.hasVolunteer">Yes</button>
-          <button disabled [class.selected]="!asset.hasVolunteer">No</button>
+          <button 
+            [class.selected]="asset.hasVolunteer" 
+            (click)="asset.hasVolunteer = true" 
+            type="button"
+          >Yes</button>
+          <button 
+            [class.selected]="!asset.hasVolunteer" 
+            (click)="asset.hasVolunteer = false" 
+            type="button"
+          >No</button>
         </div>
       </section>
 
@@ -32,16 +41,16 @@
         <h2>Location</h2>
 
         <label>Address – Street and Unit</label>
-        <input [value]="asset.location.address" disabled />
+        <input type="text" [(ngModel)]="asset.location.address" />
 
         <label>Address – City</label>
-        <input [value]="asset.location.city" disabled />
+        <input type="text" [(ngModel)]="asset.location.city" />
 
         <label>Address – Postcode</label>
-        <input [value]="asset.location.postcode" disabled />
+        <input type="text" [(ngModel)]="asset.location.postcode" />
 
         <label>Transportation Options</label>
-        <textarea disabled>{{ asset.location.transportation }}</textarea>
+        <textarea rows="2" [(ngModel)]="asset.location.transportation"></textarea>
       </section>
 
       <!-- Registration & Schedule -->
@@ -49,60 +58,56 @@
         <h2>Registration and Schedule</h2>
 
         <label>Schedule Information</label>
-        <input [value]="asset.schedule.info" disabled class="form-control" />
+        <input type="text" class="form-control" [(ngModel)]="asset.schedule.info" />
 
         <label *ngIf="asset.schedule.details?.length">Details</label>
-        <textarea
-          *ngFor="let d of asset.schedule.details"
-          [value]="d"
-          disabled
-          class="form-control"
-        ></textarea>
+        <div *ngFor="let d of asset.schedule.details; let i = index">
+          <textarea
+            class="form-control"
+            rows="2"
+            [(ngModel)]="asset.schedule.details[i]"
+          ></textarea>
+        </div>
 
         <label>Registration Information</label>
-        <textarea [value]="asset.registration" disabled class="form-control"></textarea>
+        <textarea
+          class="form-control"
+          rows="2"
+          [(ngModel)]="asset.registration"
+        ></textarea>
 
-         <section>
-      <label>Does this program have volunteering opportunities?</label>
-      <div>
-        <button disabled [class.selected]="asset.hasVolunteer">Yes</button>
-        <button disabled [class.selected]="!asset.hasVolunteer">No</button>
-      </div>
-    </section>
+        <!-- 语言选择 -->
+        <section>
+          <label>What languages does this program offer?</label>
+          <div class="tag-button-group">
+            <button
+              *ngFor="let lang of allLanguages"
+              class="btn-tag"
+              [class.selected]="asset.languages.includes(lang)"
+              (click)="toggleLanguage(lang)"
+              type="button"
+            >
+              {{ lang }}
+            </button>
+          </div>
+        </section>
 
-    <!-- 语言选择 -->
-    <section>
-      <label>What languages does this program offer?</label>
-      <div class="tag-button-group">
-        <button
-          *ngFor="let lang of allLanguages"
-          class="btn-tag"
-          [class.selected]="asset.languages.includes(lang)"
-          (click)="toggleLanguage(lang)"
-          type="button"
-        >
-          {{ lang }}
-        </button>
-      </div>
-    </section>
-
-    <!-- 活动形式 -->
-      <section>
-      <label>What activity format does this program offer?</label>
-      <div class="tag-button-group">
-        <button
-          *ngFor="let fmt of allFormats"
-          class="btn-tag"
-          [class.selected]="asset.formats.includes(fmt)"
-          (click)="toggleFormat(fmt)"
-          type="button"
-        >
-          {{ fmt }}
-        </button>
-      </div>
+        <!-- 活动形式 -->
+        <section>
+          <label>What activity format does this program offer?</label>
+          <div class="tag-button-group">
+            <button
+              *ngFor="let fmt of allFormats"
+              class="btn-tag"
+              [class.selected]="asset.formats.includes(fmt)"
+              (click)="toggleFormat(fmt)"
+              type="button"
+            >
+              {{ fmt }}
+            </button>
+          </div>
+        </section>
       </section>
-    
-    </section>
     </div>
 
     <!-- 右侧地图 -->
@@ -110,8 +115,4 @@
       <div id="view-map" class="map-container"></div>
     </div>
   </div>
-  
-
-  
-
 </div>

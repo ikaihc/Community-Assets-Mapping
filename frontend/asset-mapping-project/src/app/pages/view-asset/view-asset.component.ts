@@ -2,6 +2,7 @@
 import { Component, AfterViewInit, NgZone } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule }           from '@angular/forms';
 
 declare const google: any;
 
@@ -13,7 +14,7 @@ declare global {
 @Component({
   selector: 'app-view-asset',
   standalone: true,
-  imports: [CommonModule, NgFor, RouterModule],
+  imports: [CommonModule, NgFor, RouterModule,  FormsModule,],
   templateUrl: './view-asset.component.html',
   styleUrls: ['./view-asset.component.scss']
 })
@@ -62,11 +63,35 @@ export class ViewAssetComponent implements AfterViewInit {
           zoom: 13
         });
         new google.maps.Marker({
-          position: { lat: this.asset.lat, lng: this.asset.lng },
-          map: this.map,
-          title: this.asset.name
+        position: { lat: this.asset.lat, lng: this.asset.lng },
+        map: this.map,
+        title: this.asset.name,
+        icon: {
+          url: 'assets/icons/red-pin.svg',
+          // 根据 svg 尺寸酌情改 scaledSize
+          scaledSize: new google.maps.Size(36, 36)
+          }
         });
       });
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          const coords = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+          };
+          new google.maps.Marker({
+            position: coords,
+            map: this.map,
+            title: 'My location',
+            icon: {
+              url: 'assets/icons/blue-pin.svg',
+              scaledSize: new google.maps.Size(36, 36)
+            }
+          });
+        });
+      }
+
     };
 
     // 2) 如果脚本已经加载完（URL 加了 callback，但可能在组件 afterViewInit 之前就加载了），手动调用一次

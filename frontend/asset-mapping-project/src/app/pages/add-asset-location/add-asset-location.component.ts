@@ -45,19 +45,22 @@ export class AddAssetLocationComponent implements AfterViewInit {
       zoom: 12
     });
 
-    // 在地图上创建一个可拖拽的标记
+    // 在地图上创建一个可拖拽的、使用 red-pin.svg 的标记
     this.marker = new google.maps.Marker({
       position: this.defaultCenter,
       map: this.map,
       draggable: true,
-      title: 'Drag me to adjust location'
+      title: 'Drag me to adjust location',
+      icon: {
+        url: 'assets/icons/red-pin.svg',
+        scaledSize: new google.maps.Size(36, 36)
+      }
     });
 
     // 拖拽结束后，你可以把位置写回表单：
     this.marker.addListener('dragend', () => {
       const pos = this.marker.getPosition();
       if (pos) {
-        // 例如：
         console.log('New position:', pos.lat(), pos.lng());
         // TODO: 把 pos.lat()/pos.lng() 写回 input 或组件变量
       }
