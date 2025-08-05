@@ -14,8 +14,8 @@ const appConfig = {
   providers: [
     provideRouter(routes),
     importProvidersFrom(HttpClientModule), provideAnimationsAsync(),
-
     importProvidersFrom(BrowserAnimationsModule) 
+
 
   ]
 };
