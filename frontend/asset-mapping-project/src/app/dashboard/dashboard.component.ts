@@ -201,7 +201,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   setActiveView(view: 'users' | 'assets' | 'add-user' | 'edit-user' | 'add-asset'): void {
+    console.log('DashboardComponent: Setting active view to:', view);
     this.activeView = view;
+
+    // Clear selected user when changing views
+    if (view !== 'edit-user') {
+      this.selectedUser = null;
+    }
+
     if (view === 'users') {
       this.loadUsers();
     } else if (view === 'assets') {
@@ -226,8 +233,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   onUserAdded(user: UserInterface): void {
     console.log('DashboardComponent: User added:', user);
     this.notificationService.success('User added successfully', 'Success');
-    this.setActiveView('users');
+
+    // Clear any cached user data to force a fresh reload
     this.filteredUsersCache = null;
+    this.users = []; // Clear existing users to show loading state
+
+    // Switch to users view which will trigger loadUsers()
+    this.setActiveView('users');
+
+    // Force an additional reload to ensure the new user appears
     this.loadUsers();
   }
 

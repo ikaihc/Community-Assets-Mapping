@@ -61,9 +61,12 @@ export class AddUserFormComponent implements OnInit {
 
       this.userService.createUser(userData).subscribe({
         next: (response) => {
+          console.log('AddUserForm: User creation response:', response);
           if (response.success && response.user) {
+            this.notificationService.success('User created successfully', 'Success');
             this.userAdded.emit(response.user);
-            // Don't show notification here - let the dashboard handle it
+            // Reset form after successful creation
+            this.resetForm();
           } else {
             this.notificationService.error('Failed to create user', 'Error');
             // If creation failed, restore the form data
