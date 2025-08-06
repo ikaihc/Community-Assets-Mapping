@@ -59,6 +59,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.filteredAssetsCache = null;
   }
 
+  setAssetStatusFilter(value: string) {
+    this.assetStatusFilter = value;
+    this.assetPage = 1; // Reset to first page when filtering
+    this.loadAssets();
+  }
+
   setAssetSearchTerm(value: string) {
     this.assetSearchTerm = value;
     this.filteredAssetsCache = null;
@@ -71,6 +77,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   userSortDirection: 'asc' | 'desc' = 'asc';
   assetSortField: 'id' | 'name' | 'status' | 'created_at' | 'updated_at' = 'id';
   assetSortDirection: 'asc' | 'desc' = 'asc';
+  assetStatusFilter: string = ''; // Empty string means show all assets
 
   userPage = 1;
   userLimit = 10;
@@ -162,7 +169,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log('DashboardComponent: Loading assets...');
     this.isLoadingAssets = true;
 
-    this.assetService.getAssets(this.assetPage, this.assetLimit, undefined, this.assetSortField, this.assetSortDirection)
+    const statusFilter = this.assetStatusFilter || undefined;
+    this.assetService.getAssets(this.assetPage, this.assetLimit, statusFilter, this.assetSortField, this.assetSortDirection)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -444,5 +452,60 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.filteredAssetsCache = filtered;
     return this.filteredAssetsCache;
+  }
+
+  // Pagination methods for assets
+  nextAssetPage(): void {
+    if (this.assetPage * this.assetLimit < this.assetTotal) {
+      this.assetPage++;
+      this.loadAssets();
+    }
+  }
+
+  prevAssetPage(): void {
+    if (this.assetPage > 1) {
+      this.assetPage--;
+      this.loadAssets();
+    }
+  }
+
+  goToAssetPage(page: number): void {
+    if (page >= 1 && page <= this.getTotalAssetPages()) {
+      this.assetPage = page;
+      this.loadAssets();
+    }
+  }
+
+  getTotalAssetPages(): number {
+    return Math.ceil(this.assetTotal / this.assetLimit);
+  }
+
+  getAssetPaginationPages(): number[] {
+    const totalPages = this.getTotalAssetPages();
+    const currentPage = this.assetPage;
+    const pages: number[] = [];
+
+    // Show up to 5 page numbers around current page
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+
+    // Adjust start if we're near the end
+    if (endPage - startPage < 4) {
+      startPage = Math.max(1, endPage - 4);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  }
+
+  getAssetStartIndex(): number {
+    return (this.assetPage - 1) * this.assetLimit + 1;
+  }
+
+  getAssetEndIndex(): number {
+    return Math.min(this.assetPage * this.assetLimit, this.assetTotal);
   }
 }

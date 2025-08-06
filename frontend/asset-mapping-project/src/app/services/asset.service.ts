@@ -96,7 +96,7 @@ export class AssetService {
     private authService: AuthService
   ) {}
 
-  // Get all assets (public endpoint)
+  // Get all assets (includes authentication for admin/navigator access)
   getAssets(page = 1, limit = 10, status?: string, sortBy?: string, sortOrder?: string): Observable<AssetResponse> {
     let url = `${this.apiUrl}/assets?page=${page}&limit=${limit}`;
     if (status) {
@@ -108,7 +108,10 @@ export class AssetService {
     if (sortOrder) {
       url += `&sortOrder=${sortOrder}`;
     }
-    return this.http.get<AssetResponse>(url).pipe(
+
+    // Include auth headers so admin/navigator can see all assets
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get<AssetResponse>(url, { headers }).pipe(
       catchError(this.handleError)
     );
   }

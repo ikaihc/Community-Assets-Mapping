@@ -179,6 +179,17 @@
             <mat-option value="status">Status</mat-option>
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Filter by Status</mat-label>
+          <mat-select [value]="assetStatusFilter" (selectionChange)="setAssetStatusFilter($event.value)">
+            <mat-option value="">All Assets</mat-option>
+            <mat-option value="pending">Pending</mat-option>
+            <mat-option value="approved">Approved</mat-option>
+            <mat-option value="rejected">Rejected</mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <div class="search-box">
           <input
             type="text"
@@ -261,6 +272,37 @@
             </tr>
           </tbody>
         </table>
+
+        <!-- Asset Pagination Controls -->
+        <div class="pagination-container" *ngIf="!isLoadingAssets && getTotalAssetPages() > 1">
+          <div class="pagination-info">
+            <span>Showing {{ getAssetStartIndex() }}-{{ getAssetEndIndex() }} of {{ assetTotal }} assets</span>
+            <span class="page-info">Page {{ assetPage }} of {{ getTotalAssetPages() }}</span>
+          </div>
+          <div class="pagination-controls">
+            <button
+              class="pagination-btn"
+              (click)="prevAssetPage()"
+              [disabled]="assetPage === 1">
+              ← Previous
+            </button>
+
+            <button
+              *ngFor="let page of getAssetPaginationPages()"
+              class="pagination-btn page-number"
+              [class.active]="page === assetPage"
+              (click)="goToAssetPage(page)">
+              {{ page }}
+            </button>
+
+            <button
+              class="pagination-btn"
+              (click)="nextAssetPage()"
+              [disabled]="assetPage >= getTotalAssetPages()">
+              Next →
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
