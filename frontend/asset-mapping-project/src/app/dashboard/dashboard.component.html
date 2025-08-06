@@ -33,7 +33,6 @@
 
       <!-- Guest user profile -->
       <ng-template #guestProfile>
-        <div class="user-avatar">G</div>
         <div class="user-email">Guest User</div>
         <div class="divider" style="border-bottom: 1px solid #b3b3b3; margin: 10px 0;"></div>
         <div class="guest-info">
@@ -44,7 +43,7 @@
       <div class="divider" style="border-bottom: 1px solid #b3b3b3; margin: 10px 0;"></div>
     </div>
 
-    <nav class="sidebar-nav">
+    <nav class="sidebar-nav" *ngIf="isAuthenticatedUser()">
       <!-- Only show user management for authenticated admin users -->
       <a
         *ngIf="currentUser && isAdmin"
@@ -54,6 +53,7 @@
         User Management
       </a>
       <a
+        *ngIf="isAuthenticatedUser()"
         class="nav-item"
         [class.active]="activeView === 'assets'"
         (click)="setActiveView('assets')">
@@ -170,7 +170,7 @@
     <div *ngIf="activeView === 'assets' || isGuestUser()" class="content-section">
       <div class="section-header">
         <h1>{{ isGuestUser() ? 'Browse Community Assets' : 'Asset Management' }}</h1>
-        <button class="add-btn" *ngIf="isAuthenticatedUser()" (click)="onAddNewAsset()">Add New Asset</button>
+        <button class="add-btn" (click)="onAddNewAsset()">Add New Asset</button>
 
       </div>
 

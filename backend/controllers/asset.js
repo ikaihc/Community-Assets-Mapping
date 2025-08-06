@@ -329,11 +329,18 @@ exports.updateAsset = (req, res) => {
       });
     }
 
-    // Check if user owns the asset or is admin
-    if (asset.created_by !== req.user.userId && req.user.role !== 'admin') {
+    // Check permissions: 
+    // - Asset owner can update their own assets
+    // - Admin can update any asset
+    // - Navigator can update status (approve/reject) on any asset
+    const canUpdate = asset.created_by === req.user.userId || 
+                     req.user.role === 'admin' || 
+                     (req.user.role === 'navigator' && status);
+
+    if (!canUpdate) {
       return res.status(403).json({
         success: false,
-        message: 'Access denied: You can only update your own assets'
+        message: 'Access denied: Insufficient permissions to update this asset'
       });
     }
 
@@ -359,47 +366,49 @@ exports.updateAsset = (req, res) => {
         service_hrs: service_hrs || asset.service_hrs,
         last_Update_By: req.user.userId
       });
-    });
-  })
-  .then(() => {
-    // Fetch updated asset with relations
-    return Asset.findByPk(id, {
-      include: [
-        {
-          model: Address,
-          as: 'address'
-        },
-        {
-          model: AssetContact,
-          as: 'contact'
-        },
-        {
-          model: User,
-          as: 'creator',
-          attributes: ['id', 'first_name', 'last_name', 'email']
-        },
-        {
-          model: User,
-          as: 'lastUpdater',
-          attributes: ['id', 'first_name', 'last_name', 'email']
-        }
-      ]
-    });
-  })
-  .then(updatedAsset => {
-    res.status(200).json({
-      success: true,
-      message: 'Asset updated successfully',
-      data: updatedAsset
+    })
+    .then(() => {
+      // Fetch updated asset with relations
+      return Asset.findByPk(id, {
+        include: [
+          {
+            model: Address,
+            as: 'address'
+          },
+          {
+            model: AssetContact,
+            as: 'contact'
+          },
+          {
+            model: User,
+            as: 'creator',
+            attributes: ['id', 'first_name', 'last_name', 'email']
+          },
+          {
+            model: User,
+            as: 'lastUpdater',
+            attributes: ['id', 'first_name', 'last_name', 'email']
+          }
+        ]
+      });
+    })
+    .then(updatedAsset => {
+      res.status(200).json({
+        success: true,
+        message: 'Asset updated successfully',
+        data: updatedAsset
+      });
     });
   })
   .catch(error => {
     console.error('Update asset error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error',
-      error: error.message
-    });
+    if (!res.headersSent) {
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+        error: error.message
+      });
+    }
   });
 };
 

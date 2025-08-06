@@ -102,32 +102,41 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('DashboardComponent: Initializing');
 
-    this.currentUser = this.authService.getCurrentUser();
-    console.log('DashboardComponent: Current user:', this.currentUser);
-    this.route.queryParams.subscribe(params => {
+    // Subscribe to authentication state changes
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(user => {
+      console.log('DashboardComponent: User state changed:', user);
+      this.currentUser = user;
+
+      // Update view based on authentication state
+      if (!user) {
+        console.log('DashboardComponent: No current user - guest access, showing assets');
+        this.activeView = 'assets'; // Force assets view for guests
+      } else {
+        if (user.role === 'navigator') {
+          console.log('DashboardComponent: Navigator user - defaulting to assets view');
+          this.setActiveView('assets');
+        } else if (user.role === 'admin') {
+          console.log('DashboardComponent: Admin user - defaulting to users view');
+          this.setActiveView('users');
+        } else {
+          console.log('DashboardComponent: Other user - defaulting to assets view');
+          this.setActiveView('assets');
+        }
+      }
+
+      // Reload data when authentication state changes
+      this.loadUsers();
+      this.loadAssets();
+    });
+
+    // Handle query parameters
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (params['view'] === 'add-asset') {
         console.log('DashboardComponent: Setting view to add-asset from query params');
         this.setActiveView('add-asset');
         this.router.navigate([], { relativeTo: this.route, queryParams: {} });
-      } else if (!this.currentUser) {
-        console.log('DashboardComponent: No current user - guest access, showing assets');
-        this.activeView = 'assets'; // Force assets view for guests
-      } else {
-        if (this.currentUser.role === 'navigator') {
-          console.log('DashboardComponent: Navigator user - defaulting to assets view');
-          this.setActiveView('assets');
-        } else if (this.currentUser.role === 'admin') {
-          console.log('DashboardComponent: Admin user - defaulting to users view');
-          this.setActiveView('users');
-        } else {
-          console.log('DashboardComponent: Guest user - defaulting to assets view');
-          this.setActiveView('assets');
-        }
       }
     });
-
-    this.loadUsers();
-    this.loadAssets();
   }
 
   ngOnDestroy(): void {
