@@ -63,9 +63,11 @@
   </div>
 
   <div class="main-content">
+    <!-- For guest users, always show assets section -->
+    <!-- For authenticated users, show based on activeView -->
 
-    <!-- Users Management Section -->
-    <div *ngIf="activeView === 'users'" class="content-section">
+    <!-- Users Management Section - Only for authenticated admin users -->
+    <div *ngIf="activeView === 'users' && isAuthenticatedUser()" class="content-section">
       <div class="section-header">
         <h1>User Management</h1>
         <button *ngIf="isAdmin" class="add-btn" (click)="onAddNewUser()">Add New User</button>
@@ -164,10 +166,11 @@
       </div>
     </div>
 
-    <div *ngIf="activeView === 'assets'" class="content-section">
+    <!-- Assets Management Section - Always visible -->
+    <div *ngIf="activeView === 'assets' || isGuestUser()" class="content-section">
       <div class="section-header">
-        <h1>Asset Management</h1>
-        <button class="add-btn" (click)="onAddNewAsset()">Add New Asset</button>
+        <h1>{{ isGuestUser() ? 'Browse Community Assets' : 'Asset Management' }}</h1>
+        <button class="add-btn" *ngIf="isAuthenticatedUser()" (click)="onAddNewAsset()">Add New Asset</button>
 
       </div>
 
@@ -180,7 +183,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="filter-field">
+        <mat-form-field appearance="outline" class="filter-field" *ngIf="isAuthenticatedUser()">
           <mat-label>Filter by Status</mat-label>
           <mat-select [value]="assetStatusFilter" (selectionChange)="setAssetStatusFilter($event.value)">
             <mat-option value="">All Assets</mat-option>
@@ -188,9 +191,7 @@
             <mat-option value="approved">Approved</mat-option>
             <mat-option value="rejected">Rejected</mat-option>
           </mat-select>
-        </mat-form-field>
-
-        <div class="search-box">
+        </mat-form-field>        <div class="search-box">
           <input
             type="text"
             [value]="assetSearchTerm"
@@ -241,7 +242,7 @@
 
                 </div>
               </th>
-              <th>Action</th>
+              <th *ngIf="isAuthenticatedUser()">Action</th>
               <th>View</th>
             </tr>
           </thead>
@@ -257,12 +258,35 @@
               </td>
               <td>{{ formatDate(asset.created_at) }}</td>
               <td>{{ formatDate(asset.updated_at) }}</td>
-              <td>
-                <button
-                  [class]="asset.status === 'approved' ? 'deactivate-btn' : 'activate-btn'"
-                  (click)="toggleAssetStatus(asset)">
-                  {{ asset.status === 'approved' ? 'Set Pending' : 'Approve' }}
-                </button>
+              <td class="action-buttons" *ngIf="isAuthenticatedUser()">
+                <div class="button-group">
+                  <!-- Approve button - show for pending and rejected assets -->
+                  <button
+                    *ngIf="asset.status !== 'approved'"
+                    class="approve-btn"
+                    (click)="toggleAssetStatus(asset)"
+                    title="Approve Asset">
+                    ✓ Approve
+                  </button>
+
+                  <!-- Reject button - show for pending and approved assets -->
+                  <button
+                    *ngIf="asset.status !== 'rejected'"
+                    class="reject-btn"
+                    (click)="rejectAsset(asset)"
+                    title="Reject Asset">
+                    ✗ Reject
+                  </button>
+
+                  <!-- Set Pending button - show for approved and rejected assets -->
+                  <button
+                    *ngIf="asset.status !== 'pending'"
+                    class="pending-btn"
+                    (click)="toggleAssetStatus(asset)"
+                    title="Set to Pending">
+                    ⏳ Pending
+                  </button>
+                </div>
               </td>
               <td>
                 <button class="view-btn" [routerLink]="['/view-asset-admin', asset.id]">

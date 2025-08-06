@@ -110,8 +110,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.setActiveView('add-asset');
         this.router.navigate([], { relativeTo: this.route, queryParams: {} });
       } else if (!this.currentUser) {
-        console.log('DashboardComponent: No current user - allowing guest access for asset creation');
-        this.setActiveView('assets');
+        console.log('DashboardComponent: No current user - guest access, showing assets');
+        this.activeView = 'assets'; // Force assets view for guests
       } else {
         if (this.currentUser.role === 'navigator') {
           console.log('DashboardComponent: Navigator user - defaulting to assets view');
@@ -315,13 +315,82 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   toggleAssetStatus(asset: Asset): void {
-    if (!this.authService.isAdmin()) {
-      this.notificationService.error('You do not have permission to perform this action', 'Access Denied');
+    if (!asset.id) {
+      this.notificationService.error('Invalid asset ID', 'Error');
       return;
     }
 
     const newStatus = asset.status === 'approved' ? 'pending' : 'approved';
-    this.notificationService.info(`Asset status would be changed to ${newStatus}`, 'Status Change');
+
+    // Show confirmation message
+    const action = newStatus === 'approved' ? 'approve' : 'set to pending';
+    if (!confirm(`Are you sure you want to ${action} the asset "${asset.name}"?`)) {
+      return;
+    }
+
+    // Call appropriate API method based on new status
+    const apiCall = newStatus === 'approved'
+      ? this.assetService.approveAsset(asset.id)
+      : this.assetService.updateAsset(asset.id, { status: 'pending' });
+
+    this.loadingService.setLoading(true);
+
+    apiCall.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.notificationService.success(`Asset ${action}d successfully`, 'Success');
+            // Update the asset status locally
+            asset.status = newStatus as 'pending' | 'approved' | 'rejected';
+            // Optionally reload assets to get fresh data
+            this.loadAssets();
+          } else {
+            this.notificationService.error(response.message || `Failed to ${action} asset`, 'Error');
+          }
+          this.loadingService.setLoading(false);
+        },
+        error: (error) => {
+          console.error(`Error ${action} asset:`, error);
+          this.notificationService.error(`Failed to ${action} asset: ${error.message}`, 'Error');
+          this.loadingService.setLoading(false);
+        }
+      });
+  }
+
+  rejectAsset(asset: Asset): void {
+    if (!asset.id) {
+      this.notificationService.error('Invalid asset ID', 'Error');
+      return;
+    }
+
+    // Show confirmation message
+    if (!confirm(`Are you sure you want to reject the asset "${asset.name}"?`)) {
+      return;
+    }
+
+    this.loadingService.setLoading(true);
+
+    this.assetService.rejectAsset(asset.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.notificationService.success('Asset rejected successfully', 'Success');
+            // Update the asset status locally
+            asset.status = 'rejected';
+            // Optionally reload assets to get fresh data
+            this.loadAssets();
+          } else {
+            this.notificationService.error(response.message || 'Failed to reject asset', 'Error');
+          }
+          this.loadingService.setLoading(false);
+        },
+        error: (error) => {
+          console.error('Error rejecting asset:', error);
+          this.notificationService.error(`Failed to reject asset: ${error.message}`, 'Error');
+          this.loadingService.setLoading(false);
+        }
+      });
   }
 
   sortUsers(field: 'id' | 'first_name' | 'last_name' | 'email' | 'role' | 'created_at' | 'updated_at'): void {
@@ -380,6 +449,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const firstInitial = this.currentUser.first_name?.charAt(0) || '';
     const lastInitial = this.currentUser.last_name?.charAt(0) || '';
     return (firstInitial + lastInitial).toUpperCase() || 'U';
+  }
+
+  isGuestUser(): boolean {
+    return !this.currentUser || !this.authService.isLoggedIn();
+  }
+
+  isAuthenticatedUser(): boolean {
+    return !!this.currentUser && this.authService.isLoggedIn();
   }
 
   getUserDisplayName(user: UserInterface): string {

@@ -182,7 +182,7 @@ export class AssetService {
   approveAsset(id: number): Observable<AssetResponse> {
     const headers = this.authService.getAuthHeaders();
     return this.http.put<AssetResponse>(`${this.apiUrl}/assets/${id}`, {
-      asset_status: 'approved'
+      status: 'approved'
     }, { headers }).pipe(
       catchError(this.handleError)
     );
@@ -192,7 +192,7 @@ export class AssetService {
   rejectAsset(id: number): Observable<AssetResponse> {
     const headers = this.authService.getAuthHeaders();
     return this.http.put<AssetResponse>(`${this.apiUrl}/assets/${id}`, {
-      asset_status: 'rejected'
+      status: 'rejected'
     }, { headers }).pipe(
       catchError(this.handleError)
     );

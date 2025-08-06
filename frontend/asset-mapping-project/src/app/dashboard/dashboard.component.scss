@@ -3,6 +3,14 @@
   display: flex;
   min-height: calc(100vh - 80px);
   background-color: #f5f6fa;
+
+  &.guest-mode {
+    .main-content {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
 }
 
 
@@ -587,5 +595,62 @@
   .pagination-btn {
     padding: 6px 10px;
     font-size: 13px;
+  }
+}
+
+/* Action Buttons Styles */
+.action-buttons {
+  .button-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+}
+
+.approve-btn {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #059669;
+  }
+}
+
+.reject-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #dc2626;
+  }
+}
+
+.pending-btn {
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #d97706;
   }
 }
