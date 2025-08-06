@@ -53,7 +53,7 @@ exports.getAllAssets = (req, res) => {
   // Validate sort parameters
   const validSortFields = ['id', 'name', 'createdAt', 'updatedAt', 'status'];
   const validSortOrders = ['ASC', 'DESC', 'asc', 'desc'];
-  
+
   const finalSortBy = validSortFields.includes(sortBy) ? sortBy : 'createdAt';
   const finalSortOrder = validSortOrders.includes(sortOrder) ? sortOrder.toUpperCase() : 'DESC';
 
@@ -207,8 +207,8 @@ exports.createAsset = (req, res) => {
   }
 
   // Get the appropriate user ID (authenticated user or system guest user)
-  const getUserIdPromise = req.user ? 
-    Promise.resolve(req.user.userId) : 
+  const getUserIdPromise = req.user ?
+    Promise.resolve(req.user.userId) :
     getGuestUserId();
 
   let addressRecord = null;
@@ -219,7 +219,7 @@ exports.createAsset = (req, res) => {
   getUserIdPromise
   .then(userId => {
     createdBy = userId;
-    
+
     // Create address first (if provided)
     return address ? Address.create(address) : Promise.resolve(null);
   })
@@ -263,13 +263,13 @@ exports.createAsset = (req, res) => {
     // Fetch the created asset with all relations
     return Asset.findByPk(asset.id, {
       include: [
-        { 
-          model: Address, 
-          as: 'address' 
+        {
+          model: Address,
+          as: 'address'
         },
-        { 
-          model: AssetContact, 
-          as: 'contact' 
+        {
+          model: AssetContact,
+          as: 'contact'
         },
         {
           model: User,
@@ -285,8 +285,8 @@ exports.createAsset = (req, res) => {
     });
   })
   .then(createdAsset => {
-    const message = createdAsset.status === 'approved' 
-      ? 'Asset created and approved successfully' 
+    const message = createdAsset.status === 'approved'
+      ? 'Asset created and approved successfully'
       : 'Asset submitted for approval successfully';
 
     res.status(201).json({
@@ -338,7 +338,7 @@ exports.updateAsset = (req, res) => {
     }
 
     // Update address if provided
-    const updateAddressPromise = (address && asset.address_id) 
+    const updateAddressPromise = (address && asset.address_id)
       ? Address.update(address, { where: { id: asset.address_id } })
       : Promise.resolve();
 
@@ -365,13 +365,13 @@ exports.updateAsset = (req, res) => {
     // Fetch updated asset with relations
     return Asset.findByPk(id, {
       include: [
-        { 
-          model: Address, 
-          as: 'address' 
+        {
+          model: Address,
+          as: 'address'
         },
-        { 
-          model: AssetContact, 
-          as: 'contact' 
+        {
+          model: AssetContact,
+          as: 'contact'
         },
         {
           model: User,
@@ -456,13 +456,13 @@ exports.getMyAssets = (req, res) => {
   Asset.findAndCountAll({
     where: whereClause,
     include: [
-      { 
-        model: Address, 
-        as: 'address' 
+      {
+        model: Address,
+        as: 'address'
       },
-      { 
-        model: AssetContact, 
-        as: 'contact' 
+      {
+        model: AssetContact,
+        as: 'contact'
       },
       {
         model: User,
@@ -505,13 +505,13 @@ exports.getPendingAssets = (req, res) => {
   Asset.findAndCountAll({
     where: { status: 'pending' },
     include: [
-      { 
-        model: Address, 
-        as: 'address' 
+      {
+        model: Address,
+        as: 'address'
       },
-      { 
-        model: AssetContact, 
-        as: 'contact' 
+      {
+        model: AssetContact,
+        as: 'contact'
       },
       {
         model: User,
@@ -575,13 +575,13 @@ exports.approveAsset = (req, res) => {
   .then(() => {
     return Asset.findByPk(id, {
       include: [
-        { 
-          model: Address, 
-          as: 'address' 
+        {
+          model: Address,
+          as: 'address'
         },
-        { 
-          model: AssetContact, 
-          as: 'contact' 
+        {
+          model: AssetContact,
+          as: 'contact'
         },
         {
           model: User,
@@ -651,13 +651,13 @@ exports.rejectAsset = (req, res) => {
   .then(() => {
     return Asset.findByPk(id, {
       include: [
-        { 
-          model: Address, 
-          as: 'address' 
+        {
+          model: Address,
+          as: 'address'
         },
-        { 
-          model: AssetContact, 
-          as: 'contact' 
+        {
+          model: AssetContact,
+          as: 'contact'
         },
         {
           model: User,
@@ -706,13 +706,13 @@ exports.getAssetsByStatus = (req, res) => {
   Asset.findAndCountAll({
     where: { status },
     include: [
-      { 
-        model: Address, 
-        as: 'address' 
+      {
+        model: Address,
+        as: 'address'
       },
-      { 
-        model: AssetContact, 
-        as: 'contact' 
+      {
+        model: AssetContact,
+        as: 'contact'
       },
       {
         model: User,
