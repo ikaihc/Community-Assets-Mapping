@@ -9,6 +9,8 @@
 }
 
 .back-home-btn {
+
+  text-decoration: none;
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -153,4 +155,98 @@ h2 {
       background-color: #163E6C;
     }
   }
+}
+
+/* categories-dropdown 容器 */
+.categories-dropdown {
+  position: relative;
+  font-family: inherit;
+  max-width: 100%;
+
+  /* 输入框样式 */
+  .dropdown-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 2.5rem;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+
+    &:focus,
+    &:hover {
+      border-color: #0263D1;
+    }
+  }
+
+  /* 已选标签 */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    flex: 1;
+  }
+  .tag {
+    background: #0263D1;
+    color: #fff;
+    padding: 0 0.5rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+
+    .remove {
+      margin-left: 0.3rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  }
+
+  /* 箭头 */
+  .arrow {
+    margin-left: auto;
+    transition: transform 0.2s;
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+
+  /* 下拉选项列表 */
+  .options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    margin: 0.2rem 0 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 10;
+
+    li {
+      padding: 0.5rem;
+      cursor: pointer;
+      &.disabled {
+        color: #aaa;
+        cursor: not-allowed;
+      }
+      &:hover:not(.disabled) {
+        background: #f0f8ff;
+      }
+    }
+  }
+}
+
+.container form {
+  /* 这里设置表单最大宽度为 450px（大约占 900px 容器的一半） */
+  max-width: 450px;
+  /* 上右下左，右侧 auto 会把它往左推 */
+  margin: 0  auto 2rem 0;
 }

@@ -11,6 +11,9 @@
 
 
 .back-home-btn {
+
+  text-decoration: none;
+
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -65,10 +68,10 @@
 }
 
 .map-image {
-  width: 100%;
-  aspect-ratio: 16 / 9;   
-  object-fit: cover;
+  width: 200%;
+  height: 500px; 
   border-radius: 6px;
+  overflow: hidden;
 }
 
 

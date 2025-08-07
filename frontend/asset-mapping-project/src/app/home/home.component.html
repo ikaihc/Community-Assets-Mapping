@@ -2,26 +2,70 @@
   <aside class="sidebar">
     <div class="sidebar-header">
       <label for="category-select">Please select one or more categories</label>
-      <select id="category-select" class="dropdown">
-        <option value="">Select</option>
-        <option *ngFor="let category of categories">{{ category }}</option>
-      </select>
+
+      <div class="custom-dropdown"
+           (mouseenter)="dropdownOpen = true"
+           (mouseleave)="dropdownOpen = false">
+        <div class="dropdown-trigger">
+          <div class="chips" *ngIf="selectedCategories.length > 0">
+            <span *ngFor="let category of selectedCategories" class="chip">
+              {{ category }}
+              <button (click)="removeCategory(category); $event.stopPropagation()">&times;</button>
+            </span>
+          </div>
+          <span *ngIf="selectedCategories.length === 0" class="placeholder">Select</span>
+          <img src="assets/icons/Dropdown.svg" class="dropdown-icon" alt="Dropdown Arrow" />
+        </div>
+
+        <div class="dropdown-menu" *ngIf="dropdownOpen" (click)="$event.stopPropagation()">
+          <div class="dropdown-group"
+               *ngFor="let group of categoryGroups"
+               (mouseenter)="hoveredGroup = group.name"
+               (mouseleave)="hoveredGroup = null">
+            <div class="group-label">
+              {{ group.name }}
+              <span class="arrow">&#8250;</span>
+            </div>
+
+            <div class="flyout" *ngIf="hoveredGroup === group.name">
+              <div class="flyout-item"
+                   *ngFor="let item of group.items"
+                   [class.selected]="isSelected(item)"
+                   (click)="toggleCategory(item); $event.stopPropagation()">
+                {{ item }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <label for="asset-search">Search for asset:</label>
       <div class="search-wrapper">
-        <input type="text" placeholder="Ottawa Food Bank" />
-        <span class="search-icon">🔍</span>
+        <input
+          id="asset-search"
+          type="text"
+          placeholder="Ottawa Food Bank"
+          [(ngModel)]="searchQuery"
+          (input)="onSearchChange()"
+        />
+        <img src="assets/icons/search.svg" alt="Search" class="search-icon" />
       </div>
-      
 
       <label class="checkbox-label">
-        <input type="checkbox" />
+        <input type="checkbox" [(ngModel)]="volunteerOnly" (change)="applyFilters()" />
         Look for Volunteer Opportunities
       </label>
+
+      <!-- 🔽 Divider added here -->
+      <hr class="divider" />
+
     </div>
 
     <div class="asset-list">
-      <div *ngFor="let asset of assets" class="asset-card">
+      <div
+        *ngFor="let asset of filteredAssets"
+        class="asset-card"
+        [routerLink]="['/view-asset', asset.id]">
         <strong>{{ asset.name }}</strong>
         <p>{{ asset.type }}</p>
       </div>

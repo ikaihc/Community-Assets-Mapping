@@ -87,6 +87,7 @@ export interface AssetResponse {
 
 @Injectable({
   providedIn: 'root'
+  
 })
 export class AssetService {
   private apiUrl = 'http://localhost:3000'; // Backend API URL
