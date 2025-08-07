@@ -53,8 +53,16 @@ export class AddUserFormComponent implements OnInit {
         last_name: this.addUserForm.value.lastName,
         job_title: this.addUserForm.value.jobTitle || '',
         role: this.addUserForm.value.role,
-        password: this.addUserForm.value.password
+        password: String(this.addUserForm.value.password) // Ensure it's a string
       };
+
+      // Debug log to check the data being sent
+      console.log('AddUserForm: Sending user data:', {
+        ...userData,
+        password: '[HIDDEN]', // Don't log actual password
+        passwordType: typeof userData.password,
+        passwordLength: userData.password ? userData.password.length : 0
+      });
 
       // Reset form immediately after user clicks submit
       this.resetForm();

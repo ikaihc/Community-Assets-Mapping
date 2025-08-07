@@ -61,20 +61,41 @@ exports.getAllUsers = (req, res) => {
 
 // Create user (Admin only)
 exports.createUser = (req, res) => {
-  const { 
-    first_name, 
-    last_name, 
-    email, 
-    password, 
-    role = 'navigator', 
-    is_active = true 
+  const {
+    first_name,
+    last_name,
+    email,
+    password,
+    role = 'navigator',
+    is_active = true
   } = req.body;
+
+  console.log('CreateUser: Request body received:', {
+    first_name,
+    last_name,
+    email,
+    role,
+    is_active,
+    password: password ? '[PROVIDED]' : '[MISSING]',
+    passwordType: typeof password,
+    passwordIsArray: Array.isArray(password),
+    passwordIsObject: (password !== null && typeof password === 'object')
+  });
 
   // Validate required fields
   if (!first_name || !last_name || !email || !password) {
     return res.status(400).json({
       success: false,
       message: 'First name, last name, email, and password are required'
+    });
+  }
+
+  // Validate password type
+  if (typeof password !== 'string') {
+    console.error('CreateUser: Invalid password type:', typeof password, password);
+    return res.status(400).json({
+      success: false,
+      message: 'Password must be a string'
     });
   }
 
@@ -114,8 +135,10 @@ exports.createUser = (req, res) => {
         });
       }
 
-      // Hash the password
-      return bcrypt.hash(password, 12);
+      // Ensure password is a string and hash it
+      const passwordString = String(password);
+      console.log('CreateUser: Hashing password of length:', passwordString.length);
+      return bcrypt.hash(passwordString, 12);
     })
     .then(hashedPassword => {
       // Create the user
@@ -149,12 +172,32 @@ exports.createUser = (req, res) => {
     })
     .catch(error => {
       console.error('Create user error:', error);
+
+      // Handle Sequelize validation errors specifically
+      if (error.name === 'SequelizeValidationError') {
+        const validationErrors = error.errors.map(err => ({
+          field: err.path,
+          message: err.message,
+          type: err.type,
+          value: err.value
+        }));
+
+        console.error('Sequelize validation errors:', validationErrors);
+
+        return res.status(400).json({
+          success: false,
+          message: 'Validation failed',
+          errors: validationErrors
+        });
+      }
+
       if (error.name === 'SequelizeUniqueConstraintError') {
         return res.status(400).json({
           success: false,
           message: 'User with this email already exists'
         });
       }
+
       res.status(500).json({
         success: false,
         message: 'Internal server error',
@@ -520,7 +563,7 @@ exports.getUserStats = (req, res) => {
   const totalUsersPromise = User.count();
   const activeUsersPromise = User.count({ where: { is_active: true } });
   const inactiveUsersPromise = User.count({ where: { is_active: false } });
-  
+
   const usersByRolePromise = User.findAll({
     attributes: [
       'role',

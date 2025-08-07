@@ -6,7 +6,7 @@
     "start": "cd backend && npm start",
     "start:backend": "cd backend && npm start",
     "start:frontend": "cd frontend/asset-mapping-project && ng serve --disable-host-check",
-    "dev": "cd backend && npm run dev",
+    "dev": "cd backend && npm run dev && cd frontend/asset-mapping-project && ng serve --disable-host-check",
     "install:backend": "cd backend && npm install",
     "install:frontend": "cd frontend/asset-mapping-project && npm install",
     "install:all": "npm run install:backend && npm run install:frontend"
