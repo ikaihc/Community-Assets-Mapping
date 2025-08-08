@@ -246,6 +246,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadUsers();
   }
 
+  onAddNewAsset(): void {
+    console.log('DashboardComponent: Add new asset clicked');
+
+    if (!this.currentUser) {
+      // Guests should use the multi-step process
+      this.router.navigate(['/add-asset/start']);
+    } else {
+      // Logged-in users can use either method
+      // For now, use the embedded form for quick access
+      this.setActiveView('add-asset');
+
+      // Alternatively, could redirect to multi-step:
+      // this.router.navigate(['/add-asset/start']);
+    }
+  }
+
+  navigateToMultiStepAssetCreation(): void {
+    console.log('DashboardComponent: Navigate to multi-step asset creation');
+    this.router.navigate(['/add-asset/start']);
+  }
+
+  onViewAsset(asset: Asset): void {
+    console.log('DashboardComponent: View asset clicked:', asset.id);
+
+    if (this.currentUser && (this.currentUser.role === 'admin' || this.currentUser.role === 'navigator')) {
+      // Admin/Navigator view with editing capabilities
+      this.router.navigate(['/view-asset-admin', asset.id]);
+    } else {
+      // Guest view (read-only)
+      this.router.navigate(['/view-asset'], { queryParams: { id: asset.id } });
+    }
+  }
+
   onUserUpdated(user: UserInterface): void {
     console.log('DashboardComponent: User updated:', user);
     this.notificationService.success('User updated successfully', 'Success');
@@ -306,10 +339,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
         });
     }
-  }
-
-  onAddNewAsset(): void {
-    this.setActiveView('add-asset');
   }
 
   onAssetAdded(asset: Asset): void {

@@ -170,8 +170,10 @@
     <div *ngIf="activeView === 'assets' || isGuestUser()" class="content-section">
       <div class="section-header">
         <h1>{{ isGuestUser() ? 'Browse Community Assets' : 'Asset Management' }}</h1>
-        <button class="add-btn" (click)="onAddNewAsset()">Add New Asset</button>
-
+        <div class="header-actions">
+          <button class="add-btn primary" (click)="onAddNewAsset()">Quick Add Asset</button>
+          <button class="add-btn secondary" (click)="navigateToMultiStepAssetCreation()">Multi-Step Add</button>
+        </div>
       </div>
 
       <div class="filters">
@@ -288,9 +290,10 @@
                   </button>
                 </div>
               </td>
-              <td>
-                <button class="view-btn" [routerLink]="['/view-asset-admin', asset.id]">
+              <td class="view-column">
+                <button class="view-btn" (click)="onViewAsset(asset)" title="View Asset Details">
                   <i class="fas fa-eye"></i>
+                  {{ currentUser && (currentUser.role === 'admin' || currentUser.role === 'navigator') ? 'Edit' : 'View' }}
                 </button>
               </td>
             </tr>

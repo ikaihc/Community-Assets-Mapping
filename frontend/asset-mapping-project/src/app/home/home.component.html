@@ -62,12 +62,24 @@
     </div>
 
     <div class="asset-list">
+      <div class="loading-indicator" *ngIf="isLoadingAssets">
+        <p>Loading community assets...</p>
+      </div>
+
+      <div *ngIf="!isLoadingAssets && filteredAssets.length === 0" class="no-assets">
+        <p>No assets found matching your criteria.</p>
+      </div>
+
       <div
         *ngFor="let asset of filteredAssets"
         class="asset-card"
-        [routerLink]="['/view-asset', asset.id]">
-        <strong>{{ asset.name }}</strong>
-        <p>{{ asset.type }}</p>
+        (click)="onAssetClick(asset)"
+        [title]="asset.description">
+        <div class="asset-content">
+          <strong class="asset-name">{{ asset.name }}</strong>
+          <p class="asset-type">{{ asset.service_type || 'Community Asset' }}</p>
+          <p class="asset-description" *ngIf="asset.description">{{ asset.description }}</p>
+        </div>
       </div>
     </div>
   </aside>

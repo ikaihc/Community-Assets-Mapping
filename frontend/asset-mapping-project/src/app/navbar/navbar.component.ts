@@ -65,7 +65,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   onAddAsset(): void {
     console.log('Add New Asset clicked');
-    this.router.navigate(['/dashboard'], { queryParams: { view: 'add-asset' } });
+
+    // Check if user is logged in
+    if (!this.isLoggedIn) {
+      // For guests, redirect to multi-step process
+      this.router.navigate(['/add-asset/start']);
+    } else {
+      // For logged-in users, they can choose:
+      // - Quick add via dashboard
+      // - Multi-step process
+      // For now, default to dashboard quick-add
+      this.router.navigate(['/dashboard'], { queryParams: { view: 'add-asset' } });
+    }
   }
 
   onCloseLoginModal(): void {
