@@ -1,7 +1,13 @@
 <!-- src/app/pages/view-asset/view-asset.component.html -->
 <div class="view-asset-page">
-  <div class="card">
-    <!-- 左侧信息 -->
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading asset information...</p>
+  </div>
+
+  <!-- Asset Content -->
+  <div *ngIf="!isLoading && asset" class="card">
+    <!-- Left Column: Asset Information -->
     <div class="info-column">
       <h1>{{ asset.name }} Information</h1>
 
@@ -10,109 +16,90 @@
         <h2>Basic Info</h2>
 
         <label>Asset Name</label>
-        <!-- 改成 ngModel 双向绑定 -->
-        <input type="text" [(ngModel)]="asset.name" />
+        <input type="text" [value]="asset.name" readonly />
 
         <label>Categories</label>
         <div class="select-box">
-          <span *ngFor="let cat of asset.categories">{{ cat }}</span>
+          <span *ngFor="let category of getAssetCategories()">{{ category }}</span>
         </div>
 
         <label>Description</label>
-        <textarea rows="3" [(ngModel)]="asset.description"></textarea>
+        <textarea rows="3" [value]="asset.description || ''" readonly></textarea>
 
         <label>Volunteering Opportunities?</label>
         <div>
-          <button 
-            [class.selected]="asset.hasVolunteer" 
-            (click)="asset.hasVolunteer = true" 
+          <button
+            [class.selected]="asset.has_volunteer_opportunities"
             type="button"
+            disabled
           >Yes</button>
-          <button 
-            [class.selected]="!asset.hasVolunteer" 
-            (click)="asset.hasVolunteer = false" 
+          <button
+            [class.selected]="!asset.has_volunteer_opportunities"
             type="button"
+            disabled
           >No</button>
         </div>
       </section>
 
       <!-- Location -->
-      <section>
+      <section *ngIf="asset.address">
         <h2>Location</h2>
 
         <label>Address – Street and Unit</label>
-        <input type="text" [(ngModel)]="asset.location.address" />
+        <input type="text" [value]="asset.address.address_line_1 + (asset.address.address_line_2 ? ', ' + asset.address.address_line_2 : '')" readonly />
 
         <label>Address – City</label>
-        <input type="text" [(ngModel)]="asset.location.city" />
+        <input type="text" [value]="asset.address.city" readonly />
 
         <label>Address – Postcode</label>
-        <input type="text" [(ngModel)]="asset.location.postcode" />
+        <input type="text" [value]="asset.address.postal_code" readonly />
+      </section>
 
-        <label>Transportation Options</label>
-        <textarea rows="2" [(ngModel)]="asset.location.transportation"></textarea>
+      <!-- Contact Information -->
+      <section *ngIf="asset.contact">
+        <h2>Contact Information</h2>
+
+        <label>Contact Name</label>
+        <input type="text" [value]="asset.contact.contact_name || ''" readonly />
+
+        <label>Contact Title</label>
+        <input type="text" [value]="asset.contact.contact_title || ''" readonly />
+
+        <label>Contact Email</label>
+        <input type="text" [value]="asset.contact.contact_email || ''" readonly />
+
+        <label>Contact Phone</label>
+        <input type="text" [value]="asset.contact.contact_phone || ''" readonly />
       </section>
 
       <!-- Registration & Schedule -->
       <section>
         <h2>Registration and Schedule</h2>
 
-        <label>Schedule Information</label>
-        <input type="text" class="form-control" [(ngModel)]="asset.schedule.info" />
+        <label>Website</label>
+        <input type="text" [value]="asset.website || ''" readonly />
 
-        <label *ngIf="asset.schedule.details?.length">Details</label>
-        <div *ngFor="let d of asset.schedule.details; let i = index">
-          <textarea
-            class="form-control"
-            rows="2"
-            [(ngModel)]="asset.schedule.details[i]"
-          ></textarea>
-        </div>
+        <label>Phone</label>
+        <input type="text" [value]="asset.phone || ''" readonly />
 
-        <label>Registration Information</label>
-        <textarea
-          class="form-control"
-          rows="2"
-          [(ngModel)]="asset.registration"
-        ></textarea>
-
-        <!-- 语言选择 -->
-        <section>
-          <label>What languages does this program offer?</label>
-          <div class="tag-button-group">
-            <button
-              *ngFor="let lang of allLanguages"
-              class="btn-tag"
-              [class.selected]="asset.languages.includes(lang)"
-              (click)="toggleLanguage(lang)"
-              type="button"
-            >
-              {{ lang }}
-            </button>
-          </div>
-        </section>
-
-        <!-- 活动形式 -->
-        <section>
-          <label>What activity format does this program offer?</label>
-          <div class="tag-button-group">
-            <button
-              *ngFor="let fmt of allFormats"
-              class="btn-tag"
-              [class.selected]="asset.formats.includes(fmt)"
-              (click)="toggleFormat(fmt)"
-              type="button"
-            >
-              {{ fmt }}
-            </button>
-          </div>
-        </section>
+        <label>Email</label>
+        <input type="text" [value]="asset.email || ''" readonly />
       </section>
+
+      <!-- Navigation -->
+      <div class="navigation-buttons">
+        <a routerLink="/home" class="btn-outline-primary">← Back to Home</a>
+      </div>
     </div>
 
-    <!-- 右侧地图 -->
+    <!-- Right Column: Map -->
     <div class="map-column">
       <div id="view-map" class="map-container"></div>
     </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!isLoading && !asset" class="error">
+    <p>Asset not found. <a routerLink="/home">Return to home</a></p>
   </div>
 </div>

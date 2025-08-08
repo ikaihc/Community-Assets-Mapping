@@ -1,6 +1,6 @@
 <div class="card">
   <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
-  <h1>New Community Asset Information</h1>
+  <h1>{{ isEditMode ? 'Edit Community Asset Information' : 'New Community Asset Information' }}</h1>
 
   <nav class="breadcrumb-nav">
     <span class="active"><strong>Start Questions</strong></span>
@@ -10,7 +10,7 @@
     <span>・ Registration</span>
   </nav>
 
-  <p><strong>Before we start, please answer these two quick questions:</strong></p>
+  <p><strong>{{ isEditMode ? 'Please review and update these questions if needed:' : 'Before we start, please answer these two quick questions:' }}</strong></p>
 
   <p>Is this a group or organisation that offers MORE THAN ONE service or program?</p>
   <div>

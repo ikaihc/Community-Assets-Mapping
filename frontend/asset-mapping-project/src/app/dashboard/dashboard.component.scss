@@ -743,3 +743,77 @@
   text-align: center;
   width: 100px;
 }
+
+// New Action and Edit button styles for cleaner dashboard look
+.action-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.approve-btn {
+    background-color: #4285f4;
+    color: white;
+
+    &:hover {
+      background-color: #3367d6;
+    }
+  }
+
+  &.deactivate-btn {
+    background-color: #db4437;
+    color: white;
+
+    &:hover {
+      background-color: #c23321;
+    }
+  }
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  color: #4285f4;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+    color: #3367d6;
+  }
+
+  i {
+    font-size: 14px;
+  }
+}
+
+// Status badge improvements
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.status-approved {
+    background-color: #e8f5e8;
+    color: #137333;
+  }
+
+  &.status-pending {
+    background-color: #fef7e0;
+    color: #b06000;
+  }
+
+  &.status-rejected {
+    background-color: #fce8e6;
+    color: #d93025;
+  }
+}

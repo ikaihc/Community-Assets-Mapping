@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { AuthService, User } from '../services/auth.service';
+import { AssetCreationService } from '../services/asset-creation.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -25,7 +26,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private assetCreationService: AssetCreationService
   ) { }
 
   ngOnInit() {
@@ -68,7 +70,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // Check if user is logged in
     if (!this.isLoggedIn) {
-      // For guests, redirect to multi-step process
+      // For guests, clear any previous data to ensure clean slate
+      this.assetCreationService.clearData();
+      // Redirect to multi-step process
       this.router.navigate(['/add-asset/start']);
     } else {
       // For logged-in users, they can choose:

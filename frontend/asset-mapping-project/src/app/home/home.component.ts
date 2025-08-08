@@ -82,15 +82,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadAssets(): void {
     this.isLoadingAssets = true;
 
-    // Load approved assets for public display
-    this.assetService.getAssets(1, 100, 'approved')
+    // Load approved assets for public display - increased limit to see more assets
+    this.assetService.getAssets(1, 500, 'approved')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           console.log('HomeComponent: Assets loaded:', response);
+          console.log('HomeComponent: Total assets in response:', response.total);
+          console.log('HomeComponent: Assets array length:', response.assets?.length);
           if (response.success && response.assets) {
             this.assets = response.assets;
             this.filteredAssets = [...this.assets];
+            console.log('HomeComponent: Assets set to component:', this.assets.length, 'assets');
             this.renderMarkers();
           }
           this.isLoadingAssets = false;
@@ -204,7 +207,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onAssetClick(asset: Asset): void {
-    console.log('Asset clicked:', asset);
+    console.log('HomeComponent: Asset clicked:', asset);
+    console.log('HomeComponent: Navigating to view-asset with ID:', asset.id);
     // Navigate to asset view page
     this.router.navigate(['/view-asset'], { queryParams: { id: asset.id } });
   }

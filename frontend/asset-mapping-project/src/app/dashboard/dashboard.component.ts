@@ -638,4 +638,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getAssetEndIndex(): number {
     return Math.min(this.assetPage * this.assetLimit, this.assetTotal);
   }
+
+  // Helper methods for asset display
+  getCreatorName(asset: Asset): string {
+    if (asset.creator) {
+      return `${asset.creator.first_name} ${asset.creator.last_name}`;
+    }
+    return 'Unknown';
+  }
+
+  getModifierName(asset: Asset): string {
+    // For now, return same as creator since we don't have modifier info
+    if (asset.creator) {
+      return `${asset.creator.first_name} ${asset.creator.last_name}`;
+    }
+    return 'Unknown';
+  }
+
+  onEditAsset(asset: Asset): void {
+    console.log('DashboardComponent: Edit asset clicked:', asset);
+    // Navigate to the add-asset workflow for editing
+    this.router.navigate(['/add-asset/start'], { queryParams: { id: asset.id, mode: 'edit' } });
+  }
 }

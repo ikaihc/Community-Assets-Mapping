@@ -89,6 +89,7 @@ exports.getAllAssets = (req, res) => {
   })
   .then(result => {
     const { count, rows: assets } = result;
+    
     res.status(200).json({
       success: true,
       assets: assets,  // Changed from 'data' to 'assets' for getAllAssets

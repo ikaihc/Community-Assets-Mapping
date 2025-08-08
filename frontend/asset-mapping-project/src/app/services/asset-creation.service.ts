@@ -32,6 +32,10 @@ export interface AssetCreationData {
     contact_phone?: string;
     contact_title?: string;
   };
+
+  // Edit mode properties
+  id?: number;
+  isEditMode?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -78,6 +82,54 @@ export class AssetCreationService {
     this.assetData = {};
     this.currentStep.next(1);
     this.maxStep.next(1);
+  }
+
+  // Load existing asset data for edit mode
+  loadAssetForEdit(assetResponse: any): void {
+    // Backend returns asset in 'data' property, not 'asset'
+    const asset = assetResponse.data || assetResponse.asset || assetResponse;
+
+    console.log('Raw asset data from backend:', asset);
+
+    this.assetData = {
+      id: asset.id,
+      isEditMode: true,
+      multiplePrograms: asset.multiple_programs || false,
+      hasPhysicalLocation: !!asset.address, // If address exists, it has physical location
+      name: asset.name || '',
+      description: asset.description || '',
+      service_type: asset.service_type || '',
+      has_volunteer_opportunities: asset.has_volunteer_opportunities || false,
+      website: asset.website || '',
+      phone: asset.phone || '',
+      email: asset.email || '',
+      address: asset.address ? {
+        address_line_1: asset.address.street_address || '', // Database uses 'street_address'
+        address_line_2: asset.address.address_line_2 || '',
+        city: asset.address.city || '',
+        province: asset.address.province || 'Ontario', // Default to Ontario if not set
+        postal_code: asset.address.post_code || '', // Database uses 'post_code'
+        country: asset.address.country || 'Canada'
+      } : undefined,
+      contact: asset.contact ? {
+        contact_name: asset.contact.name || '', // Database uses 'name'
+        contact_email: asset.contact.email || '', // Database uses 'email'
+        contact_phone: asset.contact.phone_number || '', // Database uses 'phone_number'
+        contact_title: asset.contact.contact_title || '' // May not exist in DB
+      } : undefined
+    };
+
+    console.log('Processed asset data for editing:', this.assetData);
+  }
+
+  // Check if in edit mode
+  isEditMode(): boolean {
+    return this.assetData.isEditMode || false;
+  }
+
+  // Get asset ID for edit mode
+  getAssetId(): number | undefined {
+    return this.assetData.id;
   }
 
   // Validation helpers
