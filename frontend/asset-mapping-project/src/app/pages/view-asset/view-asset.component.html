@@ -1,4 +1,4 @@
-<!-- src/app/pages/view-asset/view-asset.component.html -->
+<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700&display=swap" rel="stylesheet">
 <div class="view-asset-page">
   <div class="card">
     <!-- 左侧信息 -->
@@ -25,18 +25,10 @@
         <textarea rows="3" [(ngModel)]="asset.description"></textarea>
 
         <label>Does this program have volunteering opportunities?</label>
-        <div>
-          <button 
-            [class.selected]="asset.hasVolunteer" 
-            (click)="asset.hasVolunteer = true" 
-            type="button"
-          >Yes</button>
-          <button 
-            [class.selected]="!asset.hasVolunteer" 
-            (click)="asset.hasVolunteer = false" 
-            type="button"
-          >No</button>
-        </div>
+<div class="yes-no-group">
+  <button type="button" class="selected" disabled>Yes</button>
+  <button type="button" disabled>No</button>
+</div>
       </section>
 
       <!-- Location -->
@@ -89,6 +81,7 @@
               [class.selected]="asset.languages.includes(lang)"
               (click)="toggleLanguage(lang)"
               type="button"
+              disabled
             >
               {{ lang }}
             </button>
@@ -105,6 +98,7 @@
               [class.selected]="asset.formats.includes(fmt)"
               (click)="toggleFormat(fmt)"
               type="button"
+              disabled
             >
               {{ fmt }}
             </button>
