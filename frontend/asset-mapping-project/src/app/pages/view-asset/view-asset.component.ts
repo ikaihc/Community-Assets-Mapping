@@ -52,6 +52,12 @@ export class ViewAssetComponent implements AfterViewInit {
 
   constructor(private zone: NgZone) {}
 
+  selectedCategories: string[] = ['Basic Needs', 'Food Bank'];
+
+removeCategory(index: number) {
+  this.selectedCategories.splice(index, 1);
+}
+
   ngAfterViewInit(): void {
     // 1) 在全局注册 initMap 回调
     window.initMap = () => {

@@ -5,28 +5,31 @@ $primary-2:   #1F4F85;
 $neutral-1:   #F8F8F8;
 $white:       #FFFFFF;
 $black:       #040404;
+$neutral-2:   #F3F3F3;
+$neutral-4:   #7D7D7D;
 
 .view-asset-page {
   padding: 2rem 0;
-  background: $neutral-1;  // 整体页面背景
+  background: $neutral-2;  // 整体页面背景
 
   .card {
     max-width: 1200px;
-    height: 600px;              // 固定高度
-    margin: 0 auto;             // 居中
+    width: 96%;
+    height: 600px;              
+    margin: 0 auto;            
     padding: 2rem;
     display: flex;
-    background: $white;
+    background: $neutral-1;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    overflow: hidden;           // 隐藏水平溢出
+    overflow: hidden;           
   }
 
   // 左侧滚动区
   .info-column {
     width: 50%;
     padding-right: 1rem;
-    overflow-y: auto;           // 垂直滚动
+    overflow-y: auto;          
     overflow-x: hidden;
 
     /* 滚动条样式 */
@@ -39,7 +42,7 @@ $black:       #040404;
     }
 
     h1 {
-      font-size: 2.25rem;        // Heading Bold 36 相近
+      font-size: 2.25rem;   
       font-weight: 700;
       color: $primary-2;
       margin-bottom: 1rem;
@@ -49,7 +52,7 @@ $black:       #040404;
       margin-bottom: 1.5rem;
 
       h2 {
-        font-size: 1.25rem;      // SubHeading SemiBold 16 相近
+        font-size: 1.25rem;      
         font-weight: 600;
         color: $primary-2;
         margin-bottom: 0.75rem;
@@ -57,9 +60,9 @@ $black:       #040404;
 
       label {
         display: block;
-        font-size: 1rem;         // Input Label 14~16
+        font-size: 1rem;       
         font-weight: 400;
-        color: $primary-2;
+        color: $neutral-4;
         margin-top: 0.75rem;
         margin-bottom: 0.25rem;
       }
@@ -68,21 +71,58 @@ $black:       #040404;
       textarea {
         width: 100%;
         padding: 0.6rem;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 1rem;         // Input text Regular 16
-        background: $neutral-1;
+        border: 1px solid #D1D1D1;     
+        border-radius: 10px;            // 圆角更大
+        font-size: 1rem;
+        background: $neutral-2;         // 输入框背景色
+        color: $neutral-4;              // 输入框文字色
         resize: vertical;
+        font-weight: 400;
+        box-shadow: none;
+        outline: none;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: $primary-2;
+        }
       }
 
       .select-box {
-        background: $neutral-1;
+        background: $neutral-2;
         border: 1px solid #ccc;
         border-radius: 6px;
         padding: 0.6rem;
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
+
+        .selected-tag {
+          display: flex;
+          align-items: center;
+          background: $neutral-4;      // 选中项背景
+          color: $neutral-1;           // 选中项文字
+          padding: 0.3rem 0.8rem;
+          border-radius: 6px;
+          font-size: 1rem;
+          font-weight: 400;
+          margin-right: 0.5rem;
+
+          .remove-btn {
+            margin-left: 0.5rem;
+            color: $neutral-1;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            transition: color 0.2s;
+
+            &:hover {
+              color: #ff5c5c;
+            }
+          }
+        }
 
         span {
           background: #ccc;

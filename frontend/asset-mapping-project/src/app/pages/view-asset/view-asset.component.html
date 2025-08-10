@@ -15,13 +15,16 @@
 
         <label>Categories</label>
         <div class="select-box">
-          <span *ngFor="let cat of asset.categories">{{ cat }}</span>
-        </div>
+  <span class="selected-tag" *ngFor="let cat of selectedCategories; let i = index">
+    {{ cat }}
+    <button class="remove-btn" (click)="removeCategory(i)">×</button>
+  </span>
+</div>
 
         <label>Description</label>
         <textarea rows="3" [(ngModel)]="asset.description"></textarea>
 
-        <label>Volunteering Opportunities?</label>
+        <label>Does this program have volunteering opportunities?</label>
         <div>
           <button 
             [class.selected]="asset.hasVolunteer" 
