@@ -1,10 +1,27 @@
-
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
 :host {
   display: block;
+  background: $neutral-1;
+  min-height: 100vh;
 }
 
-.container,
+
 .card {
+  position: relative;
+  background: transparent; 
+  width: 96%;
+  box-shadow: none;
+  max-width: 900px;
+  width: 96%; // 添加此行
+  margin: 2rem auto;
+  padding: 2rem;
+  background: $neutral-2;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
   position: relative;
 }
 
@@ -30,11 +47,11 @@
 
 .container {
   max-width: 900px;
-  margin: 2rem auto;
+  margin: 0 auto 2rem auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   font-family: Arial, sans-serif;
 }
 
@@ -124,7 +141,8 @@ h2 {
 
 .navigation-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* 左对齐 */
+  gap: 1rem;
   margin-top: 2rem;
 
   .btn {

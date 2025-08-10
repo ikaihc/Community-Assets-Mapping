@@ -1,12 +1,20 @@
-
+$neutral-1: #F8F8F8;
+$neutral-2: #F3F3F3;
 :host {
   display: block;
+  background: $neutral-2;
+  min-height: 100vh;
 }
 
 
-.container,
-.card {
-  position: relative;
+.container {
+  max-width: 900px;
+  margin: 0 auto 2rem auto;
+  padding: 2rem;
+  background: $neutral-1;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  font-family: Arial, sans-serif;
 }
 
 
@@ -33,9 +41,10 @@
 
 .card {
   max-width: 900px;
-  margin: 2rem auto;              
+  width: 96%;
+  margin: 0 auto 2rem auto;              
   padding: 2rem;    
-  background: #fff;
+  background: $neutral-1;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   font-family: Arial, sans-serif;
@@ -121,7 +130,8 @@
 
 .navigation-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* 左对齐 */
+  gap: 1rem;
   margin-top: 2rem;
 
   .btn {

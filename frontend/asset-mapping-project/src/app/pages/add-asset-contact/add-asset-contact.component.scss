@@ -1,5 +1,9 @@
+$neutral-1: #F8F8F8;
+$neutral-2: #F3F3F3;
 :host {
   display: block;
+  background: $neutral-2;
+  min-height: 100vh;
 }
 
 /* 容器 & 卡片 */
@@ -7,7 +11,8 @@
 .card {
   position: relative;
   max-width: 900px;
-  margin: 2rem auto;
+  width: 96%;
+  margin: 0 auto 2rem auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;
@@ -109,7 +114,8 @@ form {
 /* 底部导航按钮 */
 .navigation-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* 左对齐 */
+  gap: 1rem;
   margin-top: 2rem;
 
   .btn {

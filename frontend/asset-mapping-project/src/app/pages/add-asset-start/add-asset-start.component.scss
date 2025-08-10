@@ -1,11 +1,24 @@
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
 :host {
   display: block;
+  background: $neutral-2;
 }
 
-.container,
-.card {
-  position: relative;
+
+.container {
+  max-width: 900px;
+  margin: 0 auto 2rem auto;
+  padding: 4rem;
+  background: $neutral-2;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  font-family: Arial, sans-serif;
 }
+
+
 
 
 .back-home-btn {
@@ -30,6 +43,7 @@
 
 .card {
   max-width: 900px;
+  width: 96%;
   margin: 2rem auto;
   padding: 2rem;
   background: #fff;
@@ -99,7 +113,7 @@
 
 /* Proceed 按钮 */
 .proceed-container {
-  text-align: right;
+  text-align: left;
   margin-top: 2rem;
 
   .btn-primary {
