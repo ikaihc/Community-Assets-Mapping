@@ -4,12 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
 import { EditUserFormComponent } from '../edit-user-form/edit-user-form.component';
 
-
-import { RouterModule } from '@angular/router';
-
-
-import { Router } from '@angular/router';
-
 import { AddAssetFormComponent } from '../add-asset-form/add-asset-form.component';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
