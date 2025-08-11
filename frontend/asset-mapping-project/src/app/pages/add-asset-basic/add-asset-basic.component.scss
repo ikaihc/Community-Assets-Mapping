@@ -2,9 +2,11 @@ $primary-2:   #1F4F85;
 $primary-3:   #163E6C;
 $neutral-1:   #F8F8F8;
 $neutral-2:   #F3F3F3;
+$neutral-3:   #B3B3B3;
+$neutral-bg:  #E6E6E6; 
 :host {
   display: block;
-  background: $neutral-1;
+  $neutral-bg:  #E6E6E6; 
   min-height: 100vh;
 }
 
@@ -46,13 +48,21 @@ $neutral-2:   #F3F3F3;
 }
 
 .container {
-  max-width: 900px;
+  width: 60vw;
   margin: 0 auto 2rem auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   font-family: Arial, sans-serif;
+}
+
+.container {
+  
+  height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -101,6 +111,7 @@ h2 {
     border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.2s ease;
+    font-family: inherit;
 
     &:focus {
       outline: none;
@@ -116,7 +127,15 @@ h2 {
     min-height: 100px;
   }
 }
-
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+  color: $neutral-3;
+  opacity: 1;
+  font-style: italic;
+}
+textarea.form-control {
+  font-family: 'Work Sans', Arial, sans-serif;
+}
 
 .button-group {
   display: flex;
@@ -247,7 +266,7 @@ h2 {
     list-style: none;
     border: 1px solid #ccc;
     border-radius: 6px;
-    background: #fff;
+    background: $neutral-2;
     overflow-y: auto;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     z-index: 100;
@@ -273,13 +292,7 @@ h2 {
   margin: 0  auto 2rem 0;
 }
 
-.container {
-  // ...原有样式...
-  height: 80vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
+
 
 .container-content {
   flex: 1 1 auto;
