@@ -123,14 +123,14 @@ $neutral-bg:  #E6E6E6;
     padding: 0.6rem 1.2rem;
     font-size: 0.95rem;
     border-radius: 6px;
-    background-color: #1F4F85;
-    color: #fff;
-    border: none;
+    background-color: $primary-2 !important;
+    color: #fff !important;
+    border: none !important;
     cursor: pointer;
     transition: background 0.2s ease;
 
     &:hover {
-      background-color: #163E6C;
+      background-color: $primary-3 !important; // 保持和默认一样
     }
   }
 }
