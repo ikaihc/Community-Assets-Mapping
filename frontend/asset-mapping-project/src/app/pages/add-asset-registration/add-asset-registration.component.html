@@ -1,25 +1,29 @@
 <!-- src/app/pages/add-asset-registration/add-asset-registration.component.html -->
 <div class="container">
-  <!-- Back to Home -->
-  <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+  <div class="card">
+  <div class="card-content">
+    <div class="header-row">
+        <h1>New Community Asset Information</h1>
+        <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+    </div>
 
-  <!-- Title -->
-  <h2>New Community Asset Information</h2>
-
-  <!-- Step Navigation -->
-  <nav class="step-nav">
-    <span>Before We Start</span> ・
-    <span>Basic Information</span> ・
-    <span>Location</span> ・
-    <span>Contact</span> ・
-    <b>Registration and Schedule</b>
-  </nav>
+      <p class="breadcrumb">
+        <span class="inactive">Before We Start</span> ▶
+        <span class="inactive">Basic Information</span> ▶
+        <span class="inactive">Location</span> ▶
+        <span class="inactive">Contact</span> ▶
+        <span class="active">Registration and Schedule</span>
+      </p>
 
   <!-- Reactive Form for date-range -->
-  <form [formGroup]="range">
+   <form>
+
+
+  <div class="form-group" [formGroup]="range">
+    <label>Schedule Information</label>
     <!-- Schedule Selection -->
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Schedule Information</mat-label>
+      <mat-label>Select</mat-label>
       <mat-select (selectionChange)="onScheduleChange($event.value)">
         <mat-option value="">Select</mat-option>
         <mat-option value="one-time">One-time Schedule</mat-option>
@@ -106,25 +110,27 @@
         + Another Date
       </button>
     </div>
-  </form>
-
-  <!-- Registration Information -->
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Registration Information</mat-label>
-    <textarea matInput
-              placeholder="ex. To register, please contact by email or telephone us at 111223333">
-    </textarea>
-  </mat-form-field>
-
-  <!-- Accessible Features -->
-  <label>Does this program have accessible features?</label>
-  <div class="button-group">
-    <button mat-button class="btn btn-option">Yes</button>
-    <button mat-button class="btn btn-option">No</button>
   </div>
 
+  <!-- Registration Information -->
+    <div class="form-group">
+          <label>Registration Information</label>
+          <textarea rows="3" class="form-control" placeholder="ex. To register, please contact by email or telephone us at 111223333"></textarea>
+    </div>
+
+        <!-- Accessible Features -->
+       <div class="form-group">
+          <label>Does this program have accessible features?</label>
+          <div class="button-group">
+            <button mat-button class="btn btn-option">Yes</button>
+            <button mat-button class="btn btn-option">No</button>
+          </div>
+       </div>
+
+
   <!-- Languages Offered -->
-  <label>What languages does this program offer?</label>
+    <div class="form-group">
+        <label>What languages does this program offer?</label>
   <div class="tag-button-group">
     <button mat-button class="btn btn-tag">English</button>
     <button mat-button class="btn btn-tag">French</button>
@@ -132,8 +138,11 @@
     <button mat-button class="btn btn-tag">Sign</button>
     <button mat-button class="btn btn-tag">Others</button>
   </div>
+    </div>
+
 
   <!-- Activity Formats -->
+          <div class="form-group">
   <label>What activity format does this program offer?</label>
   <div class="tag-button-group">
     <button mat-button class="btn btn-tag">Online</button>
@@ -144,10 +153,22 @@
     <button mat-button class="btn btn-tag">Scheduled</button>
     <button mat-button class="btn btn-tag">Self-paced</button>
   </div>
+          </div>
+
+  </form>
+
+
 
   <!-- Navigation Buttons -->
-  <div class="navigation-buttons">
-    <button mat-stroked-button (click)="goPrevious()">← Previous</button>
-    <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
-  </div>
+   <div class="navigation-buttons">
+      <button (click)="goPrevious()" class="btn btn-outline-primary">
+        ← Previous
+      </button>
+      <button (click)="onSubmit()" class="btn btn-primary">
+        Submit
+      </button>
+    </div>
+
+</div>
+</div>
 </div>

@@ -3,15 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
 import { EditUserFormComponent } from '../edit-user-form/edit-user-form.component';
+
 import { AddAssetFormComponent } from '../add-asset-form/add-asset-form.component';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 // Material imports
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
+
 import { MatInputModule } from '@angular/material/input';
+
 
 // Import our services
 import { AuthService, User as AuthUser } from '../services/auth.service';
@@ -24,6 +28,7 @@ import { DashboardService } from '../services/dashboard.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
+
   imports: [CommonModule, FormsModule, AddUserFormComponent, EditUserFormComponent, AddAssetFormComponent, MatSelectModule, MatFormFieldModule, MatOptionModule, MatInputModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -246,6 +251,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadUsers();
   }
 
+  onAddNewAsset(): void {
+    console.log('DashboardComponent: Add new asset clicked');
+
+    if (!this.currentUser) {
+      // Guests should use the multi-step process
+      this.router.navigate(['/add-asset/start']);
+    } else {
+      // Logged-in users can use either method
+      // For now, use the embedded form for quick access
+      this.setActiveView('add-asset');
+
+      // Alternatively, could redirect to multi-step:
+      // this.router.navigate(['/add-asset/start']);
+    }
+  }
+
+  navigateToMultiStepAssetCreation(): void {
+    console.log('DashboardComponent: Navigate to multi-step asset creation');
+    this.router.navigate(['/add-asset/start']);
+  }
+
+  onViewAsset(asset: Asset): void {
+    console.log('DashboardComponent: View asset clicked:', asset.id);
+
+    if (this.currentUser && (this.currentUser.role === 'admin' || this.currentUser.role === 'navigator')) {
+      // Admin/Navigator view with editing capabilities
+      this.router.navigate(['/view-asset-admin', asset.id]);
+    } else {
+      // Guest view (read-only)
+      this.router.navigate(['/view-asset'], { queryParams: { id: asset.id } });
+    }
+  }
+
   onUserUpdated(user: UserInterface): void {
     console.log('DashboardComponent: User updated:', user);
     this.notificationService.success('User updated successfully', 'Success');
@@ -306,10 +344,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
         });
     }
-  }
-
-  onAddNewAsset(): void {
-    this.setActiveView('add-asset');
   }
 
   onAssetAdded(asset: Asset): void {
@@ -608,5 +642,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getAssetEndIndex(): number {
     return Math.min(this.assetPage * this.assetLimit, this.assetTotal);
+  }
+
+  // Helper methods for asset display
+  getCreatorName(asset: Asset): string {
+    if (asset.creator) {
+      return `${asset.creator.first_name} ${asset.creator.last_name}`;
+    }
+    return 'Unknown';
+  }
+
+  getModifierName(asset: Asset): string {
+    // For now, return same as creator since we don't have modifier info
+    if (asset.creator) {
+      return `${asset.creator.first_name} ${asset.creator.last_name}`;
+    }
+    return 'Unknown';
+  }
+
+  onEditAsset(asset: Asset): void {
+    console.log('DashboardComponent: Edit asset clicked:', asset);
+    // Navigate to the add-asset workflow for editing
+    this.router.navigate(['/add-asset/start'], { queryParams: { id: asset.id, mode: 'edit' } });
   }
 }

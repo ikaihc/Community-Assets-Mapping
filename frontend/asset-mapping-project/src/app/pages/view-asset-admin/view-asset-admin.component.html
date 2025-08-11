@@ -1,42 +1,212 @@
-<div class="view-asset-page">
-  <div class="card">
-    <div class="info-column">
-      <h1>{{ asset.name }} Information</h1>
-
-      <section>
-        <h2>Basic Info</h2>
-        <label>Asset Name</label>
-        <input [value]="asset.name" disabled />
-
-        <label>Categories</label>
-        <div class="select-box">
-          <span *ngFor="let cat of asset.categories">{{ cat }}</span>
-        </div>
-
-        <label>Description</label>
-        <textarea disabled>{{ asset.description }}</textarea>
-
-        <label>Volunteering Opportunities?</label>
-        <div>
-          <button disabled>{{ asset.hasVolunteer ? 'Yes' : 'No' }}</button>
-        </div>
-      </section>
-
-      <section>
-        <h2>Location</h2>
-        <label>Street Address</label>
-        <input [value]="asset.location.address" disabled />
-        <label>City</label>
-        <input [value]="asset.location.city" disabled />
-      </section>
-    </div>
-
-    <div class="map-column">
-      <img src="https://via.placeholder.com/600x400?text=Map" />
+<div class="asset-review-page">
+  <div class="review-header">
+    <button class="back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </button>
+    <h1>Asset Review - {{ getStepTitle() }}</h1>
+    <div class="asset-status">
+      <span [class]="'status-badge status-' + asset?.status">
+        {{ asset?.status | titlecase }}
+      </span>
     </div>
   </div>
 
-  <footer class="footer">
-    ©2025 <strong>Community Assets Mapping</strong> · Built By Zhuyu and Team · Idea by CCHC
-  </footer>
+  <div class="loading-indicator" *ngIf="isLoading">
+    <p>Loading asset details...</p>
+  </div>
+
+  <div *ngIf="!isLoading && asset" class="review-container">
+    <!-- Step Navigation -->
+    <nav class="step-nav">
+      <button
+        [class.active]="currentStep === 'basic'"
+        (click)="setStep('basic')"
+        class="step-btn">
+        1. Basic Info
+      </button>
+      <button
+        [class.active]="currentStep === 'location'"
+        (click)="setStep('location')"
+        class="step-btn">
+        2. Location
+      </button>
+      <button
+        [class.active]="currentStep === 'contact'"
+        (click)="setStep('contact')"
+        class="step-btn">
+        3. Contact
+      </button>
+      <button
+        [class.active]="currentStep === 'review'"
+        (click)="setStep('review')"
+        class="step-btn">
+        4. Review
+      </button>
+    </nav>
+
+    <!-- Step Content -->
+    <div class="step-content">
+      <!-- Basic Information Step -->
+      <div *ngIf="currentStep === 'basic'" class="step-section">
+        <h2>Basic Information</h2>
+        <div class="form-grid">
+          <div class="field-group">
+            <label>Asset Name</label>
+            <div class="readonly-field">{{ asset.name }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Service Type</label>
+            <div class="readonly-field">{{ asset.service_type || 'Not specified' }}</div>
+          </div>
+
+          <div class="field-group full-width">
+            <label>Description</label>
+            <div class="readonly-field description">{{ asset.description || 'No description provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Website</label>
+            <div class="readonly-field">
+              <a *ngIf="asset.website" [href]="asset.website" target="_blank">{{ asset.website }}</a>
+              <span *ngIf="!asset.website">Not provided</span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>Phone</label>
+            <div class="readonly-field">{{ asset.phone || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Email</label>
+            <div class="readonly-field">{{ asset.email || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Volunteer Opportunities</label>
+            <div class="readonly-field">{{ asset.has_volunteer_opportunities ? 'Yes' : 'No' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location Step -->
+      <div *ngIf="currentStep === 'location'" class="step-section">
+        <h2>Location Details</h2>
+        <div class="form-grid" *ngIf="asset.address">
+          <div class="field-group">
+            <label>Address Line 1</label>
+            <div class="readonly-field">{{ asset.address.address_line_1 || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Address Line 2</label>
+            <div class="readonly-field">{{ asset.address.address_line_2 || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>City</label>
+            <div class="readonly-field">{{ asset.address.city || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Province</label>
+            <div class="readonly-field">{{ asset.address.province || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Postal Code</label>
+            <div class="readonly-field">{{ asset.address.postal_code || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Country</label>
+            <div class="readonly-field">{{ asset.address.country || 'Not provided' }}</div>
+          </div>
+        </div>
+        <div *ngIf="!asset.address" class="no-data">
+          <p>No location information provided</p>
+        </div>
+      </div>
+
+      <!-- Contact Step -->
+      <div *ngIf="currentStep === 'contact'" class="step-section">
+        <h2>Contact Information</h2>
+        <div class="form-grid" *ngIf="asset.contact">
+          <div class="field-group">
+            <label>Contact Name</label>
+            <div class="readonly-field">{{ asset.contact.contact_name || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Contact Title</label>
+            <div class="readonly-field">{{ asset.contact.contact_title || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Contact Email</label>
+            <div class="readonly-field">{{ asset.contact.contact_email || 'Not provided' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label>Contact Phone</label>
+            <div class="readonly-field">{{ asset.contact.contact_phone || 'Not provided' }}</div>
+          </div>
+        </div>
+        <div *ngIf="!asset.contact" class="no-data">
+          <p>No contact information provided</p>
+        </div>
+      </div>
+
+      <!-- Review & Decision Step -->
+      <div *ngIf="currentStep === 'review'" class="step-section">
+        <h2>Review & Decision</h2>
+        <div class="review-summary">
+          <div class="summary-card">
+            <h3>{{ asset.name }}</h3>
+            <p><strong>Type:</strong> {{ asset.service_type || 'Not specified' }}</p>
+            <p><strong>Status:</strong> {{ asset.status | titlecase }}</p>
+            <p><strong>Submitted:</strong> {{ asset.created_at | date:'medium' }}</p>
+            <p *ngIf="asset.description"><strong>Description:</strong> {{ asset.description }}</p>
+          </div>
+
+          <div class="decision-actions">
+            <h3>Make Decision</h3>
+            <div class="action-buttons">
+              <button
+                class="approve-btn"
+                (click)="approveAsset()"
+                [disabled]="asset.status === 'approved'">
+                <i class="fas fa-check"></i>
+                Approve Asset
+              </button>
+
+              <button
+                class="reject-btn"
+                (click)="rejectAsset()"
+                [disabled]="asset.status === 'rejected'">
+                <i class="fas fa-times"></i>
+                Reject Asset
+              </button>
+            </div>
+
+            <div class="status-info">
+              <p *ngIf="asset.status === 'approved'" class="status-message success">
+                <i class="fas fa-check-circle"></i>
+                This asset has been approved and is visible to the public.
+              </p>
+              <p *ngIf="asset.status === 'rejected'" class="status-message error">
+                <i class="fas fa-times-circle"></i>
+                This asset has been rejected and is not visible to the public.
+              </p>
+              <p *ngIf="asset.status === 'pending'" class="status-message pending">
+                <i class="fas fa-clock"></i>
+                This asset is pending review. Make a decision above.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

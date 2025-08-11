@@ -1,16 +1,20 @@
-<div class="container">
-  <!-- 返回首页 -->
-  <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
 
-  <!-- 标题 -->
-  <h2>New Community Asset Information</h2>
+<div class="container">
+  <div class="card">
+  <!-- 返回首页 -->
+
+   <div class="container-content">
+    <div class="header-row">
+        <h1>New Community Asset Information</h1>
+        <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+    </div>
 
   <!-- 面包屑 -->
   <p class="breadcrumb">
-    <span class="inactive">Parent/Children Asset</span> • 
-    <span class="active">Basic Information</span> • 
-    <span class="inactive">Location</span> • 
-    <span class="inactive">Contact</span> • 
+    <span class="inactive">Before We Start</span> ▶
+    <span class="active">Basic Information</span> ▶
+    <span class="inactive">Location</span> ▶
+    <span class="inactive">Contact</span> ▶
     <span class="inactive">Registration and Schedule</span>
   </p>
 
@@ -19,7 +23,7 @@
     <!-- Asset Name -->
     <div class="form-group">
       <label>Asset Name</label>
-      <input type="text" class="form-control" placeholder="Type here" />
+      <input type="text" class="form-control" placeholder="ex. Algonquin College" [(ngModel)]="assetName" name="assetName" />
     </div>
 
     <!-- Categories -->
@@ -41,7 +45,8 @@
 
     <!-- 下拉选项列表 -->
     <ul class="options" *ngIf="dropdownOpen">
-      <li 
+
+      <li
         *ngFor="let cat of availableCategories"
         (click)="selectCategory(cat)"
         [class.disabled]="selectedCategories.includes(cat)"
@@ -59,6 +64,10 @@
         class="form-control"
         rows="3"
         placeholder="ex. Our mission is to make fruits and vegetables more accessible and affordable for Ottawa community members facing barriers to accessing fresh food."
+
+        [(ngModel)]="description"
+        name="description"
+
       ></textarea>
     </div>
 
@@ -69,6 +78,10 @@
         type="text"
         class="form-control"
         placeholder="ex. foodonthemove.org"
+
+        [(ngModel)]="website"
+        name="website"
+
       />
     </div>
 
@@ -76,8 +89,12 @@
     <div class="form-group">
       <label>Does this program have volunteering opportunities?</label>
       <div class="button-group">
-        <button type="button" class="btn btn-option">Yes</button>
-        <button type="button" class="btn btn-option">No</button>
+        <button type="button" class="btn btn-option"
+                [class.selected]="hasVolunteerOpportunities === true"
+                (click)="hasVolunteerOpportunities = true">Yes</button>
+        <button type="button" class="btn btn-option"
+                [class.selected]="hasVolunteerOpportunities === false"
+                (click)="hasVolunteerOpportunities = false">No</button>
       </div>
     </div>
 
@@ -99,4 +116,6 @@
       </button>
     </div>
   </form>
+</div>
+</div>
 </div>

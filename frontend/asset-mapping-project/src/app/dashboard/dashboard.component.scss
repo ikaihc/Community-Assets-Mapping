@@ -2,20 +2,12 @@
   font-family: 'work-sans', sans-serif;
   display: flex;
   min-height: calc(100vh - 80px);
-  background-color: #f5f6fa;
-
-  &.guest-mode {
-    .main-content {
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-  }
+  background-color: #e6e6e6;
 }
 
 
 .sidebar {
-  width: 280px;
+  width: 250px;
   background-color: #f8f8f8;
   padding: 24px;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
@@ -43,8 +35,7 @@
 
 .user-details {
   .detail-item {
-    margin-bottom: 20px;
-
+    
     h3 {
       font-size: 16px;
       font-weight: 600;
@@ -155,6 +146,13 @@
     margin: 0;
   }
 
+  .header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
   .role-info {
     flex: 1 1 100%;
     order: 2;
@@ -173,17 +171,52 @@
 }
 
 .add-btn {
-  background-color: #1F4F85;
-  color: #f8f8f8;
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  font-size: 14px;
+
+  // Default primary style (for backward compatibility)
+  background-color: #1F4F85;
+  color: #f8f8f8;
 
   &:hover {
     background-color: #1976D2;
+    box-shadow: 0 4px 12px rgba(31, 79, 133, 0.3);
+  }
+
+  &.primary {
+    background-color: #1F4F85;
+    color: #f8f8f8;
+
+    &:hover {
+      background-color: #1976D2;
+      box-shadow: 0 4px 12px rgba(31, 79, 133, 0.3);
+    }
+  }
+
+  &.secondary {
+    background-color: #6c757d;
+    color: white;
+
+    &:hover {
+      background-color: #5a6268;
+      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    }
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: #e9ecef;
+      box-shadow: none;
+    }
   }
 }
 
@@ -284,8 +317,8 @@
     }
 
     &.mdc-list-item--selected {
-      color: #1F4F85;
-      background-color: #ffffff;
+      color: #f8f8f8 !important;
+      background-color: #348cef !important;
     }
   }
 }
@@ -297,6 +330,7 @@
 ::ng-deep .mat-mdc-select-panel {
   margin-top: 8px !important;
   max-height: 200px !important;
+  border-radius: 10px;
 }
 
 ::ng-deep {
@@ -334,16 +368,16 @@
       color: #999;
     }
   }
-
-  &::before {
-    content: '🔍';
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #999;
-    filter: grayscale(100%);
-  }
+  
+  // &::before {
+  //   content: '🔍';
+  //   position: absolute;
+  //   left: 12px;
+  //   top: 50%;
+  //   transform: translateY(-50%);
+  //   color: #999;
+  //   filter: grayscale(100%);
+  // }
 }
 
 
@@ -363,7 +397,7 @@
 
     th {
       padding: 16px 12px;
-      text-align: left;
+      text-align: center;
       font-weight: 600;
       color: #1a202c;
       font-size: 14px;
@@ -391,7 +425,8 @@
       padding: 14px 12px;
       font-size: 14px;
       color: #1a202c;
-
+      text-align: center;
+      
       &.email-cell {
         color: #1F4F85;
       }
@@ -444,19 +479,23 @@
   }
 }
 
-.edit-btn {
-  background-color: #B3B3B3;
-  color: #f8f8f8;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-size: 14px;
+// .edit-btn {
+//   background-color: #B3B3B3;
+//   color: #f8f8f8;
+//   border: none;
+//   padding: 8px 12px;
+//   border-radius: 50%;
+//   cursor: pointer;
+//   transition: background-color 0.2s ease;
+//   font-size: 14px;
+  
+//   &:hover {
+//     background-color: #4b5563;
+//   }
+// }
 
-  &:hover {
-    background-color: #4b5563;
-  }
+.edit-btn {
+  cursor: pointer;
 }
 
 @media (max-width: 1024px) {
@@ -678,6 +717,8 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  gap: 6px;
+  min-width: 80px;
 
   &:hover {
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
@@ -692,5 +733,84 @@
 
   i {
     font-size: 14px;
+  }
+}
+
+.view-column {
+  text-align: center;
+  width: 100px;
+}
+
+// New Action and Edit button styles for cleaner dashboard look
+.action-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.approve-btn {
+    background-color: #4285f4;
+    color: white;
+
+    &:hover {
+      background-color: #3367d6;
+    }
+  }
+
+  &.deactivate-btn {
+    background-color: #db4437;
+    color: white;
+
+    &:hover {
+      background-color: #c23321;
+    }
+  }
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  color: #4285f4;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+    color: #3367d6;
+  }
+
+  i {
+    font-size: 14px;
+  }
+}
+
+// Status badge improvements
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.status-approved {
+    background-color: #e8f5e8;
+    color: #137333;
+  }
+
+  &.status-pending {
+    background-color: #fef7e0;
+    color: #b06000;
+  }
+
+  &.status-rejected {
+    background-color: #fce8e6;
+    color: #d93025;
   }
 }

@@ -30,7 +30,6 @@ main.main-container {
 // Sidebar
 .sidebar {
   width: 460px;
-  
   background-color: $neutral-board;
   padding: 1.25rem;
   border-radius: 16px;
@@ -44,16 +43,16 @@ main.main-container {
   display: flex;
   flex-direction: column;
   gap: .5rem;
-  font-family: $font-main;
+  font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
   color: #7d7d7d;
-  
+
 }
 
 // Dropdown
 .custom-dropdown {
   font-size: 14px;
   position: relative;
-  
+
 
   .dropdown-trigger {
     display: flex;
@@ -347,6 +346,70 @@ main.main-container {
   .footer {
     height: 40px;
     font-size: 0.75rem;
+  }
+}
+
+// Asset list styling
+.asset-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  max-height: calc(100% - 200px); // Leave space for filters above
+
+  .loading-indicator, .no-assets {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #7d7d7d;
+    font-style: italic;
+  }
+}
+
+.asset-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    border-color: $secondary;
+    box-shadow: 0 4px 12px rgba(52, 140, 239, 0.15);
+    transform: translateY(-1px);
+  }
+
+  .asset-content {
+    .asset-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: $primary;
+      margin-bottom: 0.25rem;
+      display: block;
+      line-height: 1.3;
+    }
+
+    .asset-type {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 0.25rem 0;
+      font-weight: 400;
+    }
+
+    .asset-description {
+      font-size: 0.85rem;
+      color: #888;
+      margin: 0.5rem 0 0 0;
+      line-height: 1.4;
+      max-height: 2.8rem; // Show ~2 lines
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   }
 }
 

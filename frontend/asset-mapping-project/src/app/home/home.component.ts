@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AssetService, Asset } from '../services/asset.service';
 
 @Component({
   selector: 'app-home',
@@ -11,11 +14,12 @@ import { RouterModule } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   map!: google.maps.Map;
   userLocationMarker!: google.maps.Marker;
   postalCode: string = '';
   radiusKm: number = 5;
+  private destroy$ = new Subject<void>();
 
   // New dropdown controls
   dropdownOpen = false;
@@ -48,34 +52,59 @@ export class HomeComponent implements OnInit {
   ];
 
   // Data
-  assets = [
-    { id: 1, name: 'Good Food on the Move', type: 'Bike repair', lat: 45.385, lng: -75.690 },
-    { id: 2, name: 'Ottawa Food Centre', type: 'Computer café', lat: 45.398, lng: -75.700 },
-    { id: 3, name: 'Car-sharing Ottawa', type: 'Car-sharing and similar transportation sharing services', lat: 45.408, lng: -75.715 },
-    { id: 4, name: 'Tool Library', type: 'Rentals (gear, tools)', lat: 45.412, lng: -75.683 },
-    { id: 5, name: 'Mission Shelter', type: 'Shelter', lat: 45.420, lng: -75.690 },
-    { id: 6, name: 'Carlington Health Centre', type: 'Clinics', lat: 45.398, lng: -75.740 },
-    { id: 7, name: 'Rideauwood Addiction Centre', type: 'Counseling', lat: 45.400, lng: -75.690 },
-    { id: 8, name: 'Tutoring Centre', type: 'Tutoring', lat: 45.411, lng: -75.710 },
-    { id: 9, name: 'Community Transport Van', type: 'Transportation', lat: 45.419, lng: -75.695 }
-  ];
-
-  filteredAssets = [...this.assets];
+  assets: Asset[] = [];
+  filteredAssets: Asset[] = [];
   markers: google.maps.Marker[] = [];
+  isLoadingAssets = false;
 
   // Filters
   searchQuery = '';
   volunteerOnly = false;
 
+  constructor(
+    private assetService: AssetService,
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
-    this.filteredAssets = [...this.assets];
+    this.loadAssets();
     this.initMap();
-    this.renderMarkers();
-  
+
     // Close dropdown on outside click
     document.addEventListener('click', this.handleClickOutside.bind(this));
   }
-  
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  loadAssets(): void {
+    this.isLoadingAssets = true;
+
+    // Load approved assets for public display - increased limit to see more assets
+    this.assetService.getAssets(1, 500, 'approved')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          console.log('HomeComponent: Assets loaded:', response);
+          console.log('HomeComponent: Total assets in response:', response.total);
+          console.log('HomeComponent: Assets array length:', response.assets?.length);
+          if (response.success && response.assets) {
+            this.assets = response.assets;
+            this.filteredAssets = [...this.assets];
+            console.log('HomeComponent: Assets set to component:', this.assets.length, 'assets');
+            this.renderMarkers();
+          }
+          this.isLoadingAssets = false;
+        },
+        error: (error) => {
+          console.error('HomeComponent: Error loading assets:', error);
+          this.isLoadingAssets = false;
+        }
+      });
+  }
+
   handleClickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const dropdown = document.querySelector('.custom-dropdown');
@@ -113,7 +142,8 @@ export class HomeComponent implements OnInit {
             title: 'You are here'
           });
 
-          this.filterNearbyAssets(coords);
+          // Apply filters to show relevant assets
+          this.applyFilters();
         },
         () => {
           alert('Location access denied or unavailable.');
@@ -124,29 +154,22 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  filterNearbyAssets(center: { lat: number; lng: number }, radiusKm: number = this.radiusKm): void {
-    this.filteredAssets = this.assets.filter(asset => {
-      const distance = this.getDistanceInKm(center.lat, center.lng, asset.lat, asset.lng);
-      return distance <= radiusKm;
-    });
-
-    this.renderMarkers();
-  }
-
   onSearchChange(): void {
     this.applyFilters();
   }
 
   applyFilters(): void {
     this.filteredAssets = this.assets.filter(asset => {
-      const matchesSearch = asset.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      const matchesSearch = asset.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        (asset.description && asset.description.toLowerCase().includes(this.searchQuery.toLowerCase())) ||
+        (asset.service_type && asset.service_type.toLowerCase().includes(this.searchQuery.toLowerCase()));
 
       const matchesCategory = this.selectedCategories.length
-        ? this.selectedCategories.includes(asset.type)
+        ? this.selectedCategories.includes(asset.service_type || '')
         : true;
 
       const matchesVolunteer = this.volunteerOnly
-        ? asset.name.toLowerCase().includes('volunteer') || asset.type.toLowerCase().includes('volunteer')
+        ? asset.has_volunteer_opportunities === true
         : true;
 
       return matchesSearch && matchesCategory && matchesVolunteer;
@@ -158,10 +181,10 @@ export class HomeComponent implements OnInit {
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
   }
-  
+
   closeDropdown(): void {
     this.dropdownOpen = false;
-    
+
   }
 
   toggleCategory(category: string): void {
@@ -183,30 +206,43 @@ export class HomeComponent implements OnInit {
     return this.selectedCategories.includes(category);
   }
 
+  onAssetClick(asset: Asset): void {
+    console.log('HomeComponent: Asset clicked:', asset);
+    console.log('HomeComponent: Navigating to view-asset with ID:', asset.id);
+    // Navigate to asset view page
+    this.router.navigate(['/view-asset'], { queryParams: { id: asset.id } });
+  }
+
   renderMarkers(): void {
     this.markers.forEach(marker => marker.setMap(null));
     this.markers = [];
 
     this.filteredAssets.forEach(asset => {
-      const marker = new google.maps.Marker({
-        position: { lat: asset.lat, lng: asset.lng },
-        map: this.map,
-        title: asset.name,
-        icon: {
-          url: 'assets/icons/red-pin.svg',
-          scaledSize: new google.maps.Size(36, 36)
-        }
-      });
+      // Only create marker if asset has address with coordinates
+      if (asset.address?.latitude && asset.address?.longitude) {
+        const marker = new google.maps.Marker({
+          position: {
+            lat: asset.address.latitude,
+            lng: asset.address.longitude
+          },
+          map: this.map,
+          title: asset.name,
+          icon: {
+            url: 'assets/icons/red-pin.svg',
+            scaledSize: new google.maps.Size(36, 36)
+          }
+        });
 
-      const infoWindow = new google.maps.InfoWindow({
-        content: `<strong>${asset.name}</strong><br>${asset.type}`
-      });
+        const infoWindow = new google.maps.InfoWindow({
+          content: `<strong>${asset.name}</strong><br>${asset.service_type || 'Community Asset'}`
+        });
 
-      marker.addListener('click', () => {
-        infoWindow.open(this.map, marker);
-      });
+        marker.addListener('click', () => {
+          infoWindow.open(this.map, marker);
+        });
 
-      this.markers.push(marker);
+        this.markers.push(marker);
+      }
     });
   }
 

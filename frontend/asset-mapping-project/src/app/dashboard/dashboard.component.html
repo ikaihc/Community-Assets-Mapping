@@ -156,9 +156,10 @@
                 </button>
               </td>
               <td>
-                <button class="edit-btn" (click)="onEditUser(user)">
-                  <i class="fas fa-pen"></i>
-                </button>
+                <!-- <button class="edit-btn" (click)="onEditUser(user.id)"> -->
+                  <!-- <i class="fas fa-pen"></i> -->
+                   <img src="../../assets/edit.svg" class="edit-btn" (click)="onEditUser(user)" alt="Edit Icon" class="edit-icon">
+                <!-- </button> -->
               </td>
             </tr>
           </tbody>
@@ -170,8 +171,10 @@
     <div *ngIf="activeView === 'assets' || isGuestUser()" class="content-section">
       <div class="section-header">
         <h1>{{ isGuestUser() ? 'Browse Community Assets' : 'Asset Management' }}</h1>
-        <button class="add-btn" (click)="onAddNewAsset()">Add New Asset</button>
-
+        <div class="header-actions">
+          <button class="add-btn primary" (click)="onAddNewAsset()">Quick Add Asset</button>
+          <button class="add-btn secondary" (click)="navigateToMultiStepAssetCreation()">Multi-Step Add</button>
+        </div>
       </div>
 
       <div class="filters">
@@ -183,22 +186,13 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="filter-field" *ngIf="isAuthenticatedUser()">
-          <mat-label>Filter by Status</mat-label>
-          <mat-select [value]="assetStatusFilter" (selectionChange)="setAssetStatusFilter($event.value)">
-            <mat-option value="">All Assets</mat-option>
-            <mat-option value="pending">Pending</mat-option>
-            <mat-option value="approved">Approved</mat-option>
-            <mat-option value="rejected">Rejected</mat-option>
-          </mat-select>
-        </mat-form-field>        <div class="search-box">
-          <input
-            type="text"
-            [value]="assetSearchTerm"
-            (input)="setAssetSearchTerm($any($event.target).value)"
-            placeholder="Search assets..."
-            class="search-input">
-        </div>
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Search assets...</mat-label>
+          <input matInput
+                 [value]="assetSearchTerm"
+                 (input)="setAssetSearchTerm($any($event.target).value)"
+                 placeholder="Jane Doe">
+        </mat-form-field>
       </div>
 
       <div class="table-container">
@@ -214,83 +208,60 @@
                 <div class="sort-arrow"
                      [class.active]="assetSortField === 'name'"
                      [class.desc]="assetSortField === 'name' && assetSortDirection === 'desc'">
-
                 </div>
               </th>
-              <th>Description</th>
               <th (click)="sortAssets('status')" class="sortable">
                 Status
                 <div class="sort-arrow"
                      [class.active]="assetSortField === 'status'"
                      [class.desc]="assetSortField === 'status' && assetSortDirection === 'desc'">
-
                 </div>
               </th>
               <th (click)="sortAssets('created_at')" class="sortable">
-                Date Created
+                Date Created ↑
                 <div class="sort-arrow"
                      [class.active]="assetSortField === 'created_at'"
                      [class.desc]="assetSortField === 'created_at' && assetSortDirection === 'desc'">
-
                 </div>
               </th>
+              <th>Created By</th>
               <th (click)="sortAssets('updated_at')" class="sortable">
-                Last Modified
+                Last Modified ↑
                 <div class="sort-arrow"
                      [class.active]="assetSortField === 'updated_at'"
                      [class.desc]="assetSortField === 'updated_at' && assetSortDirection === 'desc'">
-
                 </div>
               </th>
-              <th *ngIf="isAuthenticatedUser()">Action</th>
-              <th>View</th>
+              <th>Modified By</th>
+              <th>Action</th>
+              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let asset of filteredAssets">
               <td>{{ asset.id }}</td>
               <td>{{ asset.name }}</td>
-              <td>{{ asset.description }}</td>
               <td>
                 <span [class]="'status-badge status-' + asset.status">
-                  {{ asset.status }}
+                  {{ asset.status | titlecase }}
                 </span>
               </td>
               <td>{{ formatDate(asset.created_at) }}</td>
+              <td>{{ getCreatorName(asset) }}</td>
               <td>{{ formatDate(asset.updated_at) }}</td>
-              <td class="action-buttons" *ngIf="isAuthenticatedUser()">
-                <div class="button-group">
-                  <!-- Approve button - show for pending and rejected assets -->
-                  <button
-                    *ngIf="asset.status !== 'approved'"
-                    class="approve-btn"
-                    (click)="toggleAssetStatus(asset)"
-                    title="Approve Asset">
-                    ✓ Approve
-                  </button>
-
-                  <!-- Reject button - show for pending and approved assets -->
-                  <button
-                    *ngIf="asset.status !== 'rejected'"
-                    class="reject-btn"
-                    (click)="rejectAsset(asset)"
-                    title="Reject Asset">
-                    ✗ Reject
-                  </button>
-
-                  <!-- Set Pending button - show for approved and rejected assets -->
-                  <button
-                    *ngIf="asset.status !== 'pending'"
-                    class="pending-btn"
-                    (click)="toggleAssetStatus(asset)"
-                    title="Set to Pending">
-                    ⏳ Pending
-                  </button>
-                </div>
+              <td>{{ getModifierName(asset) }}</td>
+              <td>
+                <button
+                  class="action-btn"
+                  [class.approve-btn]="asset.status === 'pending' || asset.status === 'rejected'"
+                  [class.deactivate-btn]="asset.status === 'approved'"
+                  (click)="toggleAssetStatus(asset)">
+                  {{ asset.status === 'approved' ? 'Deactivate' : 'Activate' }}
+                </button>
               </td>
               <td>
-                <button class="view-btn" [routerLink]="['/view-asset-admin', asset.id]">
-                  <i class="fas fa-eye"></i>
+                <button class="edit-btn" (click)="onEditAsset(asset)" title="Edit Asset">
+                  <i class="fas fa-pen"></i>
                 </button>
               </td>
             </tr>

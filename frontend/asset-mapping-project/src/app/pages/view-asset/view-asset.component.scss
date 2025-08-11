@@ -1,32 +1,37 @@
-// src/app/pages/view-asset/view-asset.component.scss
-
 // Variables
 $primary-2:   #1F4F85;
 $neutral-1:   #F8F8F8;
 $white:       #FFFFFF;
 $black:       #040404;
+$neutral-2:   #E6E6E6;
+$neutral-4:   #7D7D7D;
 
 .view-asset-page {
   padding: 2rem 0;
-  background: $neutral-1;  // 整体页面背景
+  background: $neutral-2;  // 整体页面背景
+  font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
+  font-size: 16px;
 
   .card {
     max-width: 1200px;
-    height: 600px;              // 固定高度
-    margin: 0 auto;             // 居中
+    width: 96%;
+    height: 600px;
+    margin: 0 auto;
     padding: 2rem;
-    display: flex;
-    background: $white;
+    display: grid;
+    grid-template-columns: 1fr 500px;
+    column-gap: 1.5rem;
+    background: $neutral-1;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    overflow: hidden;           // 隐藏水平溢出
+    overflow: hidden;
   }
 
   // 左侧滚动区
   .info-column {
-    width: 50%;
-    padding-right: 1rem;
-    overflow-y: auto;           // 垂直滚动
+    width: 60%;
+    padding-right: 2rem;
+    overflow-y: auto;
     overflow-x: hidden;
 
     /* 滚动条样式 */
@@ -39,7 +44,7 @@ $black:       #040404;
     }
 
     h1 {
-      font-size: 2.25rem;        // Heading Bold 36 相近
+      font-size: 2.25rem;
       font-weight: 700;
       color: $primary-2;
       margin-bottom: 1rem;
@@ -47,9 +52,10 @@ $black:       #040404;
 
     section {
       margin-bottom: 1.5rem;
+      width: 100%;
 
       h2 {
-        font-size: 1.25rem;      // SubHeading SemiBold 16 相近
+        font-size: 1.25rem;
         font-weight: 600;
         color: $primary-2;
         margin-bottom: 0.75rem;
@@ -57,101 +63,149 @@ $black:       #040404;
 
       label {
         display: block;
-        font-size: 1rem;         // Input Label 14~16
+        font-size: 0.8rem;
         font-weight: 400;
-        color: $primary-2;
+        color: $neutral-4;
         margin-top: 0.75rem;
         margin-bottom: 0.25rem;
       }
+    }
 
-      input,
-      textarea {
-        width: 100%;
-        padding: 0.6rem;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 1rem;         // Input text Regular 16
-        background: $neutral-1;
-        resize: vertical;
+    span {
+      width: 100%;
+      background-color: $neutral-2;
+      color: $black;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+
+    button {
+      margin-top: 0.5rem;
+      padding: 0.4rem;
+      margin: 0 0.2rem;
+      font-size: 1rem; // Button Regular 16
+      border: 0.5px solid $neutral-4;
+      border-radius: 6px;
+      background: $neutral-1;
+      color: $neutral-4;
+      cursor: default;
+
+      &.selected {
+        background: $neutral-4;
+        color: $neutral-1
+      }
+    }
+
+    // 语言 / 活动形式 标签组
+    .tag-button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn-tag {
+      padding: 0.4rem 0.8rem;
+      font-size: 1rem; // 标签文字 Regular 14~16
+      border: 1px solid $neutral-4;
+      border-radius: 6px;
+      background: $white;
+      color: $neutral-4;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+
+      &:hover {
+        background: #E6E6E6;
       }
 
-      .select-box {
-        background: $neutral-1;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        padding: 0.6rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-
-        span {
-          background: #ccc;
-          color: $black;
-          padding: 0.2rem 0.6rem;
-          border-radius: 4px;
-          font-size: 0.875rem;
-        }
-      }
-
-      button {
-        margin-top: 0.5rem;
-        padding: 0.4rem 1rem;
-        font-size: 1rem;         // Button Regular 16
-        border: none;
-        border-radius: 6px;
-        background: #ccc;
+      &.selected {
+        background: $primary-2;
+        border-color: #7D7D7D;
         color: $white;
+      }
+    }
+
+    .yes-no-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    input,
+    textarea {
+      width: 96%;
+      font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
+      border: 0.5px solid $neutral-4;
+      border-radius: 6px;
+      font-size: 1rem;
+      color:$neutral-4;
+      background-color: $neutral-2;
+      resize: vertical;
+      padding: 0.6rem;
+
+
+      &[readonly] {
         cursor: default;
-
-        &.selected {
-          background: $primary-2;
-        }
+        background-color: $neutral-2;
       }
+    }
 
-      // 语言 / 活动形式 标签组
-      .tag-button-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-top: 0.5rem;
+    .select-box {
+      background: $neutral-1;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      min-height: 2.5rem;
+
+      span {
+        background: $primary-2;
+        color: $white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
       }
-      .btn-tag {
-        padding: 0.4rem 0.8rem;
-        font-size: 1rem;         // 标签文字 Regular 14~16
-        border: 1px solid #B3B3B3;
-        border-radius: 6px;
-        background: $white;
-        color: $black;
-        cursor: pointer;
-        transition: background 0.2s, color 0.2s;
+    }
+  }
 
-        &:hover {
-          background: #E6E6E6;
-        }
-        &.selected {
-          background: #7D7D7D;
-          border-color: #7D7D7D;
-          color: $white;
-        }
+  .loading, .error {
+    text-align: center;
+    padding: 2rem;
+
+    p {
+      font-size: 1.1rem;
+      color: $black;
+    }
+
+    a {
+      color: $primary-2;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
 
   // 右侧地图区
   .map-column {
-    width: 50%;
+    width: 500px; // 固定宽度
+
     display: flex;
-    align-items: center;        // 垂直居中
-    justify-content: center;    // 水平居中
-    padding-left: 1rem;
+    align-items: flex-start; // 顶部对齐
+    justify-content: flex-start; // 水平居中
+    padding-left: 0;
 
     .map-container,
     #view-map {
-      width: 100%;
-      height: 100%;
+      width: 500px;
+      height: 500px;
       border-radius: 8px;
       overflow: hidden;
-      background: #eee;         // 加载前占位
+      background: #eee; // 加载前占位
     }
   }
 
@@ -174,5 +228,36 @@ $black:       #040404;
         background: darken($primary-2, 10%);
       }
     }
+  }
+}
+
+/* 底部返回按钮容器：与卡片同宽并居中 */
+.back-home-wrap {
+  max-width: 900px; /* 跟 .card 的 max-width 保持一致 */
+  margin: 1rem auto 0; /* 顶部留一点间距 */
+}
+
+/* 返回首页按钮 */
+.back-home-btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: $primary-2; /* 主色 */
+  color: #fff;
+  border: 1px solid $primary-2;
+  border-radius: 8px;
+  text-decoration: none; /* 无下划线 */
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    background: darken($primary-2, 15%);
+    border-color: darken($primary-2, 15%);
+    box-shadow: 0 2px 10px rgba(31, 79, 133, 0.15);
+  }
+
+  &:active {
+    transform: translateY(1px);
   }
 }

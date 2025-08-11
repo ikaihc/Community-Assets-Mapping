@@ -30,14 +30,20 @@ export interface Asset {
 
 export interface Address {
   id?: number;
-  address_line_1: string;
-  address_line_2?: string;
-  city: string;
-  province: string;
-  postal_code: string;
-  country?: string;
+  street_address?: string;  // Database field name
+  city?: string;
+  city_code?: string;       // Database field name (like province/state)
+  post_code?: string;       // Database field name
   latitude?: number;
   longitude?: number;
+  google_maps_url?: string;
+
+  // Keep the old field names for backward compatibility
+  address_line_1?: string;
+  address_line_2?: string;
+  province?: string;
+  postal_code?: string;
+  country?: string;
 }
 
 export interface AssetContact {
@@ -80,6 +86,7 @@ export interface AssetResponse {
   message?: string;
   asset?: Asset;
   assets?: Asset[];
+  data?: Asset;  // For single asset responses like getAssetById
   total?: number;
   page?: number;
   limit?: number;
@@ -87,7 +94,7 @@ export interface AssetResponse {
 
 @Injectable({
   providedIn: 'root'
-  
+
 })
 export class AssetService {
   private apiUrl = 'http://localhost:3000'; // Backend API URL
@@ -117,9 +124,10 @@ export class AssetService {
     );
   }
 
-  // Get asset by ID (public endpoint)
+  // Get asset by ID (requires auth for full details)
   getAssetById(id: number): Observable<AssetResponse> {
-    return this.http.get<AssetResponse>(`${this.apiUrl}/assets/${id}`).pipe(
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get<AssetResponse>(`${this.apiUrl}/assets/${id}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }

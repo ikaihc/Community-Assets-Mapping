@@ -1,36 +1,41 @@
-<!-- src/app/pages/add-asset-location/add-asset-location.component.html -->
-<div class="location-page">
-  <div class="card">
-    <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
-    <h2>New Community Asset Information</h2>
 
-    <nav class="step-nav">
-      <a routerLink="/add-asset/start">Parent/Children Asset</a> ·
-      <a routerLink="/add-asset/basic">Basic Information</a> ·
-      <b>Location</b> ·
-      <a routerLink="/add-asset/contact">Contact</a> ·
-      <a routerLink="/add-asset/registration">Registration and Schedule</a>
-    </nav>
+<!-- src/app/pages/add-asset-location/add-asset-location.component.html -->
+<div class="container">
+
+  <div class="card">
+    <div class="container-content">
+      <div class="header-row">
+          <h1>New Community Asset Information</h1>
+          <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+      </div>
+
+      <p class="breadcrumb">
+        <span class="inactive">Before We Start</span> ▶
+        <span class="inactive">Basic Information</span> ▶
+        <span class="active">Location</span> ▶
+        <span class="inactive">Contact</span> ▶
+        <span class="inactive">Registration and Schedule</span>
+      </p>
 
     <div class="content">
-      <div class="form-grid">
+      <form>
         <div class="form-group">
           <label>Address – Street and Unit</label>
-          <input type="text" placeholder="ex. 900 Merivale Road" />
+          <input type="text" class="form-control" placeholder="ex. 900 Merivale Road" />
         </div>
         <div class="form-group">
           <label>Address – City</label>
-          <input type="text" placeholder="ex. Ottawa" />
+          <input type="text" class="form-control" placeholder="ex. Ottawa" />
         </div>
         <div class="form-group">
           <label>Address – Postcode</label>
-          <input type="text" placeholder="ex. K1Z 5Z8" />
+          <input type="text" class="form-control" placeholder="ex. K1Z 5Z8" />
         </div>
         <div class="form-group">
           <label>Transportation options</label>
-          <textarea placeholder="ex. bus 80/88/112; LRT to Algonquin station"></textarea>
+          <textarea class="form-control" placeholder="ex. bus 80/88/112; LRT to Algonquin station"></textarea>
         </div>
-      </div>
+      </form>
 
       <!-- 地图容器，替换掉原来的 <img> -->
       <div class="map-section">
@@ -40,12 +45,13 @@
     </div>
 
     <div class="navigation-buttons">
-      <button routerLink="/add-asset/basic" class="btn btn-outline-primary">
+      <button (click)="goPrevious()" class="btn btn-outline-primary">
         ← Previous
       </button>
-      <button routerLink="/add-asset/contact" class="btn btn-primary">
+      <button (click)="goNext()" class="btn btn-primary">
         Proceed →
       </button>
     </div>
+  </div>
   </div>
 </div>

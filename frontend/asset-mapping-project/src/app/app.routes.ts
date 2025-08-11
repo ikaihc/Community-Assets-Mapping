@@ -11,25 +11,27 @@ import { AddAssetContactComponent } from './pages/add-asset-contact/add-asset-co
 import { AddAssetRegistrationComponent } from './pages/add-asset-registration/add-asset-registration.component';
 
 export const routes: Routes = [
-  // 主页
+  // Home page
   { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
 
-  // Dashboard
+  // Dashboard - main admin interface
   { path: 'dashboard', component: DashboardComponent },
 
-  // 访客查看资产
+  // Asset viewing for guests/public
   { path: 'view-asset', component: ViewAssetComponent },
 
-  // 管理/编辑资产，带上 id 参数
+  // Asset management for admin/navigators with ID parameter
   { path: 'view-asset-admin/:id', component: ViewAssetAdminComponent },
 
-  // 多步新增资产流程
-  { path: 'add-asset/start',        component: AddAssetStartComponent },
-  { path: 'add-asset/basic',        component: AddAssetBasicComponent },
-  { path: 'add-asset/location',     component: AddAssetLocationComponent },
-  { path: 'add-asset/contact',      component: AddAssetContactComponent },
+  // Multi-step asset creation workflow
+  { path: 'add-asset', redirectTo: '/add-asset/start', pathMatch: 'full' },
+  { path: 'add-asset/start', component: AddAssetStartComponent },
+  { path: 'add-asset/basic', component: AddAssetBasicComponent },
+  { path: 'add-asset/location', component: AddAssetLocationComponent },
+  { path: 'add-asset/contact', component: AddAssetContactComponent },
   { path: 'add-asset/registration', component: AddAssetRegistrationComponent },
 
-  // 兜底：未匹配到的路径跳回 ViewAsset
-  { path: '**', redirectTo: '' }
+  // Fallback redirect to home
+  { path: '**', redirectTo: '/home' }
 ];
