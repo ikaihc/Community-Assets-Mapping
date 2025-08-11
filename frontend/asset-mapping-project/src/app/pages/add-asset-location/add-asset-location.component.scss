@@ -1,20 +1,24 @@
-$neutral-1: #F8F8F8;
-$neutral-2: #F3F3F3;
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
+$neutral-bg:  #E6E6E6; 
 :host {
   display: block;
-  background: $neutral-2;
+  background: $neutral-bg;
   min-height: 100vh;
 }
 
-
 .container {
-  max-width: 900px;
-  margin: 0 auto 2rem auto;
-  padding: 2rem;
-  background: $neutral-1;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
-  font-family: Arial, sans-serif;
+  width: 100vw;
+  min-height: 80vh;
+  background: $neutral-bg;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1rem;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 
@@ -40,13 +44,17 @@ $neutral-2: #F3F3F3;
 }
 
 .card {
-  max-width: 900px;
-  width: 96%;
-  margin: 0 auto 2rem auto;              
-  padding: 2rem;    
-  background: $neutral-1;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 1100px;
+  min-height: 70vh;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
   font-family: Arial, sans-serif;
 }
 

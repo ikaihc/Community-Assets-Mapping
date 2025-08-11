@@ -1,25 +1,39 @@
-$neutral-1: #F8F8F8;
-$neutral-2: #F3F3F3;
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
+$neutral-bg:  #E6E6E6; 
 :host {
   display: block;
-  background: $neutral-2;
+  background: $neutral-bg;
   min-height: 100vh;
 }
 
 /* 容器 & 卡片 */
-.container,
-.card {
-  position: relative;
-  max-width: 900px;
-  width: 96%;
-  margin: 0 auto 2rem auto;
+.container {
+  width: 60vw;
+  margin: 0 auto 0 auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   font-family: Arial, sans-serif;
+  padding-top: 3rem;      
+  padding-bottom: 1rem;
 }
-
+.card {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 70vh;
+  margin: 0 auto;
+  padding-bottom: 1rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
 /* “Back To Home” 按钮 */
 .back-home-btn {
   text-decoration: none;
