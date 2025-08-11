@@ -40,7 +40,6 @@ main.main-container {
 // Sidebar
 .sidebar {
   width: 460px;
-
   background-color: $neutral-board;
   padding: 1.25rem;
   border-radius: 16px;
@@ -54,7 +53,7 @@ main.main-container {
   display: flex;
   flex-direction: column;
   gap: .5rem;
-  font-family: 'Work Sans';
+  font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
   color: #7d7d7d;
 
 }

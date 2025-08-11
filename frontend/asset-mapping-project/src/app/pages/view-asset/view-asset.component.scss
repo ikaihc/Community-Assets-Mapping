@@ -3,13 +3,14 @@ $primary-2:   #1F4F85;
 $neutral-1:   #F8F8F8;
 $white:       #FFFFFF;
 $black:       #040404;
-$neutral-2:   #F3F3F3;
+$neutral-2:   #E6E6E6;
 $neutral-4:   #7D7D7D;
 
 .view-asset-page {
   padding: 2rem 0;
   background: $neutral-2;  // 整体页面背景
-  font-family: 'Work Sans'; // 全局字体
+  font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
+  font-size: 16px;
 
   .card {
     max-width: 1200px;
@@ -51,6 +52,7 @@ $neutral-4:   #7D7D7D;
 
     section {
       margin-bottom: 1.5rem;
+      width: 100%;
 
       h2 {
         font-size: 1.25rem;
@@ -61,7 +63,7 @@ $neutral-4:   #7D7D7D;
 
       label {
         display: block;
-        font-size: 1rem;
+        font-size: 0.8rem;
         font-weight: 400;
         color: $neutral-4;
         margin-top: 0.75rem;
@@ -74,7 +76,8 @@ $neutral-4:   #7D7D7D;
     }
 
     span {
-      background: #ccc;
+      width: 100%;
+      background-color: $neutral-2;
       color: $black;
       padding: 0.2rem 0.6rem;
       border-radius: 4px;
@@ -83,20 +86,18 @@ $neutral-4:   #7D7D7D;
 
     button {
       margin-top: 0.5rem;
-      padding: 0.4rem 1rem;
+      padding: 0.4rem;
+      margin: 0 0.2rem;
       font-size: 1rem; // Button Regular 16
-      border: none;
+      border: 0.5px solid $neutral-4;
       border-radius: 6px;
-      background: #ccc;
-      color: $white;
+      background: $neutral-1;
+      color: $neutral-4;
       cursor: default;
 
       &.selected {
-        background: $primary-2;
-      }
-
-      &:disabled {
-        opacity: 0.7;
+        background: $neutral-4;
+        color: $neutral-1
       }
     }
 
@@ -111,7 +112,7 @@ $neutral-4:   #7D7D7D;
     .btn-tag {
       padding: 0.4rem 0.8rem;
       font-size: 1rem; // 标签文字 Regular 14~16
-      border: 1px solid #B3B3B3;
+      border: 1px solid $neutral-4;
       border-radius: 6px;
       background: $white;
       color: $neutral-4;
@@ -133,38 +134,24 @@ $neutral-4:   #7D7D7D;
       display: flex;
       gap: 1rem;
       margin-top: 0.5rem;
-
-      button {
-        width: 60px;
-        height: 38px;
-        border-radius: 12px;
-        border: 1.5px solid #B3B3B3;
-        font-size: 1rem;
-        font-weight: 500;
-        background: $white;
-        color: $neutral-4;
-        cursor: not-allowed; // 禁止交互
-        transition: background 0.2s, color 0.2s, border-color 0.2s;
-
-        &.selected {
-          background: $primary-2;
-          color: $neutral-1;
-          border-color: $neutral-4;
-        }
-      }
     }
 
     input,
     textarea {
-      border: 1px solid #ccc;
+      width: 96%;
+      font-family: 'Work Sans', 'Roboto',  Arial, sans-serif;
+      border: 0.5px solid $neutral-4;
       border-radius: 6px;
       font-size: 1rem;
-      background: $neutral-1;
+      color:$neutral-4;
+      background-color: $neutral-2;
       resize: vertical;
+      padding: 0.6rem;
+
 
       &[readonly] {
         cursor: default;
-        background-color: #f5f5f5;
+        background-color: $neutral-2;
       }
     }
 

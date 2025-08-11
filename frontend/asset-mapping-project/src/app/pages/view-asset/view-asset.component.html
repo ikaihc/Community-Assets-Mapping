@@ -18,7 +18,6 @@
         <h2>Basic Info</h2>
 
         <label>Asset Name</label>
-
         <input type="text" [value]="asset.name" readonly />
 
         <label>Categories</label>
@@ -29,7 +28,10 @@
         <label>Description</label>
         <textarea rows="3" [value]="asset.description || ''" readonly></textarea>
 
-        <label>Volunteering Opportunities?</label>
+        <label>Programme/Organization Website</label>
+        <input type="text" [value]="asset.website || ''" readonly />
+
+        <label>Does this programme have volunteering opportunities?</label>
         <div>
           <button
             [class.selected]="asset.has_volunteer_opportunities"
@@ -78,15 +80,14 @@
       <!-- Registration & Schedule -->
       <section>
         <h2>Registration and Schedule</h2>
+        
+        <label>Registration information</label>
 
-        <label>Website</label>
-        <input type="text" [value]="asset.website || ''" readonly />
+        <label>Does this programme have accessible features?</label>
+        <label>What language this this programme offer?</label>
+        <label>What activity format does this programme offer?</label>
 
-        <label>Phone</label>
-        <input type="text" [value]="asset.phone || ''" readonly />
 
-        <label>Email</label>
-        <input type="text" [value]="asset.email || ''" readonly />
       </section>
 
       <!-- Navigation -->
