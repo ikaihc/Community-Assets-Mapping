@@ -84,6 +84,21 @@
 
         <label>Email</label>
         <input type="text" [value]="asset.email || ''" readonly />
+
+        <!-- Schedule Information -->
+        <label>Schedule Type</label>
+        <input type="text" [value]="getScheduleType()" readonly />
+
+        <label>
+          Operating Hours
+          <span *ngIf="isAssetCurrentlyOpen()" class="status-open">● OPEN</span>
+          <span *ngIf="!isAssetCurrentlyOpen()" class="status-closed">● CLOSED</span>
+        </label>
+        <div class="schedule-list">
+          <div *ngFor="let scheduleItem of getScheduleDisplayText()" class="schedule-item">
+            {{ scheduleItem }}
+          </div>
+        </div>
       </section>
 
       <!-- Navigation -->

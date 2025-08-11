@@ -81,7 +81,7 @@
       
       <div class="info-group">
         <label>Date Created</label>
-        <div class="readonly-field">{{ user?.dateCreated }}</div>
+        <div class="readonly-field">{{ user?.created_at | date:'short' }}</div>
       </div>
 
       <div class="info-group">
@@ -91,7 +91,7 @@
 
       <div class="info-group">
         <label>Last Modified</label>
-        <div class="readonly-field">{{ user?.lastModified }}</div>
+        <div class="readonly-field">{{ user?.updated_at | date:'short' }}</div>
       </div>
 
       <div class="info-group">

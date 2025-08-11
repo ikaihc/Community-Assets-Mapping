@@ -158,6 +158,38 @@ $black:       #040404;
         }
       }
     }
+
+    // Schedule-specific styling
+    .schedule-list {
+      background: $neutral-1;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.6rem;
+      margin-top: 0.25rem;
+
+      .schedule-item {
+        padding: 0.3rem 0;
+        font-size: 0.95rem;
+        color: $black;
+        border-bottom: 1px solid #eee;
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+
+    .status-open {
+      color: #22c55e;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .status-closed {
+      color: #ef4444;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
   }
 
   // Right column: Map

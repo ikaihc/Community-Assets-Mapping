@@ -3,7 +3,7 @@ import { Component, AfterViewInit, NgZone, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { AssetService, Asset } from '../../services/asset.service';
+import { AssetService, Asset, Schedule } from '../../services/asset.service';
 
 declare const google: any;
 
@@ -305,6 +305,49 @@ export class ViewAssetComponent implements OnInit, AfterViewInit {
       phone: this.asset?.contact?.contact_phone,
       title: this.asset?.contact?.contact_title
     };
+  }
+
+  // New schedule-related methods
+  getAssetSchedule(): Schedule | null {
+    if (!this.asset) return null;
+
+    // Try to get parsed schedule or parse it from service_hrs
+    if (this.asset.schedule) {
+      return this.asset.schedule;
+    }
+
+    return this.assetService.parseScheduleFromAsset(this.asset);
+  }
+
+  getScheduleDisplayText(): string[] {
+    const schedule = this.getAssetSchedule();
+    if (!schedule) {
+      return ['Schedule information not available'];
+    }
+
+    return this.assetService.getScheduleDisplayText(schedule);
+  }
+
+  getScheduleType(): string {
+    const schedule = this.getAssetSchedule();
+    if (!schedule) return 'No Schedule';
+
+    switch (schedule.type) {
+      case 'recurring':
+        return 'Recurring Schedule';
+      case 'specific_dates':
+        return 'Specific Dates';
+      case 'manual':
+      default:
+        return 'Manual Schedule';
+    }
+  }
+
+  isAssetCurrentlyOpen(): boolean {
+    const schedule = this.getAssetSchedule();
+    if (!schedule) return false;
+
+    return this.assetService.isAssetCurrentlyOpen(schedule);
   }
 
   // Note: The languages and formats functionality would need to be added to the Asset model

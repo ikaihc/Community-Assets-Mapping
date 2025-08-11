@@ -9,6 +9,7 @@ export interface Asset {
   name: string;
   description?: string;
   service_type?: string;
+  service_hrs?: string;  // JSON string containing schedule data
   status: 'pending' | 'approved' | 'rejected';
   has_volunteer_opportunities?: boolean;
   website?: string;
@@ -21,11 +22,33 @@ export interface Asset {
   contact_Info_Id?: number;
   created_at?: string;
   updated_at?: string;
+
+  // Computed properties for frontend use
+  schedule?: Schedule;   // Parsed schedule object
+
   // Relations
   address?: Address;
   contact?: AssetContact;
   creator?: User;
   categories?: Category[];
+}
+
+export interface ScheduleEntry {
+  id?: string;
+  startDate?: string;    // ISO date string for specific dates
+  endDate?: string;      // ISO date string for date ranges
+  days?: string[];       // ['monday', 'tuesday', ...] for recurring
+  startTime: string;     // HH:mm format
+  endTime: string;       // HH:mm format
+  isRecurring: boolean;  // true for weekly recurring, false for specific dates
+  notes?: string;        // Additional info like "daily", "weekends only"
+}
+
+export interface Schedule {
+  type: 'manual' | 'recurring' | 'specific_dates';
+  entries: ScheduleEntry[];
+  timezone?: string;
+  lastUpdated?: string;
 }
 
 export interface Address {
@@ -44,9 +67,7 @@ export interface Address {
   province?: string;
   postal_code?: string;
   country?: string;
-}
-
-export interface AssetContact {
+}export interface AssetContact {
   id?: number;
   contact_name: string;
   contact_email?: string;
@@ -205,6 +226,96 @@ export class AssetService {
     }, { headers }).pipe(
       catchError(this.handleError)
     );
+  }
+
+  // Helper methods for schedule management
+  parseScheduleFromAsset(asset: Asset): Schedule | null {
+    if (!asset.service_hrs) return null;
+
+    try {
+      // First check if it's already JSON
+      const schedule = JSON.parse(asset.service_hrs) as Schedule;
+      return schedule;
+    } catch (error) {
+      // If not JSON, try to convert legacy text schedule
+      return this.convertLegacySchedule(asset.service_hrs);
+    }
+  }
+
+  private convertLegacySchedule(legacySchedule: string): Schedule | null {
+    // Convert old text schedules to new JSON format
+    // This is a simple converter - you can enhance it based on your data
+    if (!legacySchedule || legacySchedule.trim() === '') return null;
+
+    return {
+      type: 'manual',
+      entries: [{
+        id: 'legacy-1',
+        startTime: '09:00',
+        endTime: '17:00',
+        isRecurring: false,
+        notes: legacySchedule // Store original text as notes
+      }],
+      lastUpdated: new Date().toISOString()
+    };
+  }
+
+  formatScheduleForDatabase(schedule: Schedule): string {
+    return JSON.stringify(schedule);
+  }
+
+  // Generate human-readable schedule display
+  getScheduleDisplayText(schedule: Schedule): string[] {
+    if (!schedule || !schedule.entries.length) {
+      return ['No schedule information available'];
+    }
+
+    return schedule.entries.map(entry => {
+      let text = '';
+
+      if (entry.isRecurring && entry.days && entry.days.length > 0) {
+        // Recurring schedule
+        const dayNames = entry.days.map(day =>
+          day.charAt(0).toUpperCase() + day.slice(1)
+        ).join(', ');
+        text = `${dayNames}: ${entry.startTime} - ${entry.endTime}`;
+      } else if (entry.startDate && entry.endDate) {
+        // Date range
+        const start = new Date(entry.startDate).toLocaleDateString();
+        const end = new Date(entry.endDate).toLocaleDateString();
+        text = `${start} - ${end}: ${entry.startTime} - ${entry.endTime}`;
+      } else if (entry.startDate) {
+        // Single date
+        const date = new Date(entry.startDate).toLocaleDateString();
+        text = `${date}: ${entry.startTime} - ${entry.endTime}`;
+      } else {
+        // Default format
+        text = `${entry.startTime} - ${entry.endTime}`;
+      }
+
+      if (entry.notes) {
+        text += ` (${entry.notes})`;
+      }
+
+      return text;
+    });
+  }
+
+  // Check if asset is currently open (basic implementation)
+  isAssetCurrentlyOpen(schedule: Schedule): boolean {
+    if (!schedule || !schedule.entries.length) return false;
+
+    const now = new Date();
+    const currentDay = now.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+    const currentTime = now.toTimeString().slice(0, 5); // HH:mm format
+
+    return schedule.entries.some(entry => {
+      if (entry.isRecurring && entry.days?.includes(currentDay)) {
+        return currentTime >= entry.startTime && currentTime <= entry.endTime;
+      }
+      // Add date-specific logic here if needed
+      return false;
+    });
   }
 
   private handleError(error: HttpErrorResponse) {

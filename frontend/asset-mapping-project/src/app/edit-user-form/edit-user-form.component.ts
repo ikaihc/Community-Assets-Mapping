@@ -1,18 +1,19 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { User } from '../services/user.service';
 
 @Component({
   selector: 'app-edit-user-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DatePipe],
   templateUrl: './edit-user-form.component.html',
   styleUrl: './edit-user-form.component.scss'
 })
 export class EditUserFormComponent implements OnInit, OnChanges {
-  @Input() user: any = null;
+  @Input() user: User | null = null;
   @Output() backToUsers = new EventEmitter<void>();
-  @Output() userUpdated = new EventEmitter<any>();
+  @Output() userUpdated = new EventEmitter<User>();
 
   editUserForm: FormGroup;
   isLoading = false;
@@ -37,28 +38,30 @@ export class EditUserFormComponent implements OnInit, OnChanges {
 
   private populateForm() {
     if (this.user) {
-      const nameParts = this.user.name.split(' ');
       this.editUserForm.patchValue({
         email: this.user.email,
-        firstName: nameParts[0] || '',
-        lastName: nameParts.slice(1).join(' ') || '',
-        jobTitle: this.user.jobTitle,
+        firstName: this.user.first_name || '',
+        lastName: this.user.last_name || '',
+        jobTitle: this.user.job_title,
         role: this.user.role
       });
     }
   }
 
   onSubmit() {
-    if (this.editUserForm.valid) {
+    if (this.editUserForm.valid && this.user && this.user.id) {
       this.isLoading = true;
       
-      const updatedUser = {
-        ...this.user,
+      const updatedUser: User = {
+        id: this.user.id,
         email: this.editUserForm.value.email,
-        name: `${this.editUserForm.value.firstName} ${this.editUserForm.value.lastName}`,
+        first_name: this.editUserForm.value.firstName,
+        last_name: this.editUserForm.value.lastName,
         role: this.editUserForm.value.role,
-        jobTitle: this.editUserForm.value.jobTitle,
-        lastModified: new Date().toLocaleDateString('en-GB')
+        job_title: this.editUserForm.value.jobTitle,
+        is_active: this.user.is_active,
+        created_at: this.user.created_at,
+        updated_at: this.user.updated_at
       };
 
       setTimeout(() => {
