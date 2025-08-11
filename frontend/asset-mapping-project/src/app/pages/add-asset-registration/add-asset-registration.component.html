@@ -1,5 +1,6 @@
 <!-- src/app/pages/add-asset-registration/add-asset-registration.component.html -->
 <div class="container">
+  <div class="card-content">
   <!-- Back to Home -->
   <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
 
@@ -109,12 +110,18 @@
   </form>
 
   <!-- Registration Information -->
+    <label>Registration Information</label>
+    <div class="button-group">
+  <!-- 按钮 -->
+</div>
   <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Registration Information</mat-label>
     <textarea matInput
               placeholder="ex. To register, please contact by email or telephone us at 111223333">
     </textarea>
   </mat-form-field>
+  <div class="button-group">
+  <!-- 按钮 -->
+</div>
 
   <!-- Accessible Features -->
   <label>Does this program have accessible features?</label>
@@ -148,6 +155,7 @@
   <!-- Navigation Buttons -->
   <div class="navigation-buttons">
     <button mat-stroked-button (click)="goPrevious()">← Previous</button>
-    <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+    <button class="btn btn-primary" (click)="submitForm()">Submit</button>
   </div>
+</div>
 </div>

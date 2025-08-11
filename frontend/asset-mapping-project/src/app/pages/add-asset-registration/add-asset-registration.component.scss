@@ -1,10 +1,9 @@
-$neutral-1: #F8F8F8;
-$neutral-2: #F3F3F3;
-
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
 :host {
   display: block;
-  background: $neutral-2;
-  min-height: 100vh;
 }
 
 /* “Back To Home” 按钮 */
@@ -32,8 +31,7 @@ $neutral-2: #F3F3F3;
 .card {
   position: relative;
   max-width: 900px;
-  width: 96%;
-  margin: 0 auto 2rem auto;
+  margin: 2rem auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;
@@ -79,6 +77,7 @@ h2 {
 }
 mat-form-field.full-width {
   width: 100%;
+  max-width: 450px;
 }
 
 /* 步骤导航 */
@@ -184,6 +183,7 @@ mat-form-field.full-width {
 .button-group {
   display: flex;
   gap: 1rem;
+margin-bottom: 1.5rem;
 
   .btn-option {
     padding: 0.5rem 1rem;
@@ -207,6 +207,7 @@ mat-form-field.full-width {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 1.5rem;
 
   .btn-tag {
     padding: 0.4rem 0.8rem;
@@ -247,8 +248,7 @@ textarea {
 /* 底部导航按钮 */
 .navigation-buttons {
   display: flex;
-  justify-content: flex-start; /* 左对齐 */
-  gap: 1rem;
+  justify-content: space-between;
   margin-top: 2rem;
 
   button {
@@ -257,21 +257,26 @@ textarea {
     font-size: 0.95rem;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: ackground-color 0.2s ease;
   }
   .mat-stroked-button {
     background: transparent;
-    border: 1px solid #003366;
-    color: #003366;
+    border: 1px solid $primary-2;
+    color: $primary-2;
     &:hover {
-      background: #e6f0ff;
+      background: rgba(31, 79, 133, 0.1); // 与前面页面一致
     }
   }
   .mat-flat-button {
-    background: #003366;
+    background: $primary-3;
     color: #fff;
     &:hover {
-      background: #002244;
+      background: $primary-2;
     }
   }
+}
+.btn-primary {
+  background: $primary-3;
+  color: $neutral-1;
+  
 }

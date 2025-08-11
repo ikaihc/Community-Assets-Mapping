@@ -29,6 +29,8 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   templateUrl: './add-asset-registration.component.html',
   styleUrls: ['./add-asset-registration.component.scss']
+
+  
 })
 export class AddAssetRegistrationComponent {
   scheduleType: 'one-time' | 'recurring' | 'manual' | '' = '';
@@ -41,6 +43,11 @@ export class AddAssetRegistrationComponent {
   });
 
   constructor(private router: Router) {}
+
+  submitForm() {
+    // 提交逻辑（如表单验证等）
+    this.router.navigate(['/']); // 跳转到主页
+  }
 
   goPrevious() {
     this.router.navigate(['/add-asset/contact']);
@@ -55,4 +62,6 @@ export class AddAssetRegistrationComponent {
   onSubmit() {
     alert('Asset submitted!');
   }
+
+  
 }
