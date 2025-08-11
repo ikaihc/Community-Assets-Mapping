@@ -201,6 +201,7 @@ textarea.form-control {
 
 /* categories-dropdown 容器 */
 .categories-dropdown {
+
   width: 100%;         // 让下拉容器和输入框一样宽
   max-width: none;
   box-sizing: border-box;
@@ -210,6 +211,7 @@ textarea.form-control {
   /* 输入框样式 */
   .dropdown-header {
     width: 100%;
+
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -270,10 +272,12 @@ textarea.form-control {
     list-style: none;
     border: 1px solid #ccc;
     border-radius: 6px;
+
     background: $neutral-2;
     overflow-y: auto;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     z-index: 100;
+
 
     li {
       padding: 0.5rem;
@@ -294,6 +298,7 @@ textarea.form-control {
   max-width: 450px;
   /* 上右下左，右侧 auto 会把它往左推 */
   margin: 0  auto 2rem 0;
+
 }
 
 
@@ -303,4 +308,5 @@ textarea.form-control {
   overflow-y: auto;
   min-height: 0;
   position: relative;
+
 }

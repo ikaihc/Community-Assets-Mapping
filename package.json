@@ -1,5 +1,16 @@
 {
-  "devDependencies": {
-    "@types/google.maps": "^3.58.1"
-  }
+  "name": "community-assets-mapping",
+  "version": "1.0.0",
+  "description": "Community Assets Mapping Application",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend/asset-mapping-project && ng serve --disable-host-check",
+    "dev": "cd backend && npm run dev && cd frontend/asset-mapping-project && ng serve --disable-host-check",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend/asset-mapping-project && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend"
+  },
+  "author": "",
+  "license": "ISC"
 }

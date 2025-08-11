@@ -28,6 +28,7 @@ $neutral-bg:  #E6E6E6;
 }
 
 /* 外层白卡片 */
+
 .container{
   
   max-width: 1100px;
@@ -38,6 +39,7 @@ $neutral-bg:  #E6E6E6;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   font-family: Arial, sans-serif;
 }
+
 .card {
   max-width: 1100px;
   margin: 2rem auto;
@@ -86,7 +88,9 @@ h2 {
 }
 mat-form-field.full-width {
   width: 100%;
+
   max-width: 450px;
+
 }
 
 /* 步骤导航 */
@@ -270,8 +274,10 @@ textarea {
   }
   .mat-stroked-button {
     background: transparent;
+
     border: 1px solid $primary-2;
     color: $primary-2;
+
     &:hover {
       background: rgba(31, 79, 133, 0.1); // 与前面页面一致
     }

@@ -1,13 +1,15 @@
 <div class="container">
 <div class="card">
   <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
-  <h1>New Community Asset Information</h1>
+  <h1>{{ isEditMode ? 'Edit Community Asset Information' : 'New Community Asset Information' }}</h1>
+
 
   <nav>
     <span><strong>Parent/Children Asset</strong> ▶ Basic Information ▶ Location ▶ Contact ▶ Registration and Schedule</span>
+
   </nav>
 
-  <p><strong>Before we start, please answer these two quick questions:</strong></p>
+  <p><strong>{{ isEditMode ? 'Please review and update these questions if needed:' : 'Before we start, please answer these two quick questions:' }}</strong></p>
 
   <p>Is this a group or organisation that offers MORE THAN ONE service or program?</p>
   <div>
@@ -22,7 +24,12 @@
   </div>
 
   <div class="proceed-container">
-  <button class="btn btn-primary" (click)="proceed()">Proceed →</button>
-</div>
+
+    <button (click)="goBack()" class="btn btn-secondary">← Back to Dashboard</button>
+    <button (click)="proceed()" class="btn btn-primary" [disabled]="multiplePrograms === null || hasPhysicalLocation === null">
+      Proceed →
+    </button>
+  </div>
+
 </div>
 </div>

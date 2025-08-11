@@ -1,0 +1,264 @@
+<div class="add-asset-form-container">
+  <div class="form-header">
+    <h2>Add New Asset</h2>
+    <p class="form-subtitle">Create a new community asset</p>
+    <div class="info-banner">
+      <p><strong>Note:</strong> Assets submitted by guests will be reviewed and require approval before appearing publicly. Authenticated users' assets may be published immediately depending on their role.</p>
+    </div>
+  </div>
+
+  <form [formGroup]="addAssetForm" (ngSubmit)="onSubmit()" class="add-asset-form">
+
+    <!-- Basic Information Section -->
+    <div class="form-section">
+      <h3>Basic Information</h3>
+
+      <div class="form-group">
+        <label for="name">Asset Name *</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-control"
+          placeholder="Enter asset name"
+          [class.error]="addAssetForm.get('name')?.invalid && addAssetForm.get('name')?.touched">
+        <div class="error-message" *ngIf="addAssetForm.get('name')?.invalid && addAssetForm.get('name')?.touched">
+          Asset name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="form-control"
+          rows="3"
+          placeholder="Describe the asset and its services"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="service_type">Service Type</label>
+          <input
+            type="text"
+            id="service_type"
+            formControlName="service_type"
+            class="form-control"
+            placeholder="e.g., Healthcare, Education, Social Services">
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              formControlName="has_volunteer_opportunities">
+            <span class="checkmark"></span>
+            Has Volunteer Opportunities
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Information Section -->
+    <div class="form-section">
+      <h3>Contact Information</h3>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="website">Website</label>
+          <input
+            type="url"
+            id="website"
+            formControlName="website"
+            class="form-control"
+            placeholder="https://example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input
+            type="tel"
+            id="phone"
+            formControlName="phone"
+            class="form-control"
+            placeholder="(123) 456-7890">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          placeholder="contact@example.com"
+          [class.error]="addAssetForm.get('email')?.invalid && addAssetForm.get('email')?.touched">
+        <div class="error-message" *ngIf="addAssetForm.get('email')?.invalid && addAssetForm.get('email')?.touched">
+          Please enter a valid email address
+        </div>
+      </div>
+    </div>
+
+    <!-- Address Section -->
+    <div class="form-section">
+      <h3>Address</h3>
+
+      <div class="form-group">
+        <label for="address_line_1">Address Line 1 *</label>
+        <input
+          type="text"
+          id="address_line_1"
+          formControlName="address_line_1"
+          class="form-control"
+          placeholder="Street address"
+          [class.error]="addAssetForm.get('address_line_1')?.invalid && addAssetForm.get('address_line_1')?.touched">
+        <div class="error-message" *ngIf="addAssetForm.get('address_line_1')?.invalid && addAssetForm.get('address_line_1')?.touched">
+          Address is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address_line_2">Address Line 2</label>
+        <input
+          type="text"
+          id="address_line_2"
+          formControlName="address_line_2"
+          class="form-control"
+          placeholder="Apartment, suite, etc. (optional)">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="city">City *</label>
+          <input
+            type="text"
+            id="city"
+            formControlName="city"
+            class="form-control"
+            placeholder="City"
+            [class.error]="addAssetForm.get('city')?.invalid && addAssetForm.get('city')?.touched">
+          <div class="error-message" *ngIf="addAssetForm.get('city')?.invalid && addAssetForm.get('city')?.touched">
+            City is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="province">Province *</label>
+          <input
+            type="text"
+            id="province"
+            formControlName="province"
+            class="form-control"
+            placeholder="Province"
+            [class.error]="addAssetForm.get('province')?.invalid && addAssetForm.get('province')?.touched">
+          <div class="error-message" *ngIf="addAssetForm.get('province')?.invalid && addAssetForm.get('province')?.touched">
+            Province is required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="postal_code">Postal Code *</label>
+          <input
+            type="text"
+            id="postal_code"
+            formControlName="postal_code"
+            class="form-control"
+            placeholder="A1A 1A1"
+            [class.error]="addAssetForm.get('postal_code')?.invalid && addAssetForm.get('postal_code')?.touched">
+          <div class="error-message" *ngIf="addAssetForm.get('postal_code')?.invalid && addAssetForm.get('postal_code')?.touched">
+            Postal code is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="country">Country</label>
+          <input
+            type="text"
+            id="country"
+            formControlName="country"
+            class="form-control"
+            placeholder="Canada">
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Person Section -->
+    <div class="form-section">
+      <h3>Contact Person</h3>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="contact_name">Contact Name *</label>
+          <input
+            type="text"
+            id="contact_name"
+            formControlName="contact_name"
+            class="form-control"
+            placeholder="Full name"
+            [class.error]="addAssetForm.get('contact_name')?.invalid && addAssetForm.get('contact_name')?.touched">
+          <div class="error-message" *ngIf="addAssetForm.get('contact_name')?.invalid && addAssetForm.get('contact_name')?.touched">
+            Contact name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="contact_title">Contact Title</label>
+          <input
+            type="text"
+            id="contact_title"
+            formControlName="contact_title"
+            class="form-control"
+            placeholder="Job title or role">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="contact_email">Contact Email</label>
+          <input
+            type="email"
+            id="contact_email"
+            formControlName="contact_email"
+            class="form-control"
+            placeholder="contact@example.com"
+            [class.error]="addAssetForm.get('contact_email')?.invalid && addAssetForm.get('contact_email')?.touched">
+          <div class="error-message" *ngIf="addAssetForm.get('contact_email')?.invalid && addAssetForm.get('contact_email')?.touched">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="contact_phone">Contact Phone</label>
+          <input
+            type="tel"
+            id="contact_phone"
+            formControlName="contact_phone"
+            class="form-control"
+            placeholder="(123) 456-7890">
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="onBack()"
+        [disabled]="isLoading">
+        {{ isGuest ? 'Back to Home' : 'Cancel' }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!addAssetForm.valid || isLoading">
+        <span *ngIf="isLoading" class="loading-spinner"></span>
+        {{ isLoading ? 'Creating...' : 'Create Asset' }}
+      </button>
+    </div>
+  </form>
+</div>

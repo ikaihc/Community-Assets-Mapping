@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UserService, User } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-add-user-form',
@@ -11,43 +14,83 @@ import { CommonModule } from '@angular/common';
 })
 export class AddUserFormComponent implements OnInit {
   @Output() backToUsers = new EventEmitter<void>();
-  @Output() userAdded = new EventEmitter<any>();
+  @Output() userAdded = new EventEmitter<User>();
 
   addUserForm: FormGroup;
   isLoading = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private authService: AuthService,
+    private notificationService: NotificationService
+  ) {
     this.addUserForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      jobTitle: ['', [Validators.required]],
-      role: ['', [Validators.required]]
+      jobTitle: [''],
+      role: ['guest', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Check if user is admin, if not redirect back
+    if (!this.authService.isAdmin()) {
+      this.notificationService.error('You do not have permission to add users', 'Access Denied');
+      this.onBack();
+    }
+  }
 
   onSubmit() {
-    if (this.addUserForm.valid) {
+    if (this.addUserForm.valid && this.authService.isAdmin()) {
       this.isLoading = true;
-      
-      const newUser = {
-        id: Date.now(),
+
+      const userData = {
         email: this.addUserForm.value.email,
-        name: `${this.addUserForm.value.firstName} ${this.addUserForm.value.lastName}`,
+        first_name: this.addUserForm.value.firstName,
+        last_name: this.addUserForm.value.lastName,
+        job_title: this.addUserForm.value.jobTitle || '',
         role: this.addUserForm.value.role,
-        jobTitle: this.addUserForm.value.jobTitle,
-        dateCreated: new Date().toLocaleDateString('en-GB'),
-        lastModified: new Date().toLocaleDateString('en-GB'),
-        isActive: false
+        password: String(this.addUserForm.value.password) // Ensure it's a string
       };
 
-      setTimeout(() => {
-        this.userAdded.emit(newUser);
-        this.resetForm();
-        this.isLoading = false;
-      }, 500);
+      // Debug log to check the data being sent
+      console.log('AddUserForm: Sending user data:', {
+        ...userData,
+        password: '[HIDDEN]', // Don't log actual password
+        passwordType: typeof userData.password,
+        passwordLength: userData.password ? userData.password.length : 0
+      });
+
+      // Reset form immediately after user clicks submit
+      this.resetForm();
+
+      this.userService.createUser(userData).subscribe({
+        next: (response) => {
+          console.log('AddUserForm: User creation response:', response);
+          if (response.success && response.user) {
+            this.notificationService.success('User created successfully', 'Success');
+            this.userAdded.emit(response.user);
+            // Reset form after successful creation
+            this.resetForm();
+          } else {
+            this.notificationService.error('Failed to create user', 'Error');
+            // If creation failed, restore the form data
+            this.restoreFormData(userData);
+          }
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error creating user:', error);
+          const errorMessage = error.error?.message || 'Failed to create user';
+          this.notificationService.error(errorMessage, 'Error');
+          // If creation failed, restore the form data
+          this.restoreFormData(userData);
+          this.isLoading = false;
+        }
+      });
     }
   }
 
@@ -57,7 +100,27 @@ export class AddUserFormComponent implements OnInit {
   }
 
   private resetForm() {
-    this.addUserForm.reset();
+    this.addUserForm.reset({
+      email: '',
+      firstName: '',
+      lastName: '',
+      jobTitle: '',
+      role: 'guest',
+      password: ''
+    });
+    this.addUserForm.markAsUntouched();
+    this.addUserForm.markAsPristine();
     this.isLoading = false;
+  }
+
+  private restoreFormData(userData: any) {
+    this.addUserForm.patchValue({
+      email: userData.email,
+      firstName: userData.first_name,
+      lastName: userData.last_name,
+      jobTitle: userData.job_title,
+      role: userData.role,
+      password: userData.password
+    });
   }
 }
