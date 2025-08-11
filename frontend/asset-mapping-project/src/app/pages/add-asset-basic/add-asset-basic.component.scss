@@ -4,79 +4,67 @@ $neutral-1:   #F8F8F8;
 $neutral-2:   #F3F3F3;
 $neutral-3:   #B3B3B3;
 $neutral-bg:  #E6E6E6; 
+
 :host {
   display: block;
   $neutral-bg:  #E6E6E6; 
   min-height: 100vh;
 }
 
+.container {
+  width: 100vw;
+  min-height: 80vh;
+  background: $neutral-bg;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1rem;
+}
 
 .card {
-  position: relative;
-  background: transparent; 
-  width: 96%;
-  box-shadow: none;
-  max-width: 900px;
-  width: 96%; // 添加此行
-  margin: 3rem auto 1rem auto;
-  padding: 2rem;
-  background: $neutral-2;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: Arial, sans-serif;
-  position: relative;
-  padding-top: 3rem;      // 顶部间距与start一致
-  padding-bottom: 2rem;
-}
-
-.back-home-btn {
-
-  text-decoration: none;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  background: transparent;
-  color: #1F4F85;  
-  border: 1px solid #1F4F85;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.back-home-btn:hover {
-  background: rgba(31, 79, 133, 0.1);
-}
-
-.container {
-  width: 60vw;
-  margin: 0 auto 2rem auto;
-  padding: 2rem;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 70vh;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
-  font-family: Arial, sans-serif;
-  padding-top: 3rem;      
-  padding-bottom: 2rem;
-}
-
-.container {
-  
-  height: 80vh;
-  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
+.header-row {
+  display: flex;
+  justify-content: space-between;  // push items to edges (h1 left, button right)
+  align-items: flex-start;         // align items at top (not vertically centered)
 
-h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1F4F85;
-  margin: 0 0 1rem;
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1F4F85;  
+    margin: 0 0 1rem;
+  }
+
+  .back-home-btn {
+    text-decoration: none;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    background: transparent;
+    color: #1F4F85;          
+    border: 1px solid #1F4F85;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .back-home-btn:hover {
+    background: rgba(31, 79, 133, 0.1);
+  }
 }
-
 
 .breadcrumb {
   font-size: 0.9rem;

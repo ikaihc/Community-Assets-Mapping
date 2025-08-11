@@ -33,36 +33,40 @@ $neutral-bg:  #E6E6E6;
   position: relative;
 }
 
+.header-row {
+  display: flex;
+  justify-content: space-between;  // push items to edges (h1 left, button right)
+  align-items: flex-start;         // align items at top (not vertically centered)
 
-.back-home-btn {
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1F4F85;  
+    margin: 0 0 1rem;
+  }
 
-  text-decoration: none;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  background: transparent;
-  color: #1F4F85;          
-  border: 1px solid #1F4F85;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  .back-home-btn {
+    text-decoration: none;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    background: transparent;
+    color: #1F4F85;          
+    border: 1px solid #1F4F85;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .back-home-btn:hover {
+    background: rgba(31, 79, 133, 0.1);
+  }
 }
 
-.back-home-btn:hover {
-  background: rgba(31, 79, 133, 0.1);
-}
 
 
 
-
-.card h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1F4F85;  
-  margin: 0 0 1rem;
-}
 
 
 .card nav {

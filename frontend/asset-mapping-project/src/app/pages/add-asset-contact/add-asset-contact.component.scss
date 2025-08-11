@@ -14,15 +14,13 @@ $neutral-bg:  #E6E6E6;
 /* 容器 & 卡片 */
 
 .container {
-  width: 60vw;
-  margin: 0 auto 0 auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
-  font-family: Arial, sans-serif;
-  padding-top: 3rem;      
-  padding-bottom: 1rem;
+  width: 100vw;
+  min-height: 80vh;
+  background: $neutral-bg;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1rem;
 }
 
 .card {
@@ -30,48 +28,44 @@ $neutral-bg:  #E6E6E6;
   max-width: 1100px;
   min-height: 70vh;
   margin: 0 auto;
-  padding-bottom: 1rem;
+  padding: 2.5rem 3rem;
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
   display: flex;
   flex-direction: column;
   position: relative;
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: Arial, sans-serif;
 }
 
-/* “Back To Home” 按钮 */
-.back-home-btn {
-  text-decoration: none;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  background: transparent;
-  color: #1F4F85;
-  border: 1px solid #1F4F85;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+.header-row {
+  display: flex;
+  justify-content: space-between;  // push items to edges (h1 left, button right)
+  align-items: flex-start;         // align items at top (not vertically centered)
 
-  &:hover {
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1F4F85;  
+    margin: 0 0 1rem;
+  }
+
+  .back-home-btn {
+    text-decoration: none;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    background: transparent;
+    color: #1F4F85;          
+    border: 1px solid #1F4F85;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .back-home-btn:hover {
     background: rgba(31, 79, 133, 0.1);
   }
-}
-
-/* 标题 */
-h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1F4F85;
-  margin-bottom: 1rem;
 }
 
 /* 步骤导航 */
