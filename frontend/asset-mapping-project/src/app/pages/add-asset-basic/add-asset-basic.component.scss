@@ -18,13 +18,15 @@ $neutral-bg:  #E6E6E6;
   box-shadow: none;
   max-width: 900px;
   width: 96%; // 添加此行
-  margin: 2rem auto;
+  margin: 3rem auto 1rem auto;
   padding: 2rem;
   background: $neutral-2;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   font-family: Arial, sans-serif;
   position: relative;
+  padding-top: 3rem;      // 顶部间距与start一致
+  padding-bottom: 2rem;
 }
 
 .back-home-btn {
@@ -55,6 +57,8 @@ $neutral-bg:  #E6E6E6;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   font-family: Arial, sans-serif;
+  padding-top: 3rem;      
+  padding-bottom: 2rem;
 }
 
 .container {
