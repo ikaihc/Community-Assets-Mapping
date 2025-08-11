@@ -2,7 +2,11 @@ $primary-2:   #1F4F85;
 $primary-3:   #163E6C;
 $neutral-1:   #F8F8F8;
 $neutral-2:   #F3F3F3;
+$neutral-3:   #B3B3B3;
 $neutral-bg:  #E6E6E6; 
+$secondary-2: #348CEF;
+$secondary-3: #0263DE;
+
 :host {
   display: block;
   background: $neutral-bg;
@@ -67,8 +71,6 @@ $neutral-bg:  #E6E6E6;
 
 
 
-
-
 .card nav {
   font-size: 0.9rem;
   color: #64748b;
@@ -104,16 +106,16 @@ $neutral-bg:  #E6E6E6;
   margin-bottom: 1rem;
   padding: 0.6rem 1.2rem;
   font-size: 0.95rem;
-  border: 1px solid #0263D1;
+  border: 0.5px solid $secondary-3;
   border-radius: 6px;
   background: #fff;
-  color: #0263D1;
+  color: $secondary-3;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 
   &.selected,
   &:hover {
-    background: #0263D1;
+    background: $secondary-3;
     color: #fff;
   }
 }

@@ -4,6 +4,8 @@ $neutral-1:   #F8F8F8;
 $neutral-2:   #F3F3F3;
 $neutral-3:   #B3B3B3;
 $neutral-bg:  #E6E6E6; 
+$secondary-2: #348CEF;
+$secondary-3: #0263DE;
 
 :host {
   display: block;
@@ -32,6 +34,13 @@ $neutral-bg:  #E6E6E6;
   box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.container-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
   position: relative;
 }
 
@@ -81,6 +90,13 @@ $neutral-bg:  #E6E6E6;
   }
 }
 
+.container form {
+  /* 这里设置表单最大宽度为 450px（大约占 900px 容器的一半） */
+  width: 40%;
+  /* 上右下左，右侧 auto 会把它往左推 */
+  margin: 0 auto 2rem 0;
+}
+
 
 .form-group {
   margin-bottom: 1.5rem;
@@ -99,7 +115,7 @@ $neutral-bg:  #E6E6E6;
   textarea.form-control {
     width: 100%;
     padding: 0.6rem;
-    border: 1px solid #ccc;
+    border: 0.5px solid $secondary-3;
     border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.2s ease;
@@ -135,16 +151,16 @@ textarea.form-control {
 
   .btn-option {
     padding: 0.5rem 1rem;
-    border: 1px solid #0263D1;
+    border: 0.5px solid $secondary-3;
     border-radius: 6px;
     background: #fff;
-    color: #0263D1;
+    color: $secondary-3;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
 
     &:hover,
     &.selected {
-      background: #0263D1;
+      background: $secondary-3;
       color: #fff;
     }
   }
@@ -205,14 +221,14 @@ textarea.form-control {
     flex-wrap: wrap;
     min-height: 2.5rem;
     padding: 0.4rem 0.6rem;
-    border: 1px solid #ccc;
+    border: 0.5px solid $secondary-3;
     border-radius: 6px;
     cursor: pointer;
     transition: border-color 0.2s;
 
     &:focus,
     &:hover {
-      border-color: #0263D1;
+      border-color: $secondary-3;
     }
   }
 
@@ -281,20 +297,3 @@ textarea.form-control {
   }
 }
 
-.container form {
-  /* 这里设置表单最大宽度为 450px（大约占 900px 容器的一半） */
-  max-width: 450px;
-  /* 上右下左，右侧 auto 会把它往左推 */
-  margin: 0  auto 2rem 0;
-
-}
-
-
-
-.container-content {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  min-height: 0;
-  position: relative;
-
-}
