@@ -5,31 +5,38 @@ $primary-2:   #1F4F85;
 $neutral-1:   #F8F8F8;
 $white:       #FFFFFF;
 $black:       #040404;
+$neutral-2:   #F3F3F3;
+$neutral-4:   #7D7D7D;
 
 .view-asset-page {
   padding: 2rem 0;
-  background: $neutral-1;
+  background: $neutral-2;  // 整体页面背景
+    font-family: 'Work Sans'; // 全局字体
+
 
   .card {
     max-width: 1200px;
-    height: 600px;
-    margin: 0 auto;
+    width: 96%;
+    height: 600px;              
+    margin: 0 auto;            
     padding: 2rem;
-    display: flex;
-    background: $white;
+    display: grid; 
+    grid-template-columns: 1fr 500px;
+    column-gap: 1.5rem; 
+    background: $neutral-1;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    overflow: hidden;
+    overflow: hidden;           
   }
 
-  // Left column: Asset information
+  // 左侧滚动区
   .info-column {
-    width: 50%;
-    padding-right: 1rem;
-    overflow-y: auto;
+    width: 60%;
+    padding-right: 2rem;
+    overflow-y: auto;          
     overflow-x: hidden;
 
-    /* Scrollbar styles */
+    /* 滚动条样式 */
     &::-webkit-scrollbar {
       width: 6px;
     }
@@ -39,7 +46,7 @@ $black:       #040404;
     }
 
     h1 {
-      font-size: 2.25rem;
+      font-size: 2.25rem;   
       font-weight: 700;
       color: $primary-2;
       margin-bottom: 1rem;
@@ -49,7 +56,7 @@ $black:       #040404;
       margin-bottom: 1.5rem;
 
       h2 {
-        font-size: 1.25rem;
+        font-size: 1.25rem;      
         font-weight: 600;
         color: $primary-2;
         margin-bottom: 0.75rem;
@@ -57,17 +64,166 @@ $black:       #040404;
 
       label {
         display: block;
-        font-size: 1rem;
+        font-size: 1rem;       
         font-weight: 400;
-        color: $primary-2;
+        color: $neutral-4;
         margin-top: 0.75rem;
         margin-bottom: 0.25rem;
       }
 
-      input,
-      textarea {
-        width: 100%;
-        padding: 0.6rem;
+            &:hover {
+              color: #ff5c5c;
+            }
+          }
+        }
+
+        span {
+          background: #ccc;
+          color: $black;
+          padding: 0.2rem 0.6rem;
+          border-radius: 4px;
+          font-size: 0.875rem;
+        }
+      }
+
+      button {
+        margin-top: 0.5rem;
+        padding: 0.4rem 1rem;
+        font-size: 1rem;         // Button Regular 16
+        border: none;
+        border-radius: 6px;
+        background: #ccc;
+        color: $white;
+        cursor: default;
+
+        &.selected {
+          background: $primary-2;
+        }
+      }
+
+      // 语言 / 活动形式 标签组
+      .tag-button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      .btn-tag {
+        padding: 0.4rem 0.8rem;
+        font-size: 1rem;         // 标签文字 Regular 14~16
+        border: 1px solid #B3B3B3;
+        border-radius: 6px;
+        background: $white;
+        color: $neutral-4;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+
+        &:hover {
+          background: #E6E6E6;
+        }
+        &.selected {
+          background: $primary-2;
+          border-color: #7D7D7D;
+          color: $white;
+        }
+      }
+      .yes-no-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+
+        button {
+          width: 60px;
+          height: 38px;
+          border-radius: 12px;
+          border: 1.5px solid #B3B3B3;
+          font-size: 1rem;
+          font-weight: 500;
+          background: $white;
+          color: $neutral-4;
+          cursor: not-allowed; // 禁止交互
+          transition: background 0.2s, color 0.2s, border-color 0.2s;
+
+          &.selected {
+            background: $primary-2;
+            color: $neutral-1;
+            border-color: $neutral-4;
+          }
+        }
+      }
+    }
+  }
+
+  // 右侧地图区
+  .map-column {
+    width: 500px;                   // 固定宽度
+    
+    display: flex;
+    align-items: flex-start;        // 顶部对齐
+    justify-content: flex-start;    // 水平居中
+    padding-left: 0;
+
+    .map-container,
+    #view-map {
+      width: 500px;
+      height: 500px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #eee;         // 加载前占位
+    }
+  }
+
+  // “Back To Home” 按钮
+  .navigation-buttons {
+    width: 100%;
+    text-align: left;
+    margin-top: 1rem;
+
+    a.btn-outline-primary {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      color: $white;
+      background: $primary-2;
+      text-decoration: none;
+      border-radius: 6px;
+
+      &:hover {
+        background: darken($primary-2, 10%);
+      }
+    }
+  }
+}
+
+/* 底部返回按钮容器：与卡片同宽并居中 */
+.back-home-wrap {
+  max-width: 900px;     /* 跟 .card 的 max-width 保持一致 */
+  margin: 1rem auto 0;  /* 顶部留一点间距 */
+}
+
+/* 返回首页按钮 */
+.back-home-btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #1F4F85;       /* 主色 */
+  color: #fff;
+  border: 1px solid #1F4F85;
+  border-radius: 8px;
+  text-decoration: none;     /* 无下划线 */
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+
+  &:hover {
+    background: #163E6C;
+    border-color: #163E6C;
+    box-shadow: 0 2px 10px rgba(31, 79, 133, 0.15);
+  }
+
+  &:active {
+    transform: translateY(1px);
+=======
         border: 1px solid #ccc;
         border-radius: 6px;
         font-size: 1rem;
@@ -176,5 +332,6 @@ $black:       #040404;
       overflow: hidden;
       background: #eee;
     }
+
   }
 }

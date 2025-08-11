@@ -1,3 +1,4 @@
+
 <!-- src/app/pages/view-asset/view-asset.component.html -->
 <div class="view-asset-page">
   <!-- Loading State -->
@@ -8,6 +9,7 @@
   <!-- Asset Content -->
   <div *ngIf="!isLoading && asset" class="card">
     <!-- Left Column: Asset Information -->
+
     <div class="info-column">
       <h1>{{ asset.name }} Information</h1>
 
@@ -16,6 +18,7 @@
         <h2>Basic Info</h2>
 
         <label>Asset Name</label>
+
         <input type="text" [value]="asset.name" readonly />
 
         <label>Categories</label>
@@ -93,13 +96,16 @@
     </div>
 
     <!-- Right Column: Map -->
+
     <div class="map-column">
       <div id="view-map" class="map-container"></div>
     </div>
   </div>
 
+
   <!-- Error State -->
   <div *ngIf="!isLoading && !asset" class="error">
     <p>Asset not found. <a routerLink="/home">Return to home</a></p>
   </div>
+
 </div>

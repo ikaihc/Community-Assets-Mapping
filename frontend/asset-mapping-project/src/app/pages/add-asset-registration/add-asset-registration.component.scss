@@ -1,3 +1,8 @@
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
+$neutral-bg:  #E6E6E6; 
 :host {
   display: block;
 }
@@ -23,10 +28,20 @@
 }
 
 /* 外层白卡片 */
-.container,
+
+.container{
+  
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+}
+
 .card {
-  position: relative;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 2rem auto;
   padding: 2rem;
   background: #fff;
@@ -73,6 +88,9 @@ h2 {
 }
 mat-form-field.full-width {
   width: 100%;
+
+  max-width: 450px;
+
 }
 
 /* 步骤导航 */
@@ -178,6 +196,7 @@ mat-form-field.full-width {
 .button-group {
   display: flex;
   gap: 1rem;
+margin-bottom: 1.5rem;
 
   .btn-option {
     padding: 0.5rem 1rem;
@@ -201,6 +220,7 @@ mat-form-field.full-width {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 1.5rem;
 
   .btn-tag {
     padding: 0.4rem 0.8rem;
@@ -250,21 +270,28 @@ textarea {
     font-size: 0.95rem;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: ackground-color 0.2s ease;
   }
   .mat-stroked-button {
     background: transparent;
-    border: 1px solid #003366;
-    color: #003366;
+
+    border: 1px solid $primary-2;
+    color: $primary-2;
+
     &:hover {
-      background: #e6f0ff;
+      background: rgba(31, 79, 133, 0.1); // 与前面页面一致
     }
   }
   .mat-flat-button {
-    background: #003366;
+    background: $primary-3;
     color: #fff;
     &:hover {
-      background: #002244;
+      background: $primary-2;
     }
   }
+}
+.btn-primary {
+  background: $primary-3;
+  color: $neutral-1;
+  
 }

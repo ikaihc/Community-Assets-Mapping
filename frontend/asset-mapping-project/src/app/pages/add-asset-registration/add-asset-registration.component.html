@@ -1,5 +1,6 @@
 <!-- src/app/pages/add-asset-registration/add-asset-registration.component.html -->
 <div class="container">
+  <div class="card-content">
   <!-- Back to Home -->
   <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
 
@@ -8,10 +9,12 @@
 
   <!-- Step Navigation -->
   <nav class="step-nav">
-    <span>Parent/Children Asset</span> ・
-    <span>Basic Information</span> ・
-    <span>Location</span> ・
-    <span>Contact</span> ・
+
+    <span>Before We Start</span> ▶
+    <span>Basic Information</span> ▶
+    <span>Location</span> ▶
+    <span>Contact</span> ▶
+
     <b>Registration and Schedule</b>
   </nav>
 
@@ -109,12 +112,18 @@
   </form>
 
   <!-- Registration Information -->
+    <label>Registration Information</label>
+    <div class="button-group">
+  <!-- 按钮 -->
+</div>
   <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Registration Information</mat-label>
     <textarea matInput
               placeholder="ex. To register, please contact by email or telephone us at 111223333">
     </textarea>
   </mat-form-field>
+  <div class="button-group">
+  <!-- 按钮 -->
+</div>
 
   <!-- Accessible Features -->
   <label>Does this program have accessible features?</label>
@@ -147,6 +156,7 @@
 
   <!-- Navigation Buttons -->
   <div class="navigation-buttons">
+
     <button mat-stroked-button (click)="goPrevious()" [disabled]="isProcessing">← Previous</button>
 
     <!-- Approve/Reject buttons for admins/navigators -->
@@ -168,5 +178,7 @@
         Approve
       </button>
     </div>
+
   </div>
+</div>
 </div>

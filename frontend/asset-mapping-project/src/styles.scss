@@ -2,6 +2,7 @@
 // Angular Material theme
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+
 body {
 font-family: 'Work Sans', 'Roboto', "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
@@ -36,11 +37,16 @@ $neutral-4:   #7D7D7D;
 $neutral-5:   #4D4D4D;
 $neutral-6:   #040404;
 
+$neutral-bg:  #E6E6E6; 
+
 // Alerts
 $alert-1:     #E74C3C;
 $alert-2:     #D93120;
 
-html, body { height: 100%; }
+
+html, body { height: 100%; 
+background:$neutral-bg;}
+
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* You can add global styles to this file, and also import other style files */

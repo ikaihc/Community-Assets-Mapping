@@ -1,9 +1,35 @@
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
+$neutral-bg:  #E6E6E6; 
 :host {
   display: block;
+  background: $neutral-bg;
 }
 
-.container,
+
+.container {
+  width: 100vw;
+  min-height: 80vh;
+  background: $neutral-bg;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
 .card {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 70vh;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
+  display: flex;
+  flex-direction: column;
   position: relative;
 }
 
@@ -28,16 +54,7 @@
   background: rgba(31, 79, 133, 0.1);
 }
 
-.card {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: Arial, sans-serif;
-  position: relative;
-}
+
 
 
 .card h1 {
@@ -99,21 +116,21 @@
 
 /* Proceed 按钮 */
 .proceed-container {
-  text-align: right;
+  text-align: left;
   margin-top: 2rem;
 
   .btn-primary {
     padding: 0.6rem 1.2rem;
     font-size: 0.95rem;
     border-radius: 6px;
-    background-color: #1F4F85;
-    color: #fff;
-    border: none;
+    background-color: $primary-2 !important;
+    color: #fff !important;
+    border: none !important;
     cursor: pointer;
     transition: background 0.2s ease;
 
     &:hover {
-      background-color: #163E6C;
+      background-color: $primary-3 !important; // 保持和默认一样
     }
   }
 }

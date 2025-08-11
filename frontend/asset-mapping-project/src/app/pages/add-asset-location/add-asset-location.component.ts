@@ -1,9 +1,18 @@
 // src/app/pages/add-asset-location/add-asset-location.component.ts
+
 import { Component, AfterViewInit, NgZone, OnInit } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AssetCreationService } from '../../services/asset-creation.service';
+
+declare const google: any;
+
+// 声明全局 callback
+declare global {
+  interface Window { initMap: () => void; }
+}
 
 declare const google: any;
 
@@ -19,6 +28,7 @@ declare global {
   templateUrl: './add-asset-location.component.html',
   styleUrls: ['./add-asset-location.component.scss']
 })
+
 export class AddAssetLocationComponent implements AfterViewInit, OnInit {
   map!: google.maps.Map;
   marker!: google.maps.Marker;
@@ -63,6 +73,7 @@ export class AddAssetLocationComponent implements AfterViewInit, OnInit {
     });
   }
 
+
   ngAfterViewInit(): void {
     // 1) 把 window.initMap 指向我们的初始化函数
     window.initMap = () => {
@@ -104,6 +115,7 @@ export class AddAssetLocationComponent implements AfterViewInit, OnInit {
     });
   }
 
+
   goPrevious() {
     // Save current data before navigating
     this.saveLocationData();
@@ -135,4 +147,5 @@ export class AddAssetLocationComponent implements AfterViewInit, OnInit {
       transportationOptions: this.transportationOptions
     });
   }
+
 }

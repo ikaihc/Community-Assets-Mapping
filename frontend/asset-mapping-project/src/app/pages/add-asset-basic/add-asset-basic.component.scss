@@ -1,11 +1,32 @@
-
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
+$neutral-3:   #B3B3B3;
+$neutral-bg:  #E6E6E6; 
 :host {
   display: block;
+  $neutral-bg:  #E6E6E6; 
+  min-height: 100vh;
 }
 
-.container,
+
 .card {
   position: relative;
+  background: transparent; 
+  width: 96%;
+  box-shadow: none;
+  max-width: 900px;
+  width: 96%; // 添加此行
+  margin: 3rem auto 1rem auto;
+  padding: 2rem;
+  background: $neutral-2;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+  position: relative;
+  padding-top: 3rem;      // 顶部间距与start一致
+  padding-bottom: 2rem;
 }
 
 .back-home-btn {
@@ -29,13 +50,23 @@
 }
 
 .container {
-  max-width: 900px;
-  margin: 2rem auto;
+  width: 60vw;
+  margin: 0 auto 2rem auto;
   padding: 2rem;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   font-family: Arial, sans-serif;
+  padding-top: 3rem;      
+  padding-bottom: 2rem;
+}
+
+.container {
+  
+  height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -65,6 +96,7 @@ h2 {
 
 .form-group {
   margin-bottom: 1.5rem;
+  width: 100%;
 
   label {
     display: block;
@@ -83,6 +115,7 @@ h2 {
     border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.2s ease;
+    font-family: inherit;
 
     &:focus {
       outline: none;
@@ -98,7 +131,15 @@ h2 {
     min-height: 100px;
   }
 }
-
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+  color: $neutral-3;
+  opacity: 1;
+  font-style: italic;
+}
+textarea.form-control {
+  font-family: 'Work Sans', Arial, sans-serif;
+}
 
 .button-group {
   display: flex;
@@ -124,7 +165,8 @@ h2 {
 
 .navigation-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* 左对齐 */
+  gap: 1rem;
   margin-top: 2rem;
 
   .btn {
@@ -159,12 +201,17 @@ h2 {
 
 /* categories-dropdown 容器 */
 .categories-dropdown {
+
+  width: 100%;         // 让下拉容器和输入框一样宽
+  max-width: none;
+  box-sizing: border-box;
   position: relative;
-  font-family: inherit;
-  max-width: 100%;
+
 
   /* 输入框样式 */
   .dropdown-header {
+    width: 100%;
+
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -225,10 +272,12 @@ h2 {
     list-style: none;
     border: 1px solid #ccc;
     border-radius: 6px;
-    background: #fff;
+
+    background: $neutral-2;
     overflow-y: auto;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    z-index: 10;
+    z-index: 100;
+
 
     li {
       padding: 0.5rem;
@@ -249,4 +298,15 @@ h2 {
   max-width: 450px;
   /* 上右下左，右侧 auto 会把它往左推 */
   margin: 0  auto 2rem 0;
+
+}
+
+
+
+.container-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  position: relative;
+
 }
