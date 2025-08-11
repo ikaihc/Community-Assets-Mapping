@@ -1,9 +1,11 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AssetCreationService } from '../../services/asset-creation.service';
 import { AssetService } from '../../services/asset.service';
+
 
 @Component({
   selector: 'app-add-asset-start',
@@ -20,6 +22,7 @@ export class AddAssetStartComponent implements OnInit {
 
   constructor(
     private router: Router,
+
     private route: ActivatedRoute,
     private assetService: AssetCreationService,
     private assetApiService: AssetService
@@ -83,5 +86,6 @@ export class AddAssetStartComponent implements OnInit {
     // Clear data and go back to dashboard or home
     this.assetService.clearData();
     this.router.navigate(['/dashboard']);
+
   }
 }

@@ -1,21 +1,27 @@
+
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule }                 from '@angular/common';    // <-- 对应 ngIf/ngFor
 import { RouterModule, Router }         from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 import { AssetCreationService } from '../../services/asset-creation.service';
 
 @Component({
   selector: 'app-add-asset-basic',
+
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
     FormsModule
+
   ],
   templateUrl: './add-asset-basic.component.html',
   styleUrls:   ['./add-asset-basic.component.scss']
 })
+
 export class AddAssetBasicComponent implements OnInit {
+
   availableCategories = [
     'Transportation',
     'Food Bank',
@@ -24,6 +30,7 @@ export class AddAssetBasicComponent implements OnInit {
   ];
   selectedCategories: string[] = [];
   dropdownOpen = false;
+
 
   // Form fields
   assetName = '';
@@ -99,4 +106,7 @@ export class AddAssetBasicComponent implements OnInit {
   }
 
 
+
+
+  
 }

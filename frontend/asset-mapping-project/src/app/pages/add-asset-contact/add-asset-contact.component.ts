@@ -1,15 +1,14 @@
 // src/app/pages/add-asset-contact/add-asset-contact.component.ts
-import { Component, OnInit }     from '@angular/core';
-import { Router }                from '@angular/router';
-import { CommonModule }          from '@angular/common';
-import { RouterModule }          from '@angular/router';
-import { FormsModule }           from '@angular/forms';
-import { AssetCreationService }  from '../../services/asset-creation.service';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AssetCreationService } from '../../services/asset-creation.service';
 
 @Component({
   selector: 'app-add-asset-contact',
   standalone: true,
-  imports: [ CommonModule, RouterModule, FormsModule ],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './add-asset-contact.component.html',
   styleUrls: ['./add-asset-contact.component.scss']
 })
@@ -46,13 +45,13 @@ export class AddAssetContactComponent implements OnInit {
     });
   }
 
-  goNext() {
+  goNext(): void {
     // Save contact data before proceeding
     this.saveContactData();
     this.router.navigate(['/add-asset/registration']);
   }
 
-  goPrevious() {
+  goPrevious(): void {
     // Save contact data before navigating
     this.saveContactData();
 
@@ -64,7 +63,7 @@ export class AddAssetContactComponent implements OnInit {
     }
   }
 
-  private saveContactData() {
+  private saveContactData(): void {
     this.assetService.updateData({
       contact: {
         contact_name: this.contactName,

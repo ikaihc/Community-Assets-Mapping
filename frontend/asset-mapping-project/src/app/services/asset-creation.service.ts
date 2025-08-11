@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { BehaviorSubject } from 'rxjs';
 
 export interface AssetCreationData {
@@ -173,4 +174,5 @@ export class AssetCreationService {
       this.updateData({ hasPhysicalLocation: value });
     }
   }
+
 }

@@ -1,13 +1,14 @@
+<div class="container">
 <div class="card">
-  <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
-  <h1>{{ isEditMode ? 'Edit Community Asset Information' : 'New Community Asset Information' }}</h1>
 
-  <nav class="breadcrumb-nav">
-    <span class="active"><strong>Start Questions</strong></span>
-    <span>・ Basic Information</span>
-    <span>・ Location</span>
-    <span>・ Contact</span>
-    <span>・ Registration</span>
+  <div class="header-row">
+    <h1>{{ isEditMode ? 'Edit Community Asset Information' : 'New Community Asset Information' }}</h1>
+    <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+  </div>
+
+  <nav>
+    <span><strong>Before We Start</strong> ▶ Basic Information ▶ Location ▶ Contact ▶ Registration and Schedule</span>
+
   </nav>
 
   <p><strong>{{ isEditMode ? 'Please review and update these questions if needed:' : 'Before we start, please answer these two quick questions:' }}</strong></p>
@@ -25,9 +26,10 @@
   </div>
 
   <div class="proceed-container">
-    <button (click)="goBack()" class="btn btn-secondary">← Back to Dashboard</button>
     <button (click)="proceed()" class="btn btn-primary" [disabled]="multiplePrograms === null || hasPhysicalLocation === null">
       Proceed →
     </button>
   </div>
+
+</div>
 </div>

@@ -1,3 +1,4 @@
+
 <!-- src/app/pages/view-asset/view-asset.component.html -->
 <div class="view-asset-page">
   <!-- Loading State -->
@@ -8,6 +9,7 @@
   <!-- Asset Content -->
   <div *ngIf="!isLoading && asset" class="card">
     <!-- Left Column: Asset Information -->
+
     <div class="info-column">
       <h1>{{ asset.name }} Information</h1>
 
@@ -26,7 +28,10 @@
         <label>Description</label>
         <textarea rows="3" [value]="asset.description || ''" readonly></textarea>
 
-        <label>Volunteering Opportunities?</label>
+        <label>Programme/Organization Website</label>
+        <input type="text" [value]="asset.website || ''" readonly />
+
+        <label>Does this programme have volunteering opportunities?</label>
         <div>
           <button
             [class.selected]="asset.has_volunteer_opportunities"
@@ -76,29 +81,13 @@
       <section>
         <h2>Registration and Schedule</h2>
 
-        <label>Website</label>
-        <input type="text" [value]="asset.website || ''" readonly />
+        <label>Schedule information</label>
+        <label>Registration information</label>
+        <label>Does this programme have accessible features?</label>
+        <label>What language this this programme offer?</label>
+        <label>What activity format does this programme offer?</label>
 
-        <label>Phone</label>
-        <input type="text" [value]="asset.phone || ''" readonly />
 
-        <label>Email</label>
-        <input type="text" [value]="asset.email || ''" readonly />
-
-        <!-- Schedule Information -->
-        <label>Schedule Type</label>
-        <input type="text" [value]="getScheduleType()" readonly />
-
-        <label>
-          Operating Hours
-          <span *ngIf="isAssetCurrentlyOpen()" class="status-open">● OPEN</span>
-          <span *ngIf="!isAssetCurrentlyOpen()" class="status-closed">● CLOSED</span>
-        </label>
-        <div class="schedule-list">
-          <div *ngFor="let scheduleItem of getScheduleDisplayText()" class="schedule-item">
-            {{ scheduleItem }}
-          </div>
-        </div>
       </section>
 
       <!-- Navigation -->
@@ -108,13 +97,16 @@
     </div>
 
     <!-- Right Column: Map -->
+
     <div class="map-column">
       <div id="view-map" class="map-container"></div>
     </div>
   </div>
 
+
   <!-- Error State -->
   <div *ngIf="!isLoading && !asset" class="error">
     <p>Asset not found. <a routerLink="/home">Return to home</a></p>
   </div>
+
 </div>

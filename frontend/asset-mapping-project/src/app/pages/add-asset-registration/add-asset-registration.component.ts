@@ -33,6 +33,8 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   templateUrl: './add-asset-registration.component.html',
   styleUrls: ['./add-asset-registration.component.scss']
+
+  
 })
 export class AddAssetRegistrationComponent implements OnInit {
   scheduleType: 'one-time' | 'recurring' | 'manual' | '' = '';
@@ -67,6 +69,11 @@ export class AddAssetRegistrationComponent implements OnInit {
     const data = this.assetCreationService.getData();
     // Pre-populate form fields here if needed
     console.log('Registration component loaded with data:', data);
+  }
+
+  submitForm() {
+    // 提交逻辑（如表单验证等）
+    this.router.navigate(['/']); // 跳转到主页
   }
 
   goPrevious() {
@@ -190,4 +197,6 @@ export class AddAssetRegistrationComponent implements OnInit {
   onSubmit() {
     alert('Asset submitted!');
   }
+
+  
 }

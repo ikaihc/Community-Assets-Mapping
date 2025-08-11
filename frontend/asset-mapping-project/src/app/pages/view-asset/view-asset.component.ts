@@ -1,4 +1,5 @@
 // src/app/pages/view-asset/view-asset.component.ts
+
 import { Component, AfterViewInit, NgZone, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -7,6 +8,7 @@ import { AssetService, Asset, Schedule } from '../../services/asset.service';
 
 declare const google: any;
 
+
 @Component({
   selector: 'app-view-asset',
   standalone: true,
@@ -14,6 +16,7 @@ declare const google: any;
   templateUrl: './view-asset.component.html',
   styleUrls: ['./view-asset.component.scss']
 })
+
 export class ViewAssetComponent implements OnInit, AfterViewInit {
   map!: google.maps.Map;
   asset: Asset | null = null;
@@ -22,6 +25,7 @@ export class ViewAssetComponent implements OnInit, AfterViewInit {
 
   // Fallback dummy data structure for reference
   private dummyAsset = {
+
     name: 'Food On the Move',
     lat: 45.385,
     lng: -75.690,
@@ -49,6 +53,7 @@ export class ViewAssetComponent implements OnInit, AfterViewInit {
 
   allLanguages = ['English','French','Arabic','Sign','Others'];
   allFormats   = ['Online','On-site','Group','Individual','Drop-in','Scheduled','Self-paced'];
+
 
   constructor(
     private zone: NgZone,
@@ -356,16 +361,21 @@ export class ViewAssetComponent implements OnInit, AfterViewInit {
   /*
   toggleLanguage(lang: string) {
     if (!this.asset || !this.asset.languages) return;
+
     const idx = this.asset.languages.indexOf(lang);
     if (idx >= 0) this.asset.languages.splice(idx, 1);
     else this.asset.languages.push(lang);
   }
 
   toggleFormat(fmt: string) {
+
     if (!this.asset || !this.asset.formats) return;
+
     const idx = this.asset.formats.indexOf(fmt);
     if (idx >= 0) this.asset.formats.splice(idx, 1);
     else this.asset.formats.push(fmt);
   }
+
   */
+
 }

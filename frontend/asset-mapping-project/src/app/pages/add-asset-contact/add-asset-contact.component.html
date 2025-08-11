@@ -1,13 +1,20 @@
+
 <div class="container">
-  <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
-  <h2>{{ isEditMode ? 'Edit Community Asset Information' : 'New Community Asset Information' }}</h2>
-  <nav class="steps">
-    <a>Parent/Children Asset</a> ·
-    <a>Basic Information</a> ·
-    <a>Location</a> ·
-    <strong>Contact</strong> ·
-    <a>Registration and Schedule</a>
-  </nav>
+  <div class="card">
+    <div class="container-content">
+
+      <div class="header-row">
+          <h1>New Community Asset Information</h1>
+          <a href="http://localhost:4200" class="back-home-btn">Back To Home</a>
+      </div>
+
+      <p class="breadcrumb">
+        <span class="inactive">Before We Start</span> ▶
+        <span class="inactive">Basic Information</span> ▶
+        <span class="inactive">Location</span> ▶
+        <span class="active">Contact</span> ▶
+        <span class="inactive">Registration and Schedule</span>
+      </p>
 
   <form>
     <div class="form-group">
@@ -30,4 +37,6 @@
       <button type="button" class="btn btn-primary" (click)="goNext()">Proceed →</button>
     </div>
   </form>
+  </div>
+  </div>
 </div>

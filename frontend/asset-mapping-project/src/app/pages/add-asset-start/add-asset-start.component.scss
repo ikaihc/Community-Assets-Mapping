@@ -1,51 +1,74 @@
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
+$neutral-3:   #B3B3B3;
+$neutral-bg:  #E6E6E6; 
+$secondary-2: #348CEF;
+$secondary-3: #0263DE;
+
 :host {
   display: block;
-}
-
-.container,
-.card {
-  position: relative;
+  background: $neutral-bg;
 }
 
 
-.back-home-btn {
-
-  text-decoration: none;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  background: transparent;
-  color: #1F4F85;          
-  border: 1px solid #1F4F85;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.back-home-btn:hover {
-  background: rgba(31, 79, 133, 0.1);
+.container {
+  width: 100vw;
+  min-height: 80vh;
+  background: $neutral-bg;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1rem;
 }
 
 .card {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 70vh;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: Arial, sans-serif;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
+  display: flex;
+  flex-direction: column;
   position: relative;
 }
 
+.header-row {
+  display: flex;
+  justify-content: space-between;  // push items to edges (h1 left, button right)
+  align-items: flex-start;         // align items at top (not vertically centered)
 
-.card h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1F4F85;  
-  margin: 0 0 1rem;
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1F4F85;  
+    margin: 0 0 1rem;
+  }
+
+  .back-home-btn {
+    text-decoration: none;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    background: transparent;
+    color: #1F4F85;          
+    border: 1px solid #1F4F85;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .back-home-btn:hover {
+    background: rgba(31, 79, 133, 0.1);
+  }
 }
+
+
 
 
 .card nav {
@@ -83,37 +106,37 @@
   margin-bottom: 1rem;
   padding: 0.6rem 1.2rem;
   font-size: 0.95rem;
-  border: 1px solid #0263D1;
+  border: 0.5px solid $secondary-3;
   border-radius: 6px;
   background: #fff;
-  color: #0263D1;
+  color: $secondary-3;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 
   &.selected,
   &:hover {
-    background: #0263D1;
+    background: $secondary-3;
     color: #fff;
   }
 }
 
 /* Proceed 按钮 */
 .proceed-container {
-  text-align: right;
+  text-align: left;
   margin-top: 2rem;
 
   .btn-primary {
     padding: 0.6rem 1.2rem;
     font-size: 0.95rem;
     border-radius: 6px;
-    background-color: #1F4F85;
-    color: #fff;
-    border: none;
+    background-color: $primary-2 !important;
+    color: #fff !important;
+    border: none !important;
     cursor: pointer;
     transition: background 0.2s ease;
 
     &:hover {
-      background-color: #163E6C;
+      background-color: $primary-3 !important; // 保持和默认一样
     }
   }
 }

@@ -1,98 +1,125 @@
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
+$neutral-3:   #B3B3B3;
+$neutral-bg:  #E6E6E6; 
+$secondary-2: #348CEF;
+$secondary-3: #0263DE;
+
 :host {
   display: block;
+  background: $neutral-bg;
 }
 
-/* 容器 & 卡片 */
-.container,
+.container {
+  width: 100vw;
+  min-height: 80vh;
+  background: $neutral-bg;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
 .card {
-  position: relative;
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 70vh;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: Arial, sans-serif;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.container-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  position: relative;
 }
 
-/* “Back To Home” 按钮 */
-.back-home-btn {
-  text-decoration: none;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  background: transparent;
-  color: #1F4F85;
-  border: 1px solid #1F4F85;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+.header-row {
+  display: flex;
+  justify-content: space-between;  // push items to edges (h1 left, button right)
+  align-items: flex-start;         // align items at top (not vertically centered)
 
-  &:hover {
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1F4F85;  
+    margin: 0 0 1rem;
+  }
+
+  .back-home-btn {
+    text-decoration: none;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    background: transparent;
+    color: #1F4F85;          
+    border: 1px solid #1F4F85;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .back-home-btn:hover {
     background: rgba(31, 79, 133, 0.1);
   }
 }
 
-/* 标题 */
-h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1F4F85;
-  margin-bottom: 1rem;
-}
 
-/* 步骤导航 */
-.steps {
+.breadcrumb {
   font-size: 0.9rem;
   color: #64748b;
   margin-bottom: 1.5rem;
 
-  a {
-    text-decoration: none;
+  .active {
+    color: #1F4F85;
+    font-weight: 700;
+  }
+
+  .inactive {
     color: #64748b;
-    margin-right: 0.3rem;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  strong {
-    color: #1e293b;
-    font-weight: 600;
   }
 }
 
-/* 表单只占左半边 */
-form {
-  max-width: 450px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+
+.container form {
+  /* 这里设置表单最大宽度为 450px（大约占 900px 容器的一半） */
+  width: 40%;
+  /* 上右下左，右侧 auto 会把它往左推 */
+  margin: 0  auto 2rem 0;
+
 }
 
-/* 表单组 */
 .form-group {
   margin-bottom: 1.5rem;
+  width: 100%;
 
   label {
     display: block;
-    font-weight: 600;
     font-size: 0.9rem;
+    font-weight: 400;
     color: #0263D1;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
   }
 
-  input,
-  textarea {
+  input.form-control,
+  select.form-control,
+  textarea.form-control {
     width: 100%;
     padding: 0.6rem;
-    border: 1px solid #ccc;
+    border: 0.5px solid $secondary-3;
     border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.2s ease;
+    font-family: inherit;
 
     &:focus {
       outline: none;
@@ -100,16 +127,28 @@ form {
     }
   }
 
+  select[multiple] {
+    min-height: 100px;
+  }
+
   textarea {
     min-height: 100px;
-    resize: vertical;
   }
 }
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+  color: $neutral-3;
+  opacity: 1;
+  font-style: italic;
+}
+textarea.form-control {
+  font-family: 'Work Sans', Arial, sans-serif;
+}
 
-/* 底部导航按钮 */
 .navigation-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* 左对齐 */
+  gap: 1rem;
   margin-top: 2rem;
 
   .btn {
@@ -118,26 +157,27 @@ form {
     font-size: 0.95rem;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background-color 0.2s ease;
+  }
 
-    &.btn-outline-primary {
-      background: transparent;
-      color: #1F4F85;
-      border: 1px solid #1F4F85;
+  .btn-outline-primary {
+    background: transparent;
+    color: #1F4F85;
+    border: 1px solid #1F4F85;
 
-      &:hover {
-        background: rgba(31, 79, 133, 0.1);
-      }
+    &:hover {
+      background: rgba(31, 79, 133, 0.1);
     }
+  }
 
-    &.btn-primary {
-      background: #1F4F85;
-      color: #fff;
-      border: none;
+  .btn-primary {
+    background-color: #1F4F85;
+    color: #fff;
+    border: none;
 
-      &:hover {
-        background: #163E6C;
-      }
+    &:hover {
+      background-color: #163E6C;
     }
   }
 }
+

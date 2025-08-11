@@ -2,20 +2,12 @@
   font-family: 'work-sans', sans-serif;
   display: flex;
   min-height: calc(100vh - 80px);
-  background-color: #f5f6fa;
-
-  &.guest-mode {
-    .main-content {
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-  }
+  background-color: #e6e6e6;
 }
 
 
 .sidebar {
-  width: 280px;
+  width: 250px;
   background-color: #f8f8f8;
   padding: 24px;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
@@ -43,8 +35,7 @@
 
 .user-details {
   .detail-item {
-    margin-bottom: 20px;
-
+    
     h3 {
       font-size: 16px;
       font-weight: 600;
@@ -326,8 +317,8 @@
     }
 
     &.mdc-list-item--selected {
-      color: #1F4F85;
-      background-color: #ffffff;
+      color: #f8f8f8 !important;
+      background-color: #348cef !important;
     }
   }
 }
@@ -339,6 +330,7 @@
 ::ng-deep .mat-mdc-select-panel {
   margin-top: 8px !important;
   max-height: 200px !important;
+  border-radius: 10px;
 }
 
 ::ng-deep {
@@ -376,16 +368,16 @@
       color: #999;
     }
   }
-
-  &::before {
-    content: '🔍';
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #999;
-    filter: grayscale(100%);
-  }
+  
+  // &::before {
+  //   content: '🔍';
+  //   position: absolute;
+  //   left: 12px;
+  //   top: 50%;
+  //   transform: translateY(-50%);
+  //   color: #999;
+  //   filter: grayscale(100%);
+  // }
 }
 
 
@@ -405,7 +397,7 @@
 
     th {
       padding: 16px 12px;
-      text-align: left;
+      text-align: center;
       font-weight: 600;
       color: #1a202c;
       font-size: 14px;
@@ -433,7 +425,8 @@
       padding: 14px 12px;
       font-size: 14px;
       color: #1a202c;
-
+      text-align: center;
+      
       &.email-cell {
         color: #1F4F85;
       }
@@ -486,19 +479,23 @@
   }
 }
 
-.edit-btn {
-  background-color: #B3B3B3;
-  color: #f8f8f8;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-size: 14px;
+// .edit-btn {
+//   background-color: #B3B3B3;
+//   color: #f8f8f8;
+//   border: none;
+//   padding: 8px 12px;
+//   border-radius: 50%;
+//   cursor: pointer;
+//   transition: background-color 0.2s ease;
+//   font-size: 14px;
+  
+//   &:hover {
+//     background-color: #4b5563;
+//   }
+// }
 
-  &:hover {
-    background-color: #4b5563;
-  }
+.edit-btn {
+  cursor: pointer;
 }
 
 @media (max-width: 1024px) {

@@ -1,58 +1,72 @@
+$primary-2:   #1F4F85;
+$primary-3:   #163E6C;
+$neutral-1:   #F8F8F8;
+$neutral-2:   #F3F3F3;
+$neutral-3:   #B3B3B3;
+$neutral-bg:  #E6E6E6; 
+$secondary-2: #348CEF;
+$secondary-3: #0263DE;
+
 :host {
   display: block;
+  background: $neutral-bg;
 }
 
-/* “Back To Home” 按钮 */
-.back-home-btn {
-  text-decoration: none;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-  background: transparent;
-  color: #1F4F85;
-  border: 1px solid #1F4F85;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+.container {
+  width: 100vw;
+  min-height: 80vh;
+  background: $neutral-bg;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 1rem;
+}
 
-  &:hover {
+.card {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 70vh;
+  margin: 0 auto;
+  padding: 2.5rem 3rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(31, 79, 133, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;  // push items to edges (h1 left, button right)
+  align-items: flex-start;         // align items at top (not vertically centered)
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1F4F85;  
+    margin: 0 0 1rem;
+  }
+
+  .back-home-btn {
+    text-decoration: none;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    background: transparent;
+    color: #1F4F85;          
+    border: 1px solid #1F4F85;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .back-home-btn:hover {
     background: rgba(31, 79, 133, 0.1);
   }
 }
 
-/* 外层白卡片 */
-.container,
-.card {
-  position: relative;
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  font-family: Arial, sans-serif;
-}
-
-/* 表单本身只占左半边 */
-.container form {
-  max-width: 450px;        /* 900px 容器的一半 */
-  margin: 0  auto 2rem 0;  /* 上 0 右 auto 下 2rem 左 0 */
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* 标题 */
-h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1F4F85;
-  margin-bottom: 1rem;
-}
-
-/* 面包屑 */
 .breadcrumb {
   font-size: 0.9rem;
   color: #64748b;
@@ -67,25 +81,55 @@ h2 {
   }
 }
 
-/* Material 表单域撑满可用宽度 */
-.full-width {
-  width: 100%;
-}
-mat-form-field.full-width {
-  width: 100%;
-}
-
-/* 步骤导航 */
-.step-nav {
-  font-size: 0.9rem;
-  color: #64748b;
+.form-group {
   margin-bottom: 1.5rem;
+  width: 100%;
 
-  span { margin-right: 0.3rem; }
-  b {
-    color: #1e293b;
-    font-weight: 600;
+  label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: $secondary-3;
+    margin-bottom: 0.5rem;
   }
+
+  input.form-control,
+  select.form-control,
+  textarea.form-control {
+    width: 40%;
+    padding: 0.6rem;
+    border: 0.5px solid $secondary-3;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: $secondary-3;
+    }
+  }
+
+  select[multiple] {
+    min-height: 100px;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+}
+input.form-control::placeholder,
+textarea.form-control::placeholder {
+  color: $neutral-3;
+  opacity: 1;
+  font-style: italic;
+}
+textarea.form-control {
+  font-family: 'Work Sans', Arial, sans-serif;
+}
+
+mat-form-field.full-width {
+  width: 42%;
 }
 
 /* 单次日程：日期区 */
@@ -109,13 +153,13 @@ mat-form-field.full-width {
 
   label {
     font-weight: 600;
-    color: #0263D1;
+    color: $secondary-3;
     white-space: nowrap;
   }
   .time-select,
   .ampm-select {
     padding: 0.4rem 0.6rem;
-    border: 1px solid #ccc;
+    border: 0.5px solid $secondary-3;
     border-radius: 6px;
     font-size: 1rem;
     width: 4rem;
@@ -124,12 +168,12 @@ mat-form-field.full-width {
 
     &:focus {
       outline: none;
-      border-color: #0263D1;
+      border-color: $secondary-3;
     }
   }
   span {
     font-size: 1.2rem;
-    color: #333;
+    color: $secondary-3;
   }
 }
 
@@ -141,17 +185,17 @@ mat-form-field.full-width {
 }
 .day-btn {
   padding: 0.4rem 0.8rem;
-  border: 1px solid #0263D1;
+  border: 0.5px solid $secondary-3;
   border-radius: 6px;
   background: #fff;
-  color: #0263D1;
+  color: $secondary-3;
   font-size: 0.85rem;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 
   &.selected,
   &:hover {
-    background: #0263D1;
+    background: $secondary-3;
     color: #fff;
   }
 }
@@ -162,10 +206,10 @@ mat-form-field.full-width {
   margin-bottom: 1.5rem;
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
-  border: 1px solid #0263D1;
+  border: 0.5px solid $secondary-3;
   border-radius: 6px;
   background: transparent;
-  color: #0263D1;
+  color: $secondary-3;
   cursor: pointer;
   transition: background 0.2s;
 
@@ -175,96 +219,60 @@ mat-form-field.full-width {
 }
 
 /* 可访问功能按钮 */
-.button-group {
+.button-group, .tag-button-group {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 
-  .btn-option {
+  .btn-option, .btn-tag {
     padding: 0.5rem 1rem;
-    border: 1px solid #0263D1;
+    border: 0.5px solid $secondary-3;
     border-radius: 6px;
     background: #fff;
-    color: #0263D1;
+    color: $secondary-3;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
 
     &:hover,
     &.selected {
-      background: #0263D1;
+      background: $secondary-3;
       color: #fff;
     }
   }
 }
 
-/* 语言 / 活动形式 标签 */
-.tag-button-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-
-  .btn-tag {
-    padding: 0.4rem 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background: #fff;
-    color: #333;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover,
-    &.selected {
-      background: #0263D1;
-      color: #fff;
-      border-color: #0263D1;
-    }
-  }
-}
-
-/* 注册信息文本框 */
-mat-form-field[appearance="outline"] textarea,
-textarea {
-  width: 100%;
-  min-height: 100px;
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.2s;
-  font-size: 1rem;
-
-  &:focus {
-    outline: none;
-    border-color: #0263D1;
-  }
-}
-
-/* 底部导航按钮 */
 .navigation-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* 左对齐 */
+  gap: 1rem;
   margin-top: 2rem;
 
-  button {
+  .btn {
     min-width: 120px;
     padding: 0.6rem 1rem;
     font-size: 0.95rem;
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.2s ease;
-  }
-  .mat-stroked-button {
-    background: transparent;
-    border: 1px solid #003366;
-    color: #003366;
-    &:hover {
-      background: #e6f0ff;
+
+    &.btn-outline-primary {
+      background: transparent;
+      color: #1F4F85;
+      border: 1px solid #1F4F85;
+
+      &:hover {
+        background: rgba(31, 79, 133, 0.1);
+      }
     }
-  }
-  .mat-flat-button {
-    background: #003366;
-    color: #fff;
-    &:hover {
-      background: #002244;
+
+    &.btn-primary {
+      background: #1F4F85;
+      color: #fff;
+      border: none;
+
+      &:hover {
+        background: #163E6C;
+      }
     }
   }
 }
