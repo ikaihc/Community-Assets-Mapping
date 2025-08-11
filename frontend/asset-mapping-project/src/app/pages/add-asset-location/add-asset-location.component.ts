@@ -14,13 +14,6 @@ declare global {
   interface Window { initMap: () => void; }
 }
 
-declare const google: any;
-
-// 声明全局 callback
-declare global {
-  interface Window { initMap: () => void; }
-}
-
 @Component({
   selector: 'app-add-asset-location',
   standalone: true,
