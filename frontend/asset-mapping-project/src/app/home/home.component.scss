@@ -15,16 +15,6 @@ $white: #FFFFFF;
 // Fonts
 $font-main: 'Work Sans', 'Roboto', "Helvetica Neue", Arial, sans-serif;
 
-// Base
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: $font-main;
-  font-size: 16px;
-  color: $neutral-dark;
-  background-color: $neutral-bg;
-}
 
 // Main layout
 main.main-container {
@@ -68,7 +58,7 @@ main.main-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0rem;
     border: 1px solid $neutral-border;
     border-radius: 8px;
     padding: 0.5rem;
@@ -82,7 +72,7 @@ main.main-container {
     .chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.2rem;
 
       .chip {
         background-color: $neutral-bg;
@@ -102,7 +92,8 @@ main.main-container {
       }
     }
 
-    .dropdown-icon {
+    .dropdown-icon,
+    .arrow {
       margin-left: auto;
       width: 16px;
       height: 16px;
@@ -113,13 +104,13 @@ main.main-container {
   .dropdown-menu {
     position: absolute;
     width: 100%;
-    margin-top: 0.5rem;
+    margin-top: 0rem;
     background: $white;
-    border: 1px solid $neutral-border;
+    
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     z-index: 10;
-    padding: 0.5rem;
+    padding: 0rem;
   }
 
   .dropdown-group {
@@ -128,11 +119,20 @@ main.main-container {
       cursor: pointer;
       display: flex;
       justify-content: space-between;
-
+      transition: background-color 0.2s ease;
+  
+      // when hovered
       &:hover {
         background: $neutral-bg;
       }
+  
+      // when group is active
+      &.active {
+        background: $neutral-bg;
+        font-weight: 600;
+      }
     }
+  
 
     .flyout {
       position: absolute;
@@ -141,7 +141,7 @@ main.main-container {
       background: $white;
       padding: 0.5rem;
       min-width: 220px;
-      border: 1px solid $neutral-border;
+      border: 0px solid $neutral-border;
       border-radius: 6px;
       z-index: 20;
     }
@@ -260,7 +260,7 @@ main.main-container {
 #map {
   width: 100%;
   height: 100%; // full container height
-  max-width: 1000px;
+  max-width: calc(1000vh - 1200px);
   max-height: calc(100vh - 120px);
   border-radius: 16px;
   border: 1px solid $neutral-bg;
@@ -278,7 +278,7 @@ main.main-container {
 
 // Footer
 .footer {
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
