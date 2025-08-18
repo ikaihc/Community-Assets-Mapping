@@ -51,7 +51,7 @@ export class EditUserFormComponent implements OnInit, OnChanges {
   onSubmit() {
     if (this.editUserForm.valid && this.user && this.user.id) {
       this.isLoading = true;
-      
+
       const updatedUser: User = {
         id: this.user.id,
         email: this.editUserForm.value.email,

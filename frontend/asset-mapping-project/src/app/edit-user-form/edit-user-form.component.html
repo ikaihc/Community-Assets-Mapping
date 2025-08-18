@@ -4,7 +4,7 @@
   <div class="form-layout">
     <div class="left-column">
       <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" class="user-form">
-        
+
         <div class="form-group">
           <label for="email">Email</label>
           <input
@@ -78,7 +78,7 @@
     </div>
 
     <div class="right-column">
-      
+
       <div class="info-group">
         <label>Date Created</label>
         <div class="readonly-field">{{ user?.created_at | date:'short' }}</div>

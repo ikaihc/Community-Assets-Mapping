@@ -115,8 +115,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       // Update view based on authentication state
       if (!user) {
-        console.log('DashboardComponent: No current user - guest access, showing assets');
-        this.activeView = 'assets'; // Force assets view for guests
+        console.log('DashboardComponent: No current user - redirecting guests');
+        // Guests should not have access to the dashboard - redirect to home
+        this.router.navigate(['/']);
+        return;
       } else {
         if (user.role === 'navigator') {
           console.log('DashboardComponent: Navigator user - defaulting to assets view');
@@ -124,6 +126,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         } else if (user.role === 'admin') {
           console.log('DashboardComponent: Admin user - defaulting to users view');
           this.setActiveView('users');
+        } else if (user.role === 'guest') {
+          console.log('DashboardComponent: Guest user - redirecting to home');
+          this.router.navigate(['/']);
+          return;
         } else {
           console.log('DashboardComponent: Other user - defaulting to assets view');
           this.setActiveView('assets');
@@ -181,6 +187,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadAssets(): void {
+    if (!this.authService.isNavigator() && !this.authService.isAdmin()) {
+      console.log('DashboardComponent: User is not navigator or admin, cannot load assets');
+      return;
+    }
+
     console.log('DashboardComponent: Loading assets...');
     this.isLoadingAssets = true;
 
@@ -532,6 +543,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   get isAdmin(): boolean {
     return this.authService.isAdmin();
+  }
+
+  get isNavigatorOrAdmin(): boolean {
+    return this.authService.isNavigator() || this.authService.isAdmin();
   }
 
   get filteredUsers(): UserInterface[] {

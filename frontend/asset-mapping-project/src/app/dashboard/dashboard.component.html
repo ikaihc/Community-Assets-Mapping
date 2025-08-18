@@ -53,7 +53,7 @@
         User Management
       </a>
       <a
-        *ngIf="isAuthenticatedUser()"
+        *ngIf="currentUser && isNavigatorOrAdmin"
         class="nav-item"
         [class.active]="activeView === 'assets'"
         (click)="setActiveView('assets')">
@@ -66,8 +66,17 @@
     <!-- For guest users, always show assets section -->
     <!-- For authenticated users, show based on activeView -->
 
+    <!-- Unauthorized access message -->
+    <div *ngIf="isAuthenticatedUser() && !isNavigatorOrAdmin && !isAdmin" class="content-section">
+      <div class="unauthorized-message" style="text-align: center; padding: 50px;">
+        <h2>Access Restricted</h2>
+        <p>The dashboard is only accessible to Navigator and Administrator users.</p>
+        <p>Your current role does not have access to this area.</p>
+      </div>
+    </div>
+
     <!-- Users Management Section - Only for authenticated admin users -->
-    <div *ngIf="activeView === 'users' && isAuthenticatedUser()" class="content-section">
+    <div *ngIf="activeView === 'users' && isAuthenticatedUser() && isAdmin" class="content-section">
       <div class="section-header">
         <h1>User Management</h1>
         <button *ngIf="isAdmin" class="add-btn" (click)="onAddNewUser()">Add New User</button>
@@ -159,10 +168,6 @@
                 <button class="edit-btn" (click)="onEditUser(user)">
                   <i class="material-icons">edit</i>
                 </button>
-                <!-- <button class="edit-btn" (click)="onEditUser(user.id)"> -->
-                  <!-- <i class="fas fa-pen"></i> -->
-                   <img src="../../assets/edit.svg" class="edit-btn" (click)="onEditUser(user)" alt="Edit Icon" class="edit-icon">
-                <!-- </button> -->
               </td>
             </tr>
           </tbody>
@@ -170,10 +175,10 @@
       </div>
     </div>
 
-    <!-- Assets Management Section - Always visible -->
-    <div *ngIf="activeView === 'assets' || isGuestUser()" class="content-section">
+    <!-- Assets Management Section - Only for authenticated navigator/admin users -->
+    <div *ngIf="activeView === 'assets' && isAuthenticatedUser() && isNavigatorOrAdmin" class="content-section">
       <div class="section-header">
-        <h1>{{ isGuestUser() ? 'Browse Community Assets' : 'Asset Management' }}</h1>
+        <h1>Asset Management</h1>
         <div class="header-actions">
           <button class="add-btn primary" (click)="onAddNewAsset()">Quick Add Asset</button>
           <button class="add-btn secondary" (click)="navigateToMultiStepAssetCreation()">Multi-Step Add</button>
